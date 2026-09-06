@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\LetterRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,9 @@ Route::middleware(['auth', 'role:Warga'])
 
         Route::put('/profil', [ResidentController::class, 'updateProfile'])
             ->name('profile.update');
+
+        Route::get('/surat/ajukan', [LetterRequestController::class, 'create'])
+            ->name('letters.create');
     });
 
 

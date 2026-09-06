@@ -59,7 +59,7 @@
 
 
             <a
-                href="#"
+                href="{{ route('warga.letters.create') }}"
                 class="block px-4 py-3 rounded-lg hover:bg-green-600">
 
                 Ajukan Surat
