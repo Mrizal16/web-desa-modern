@@ -27,4 +27,8 @@ class LetterRequest extends Model
     {
         return $this->belongsTo(LetterType::class);
     }
+    public function documents()
+    {
+        return $this->hasMany(LetterDocument::class,'request_id');
+    }
 }

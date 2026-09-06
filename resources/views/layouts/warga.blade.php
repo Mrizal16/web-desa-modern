@@ -68,7 +68,7 @@
 
 
             <a
-                href="#"
+                href="{{ route('warga.letters.index') }}"
                 class="block px-4 py-3 rounded-lg hover:bg-green-600">
 
                 Surat Saya
