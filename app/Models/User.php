@@ -39,4 +39,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Resident::class);
     }
+    public function letterRequests()
+    {
+        return $this->hasMany(LetterRequest::class);
+    }
 }
