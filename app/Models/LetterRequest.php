@@ -14,8 +14,13 @@ class LetterRequest extends Model
         'status',
         'admin_note',
         'delivery_method',
-        'pickup_status',
-        'pdf_path',
+        'final_delivery_method',
+        'result_file_path',
+        'completed_at',
+    ];
+
+    protected $casts = [
+        'completed_at' => 'datetime',
     ];
 
     public function user()
@@ -27,8 +32,9 @@ class LetterRequest extends Model
     {
         return $this->belongsTo(LetterType::class);
     }
+
     public function documents()
     {
-        return $this->hasMany(LetterDocument::class,'request_id');
+        return $this->hasMany(LetterDocument::class, 'request_id');
     }
 }

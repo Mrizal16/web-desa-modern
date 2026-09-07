@@ -81,6 +81,12 @@ Route::middleware(['auth', 'role:Warga'])
 
         Route::get('/surat/{letterRequest}', [LetterRequestController::class, 'show'])
             ->name('letters.show');
+
+        Route::get('/surat/{letterRequest}/perbaiki', [LetterRequestController::class, 'editRevision'])
+            ->name('letters.revision');
+
+        Route::put('/surat/{letterRequest}/perbaiki', [LetterRequestController::class, 'updateRevision'])
+            ->name('letters.revision.update');
     });
 
 
@@ -111,4 +117,7 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::post('/permohonan/{letterRequest}/tolak', [AdminLetterRequestController::class, 'reject'])
             ->name('permohonan.reject');
+            
+        Route::post('/permohonan/{letterRequest}/selesai',[AdminLetterRequestController::class, 'complete'])
+            ->name('permohonan.complete');
     });

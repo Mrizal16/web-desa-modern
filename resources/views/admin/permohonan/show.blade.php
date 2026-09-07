@@ -226,10 +226,62 @@
             </div>
 
         @elseif($status === 'DIPROSES')
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-5">
                 <p class="font-semibold text-blue-700">✓ Permohonan sudah diverifikasi</p>
-                <p class="text-blue-600 text-sm mt-1">Surat saat ini sedang diproses.</p>
+                <p class="text-blue-600 text-sm mt-1">
+                    Surat sedang diproses. Tentukan metode penyerahan setelah surat selesai.
+                </p>
             </div>
+
+            <form action="{{ route('admin.permohonan.complete', $letterRequest) }}"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="border border-gray-200 rounded-xl p-5">
+                @csrf
+
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Metode Penyerahan
+                </label>
+
+                <select name="final_delivery_method"
+                        id="final_delivery_method"
+                        required
+                        onchange="togglePdf()"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 mb-5">
+                    <option value="">-- Pilih Metode --</option>
+                    <option value="pdf">PDF / Download Online</option>
+                    <option value="pickup">Ambil di Balai Desa</option>
+                </select>
+
+                <div id="pdf_upload" class="hidden mb-5">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Upload Surat PDF
+                    </label>
+
+                    <input type="file"
+                           name="result_pdf"
+                           accept=".pdf"
+                           class="w-full border border-gray-300 rounded-lg px-4 py-3">
+
+                    <p class="text-xs text-gray-500 mt-2">
+                        Upload surat yang sudah selesai dan siap diberikan kepada warga.
+                    </p>
+                </div>
+
+                <button type="submit"
+                        onclick="return confirm('Yakin surat ini sudah selesai?')"
+                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold">
+                    ✓ Tandai Selesai
+                </button>
+            </form>
+
+            <script>
+                function togglePdf() {
+                    const method = document.getElementById('final_delivery_method').value;
+                    const upload = document.getElementById('pdf_upload');
+                    upload.classList.toggle('hidden', method !== 'pdf');
+                }
+            </script>
 
         @elseif($status === 'PERLU PERBAIKAN')
             <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
