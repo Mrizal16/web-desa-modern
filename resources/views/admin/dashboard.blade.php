@@ -152,14 +152,10 @@
             </p>
 
 
-            <button
-                type="button"
-                class="bg-gray-300 text-gray-600 px-5 py-2 rounded-lg cursor-not-allowed"
-                disabled>
-
-                Segera Dibuat
-
-            </button>
+            <a href="{{ route('admin.warga.index') }}"
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition">
+                Lihat Data Warga
+            </a>
 
         </div>
 

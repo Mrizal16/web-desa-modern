@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\LetterRequestController;
 use App\Http\Controllers\Admin\LetterRequestController as AdminLetterRequestController;
+use App\Http\Controllers\Admin\ResidentController as AdminResidentController;
 
 
 // =========================
@@ -120,7 +121,13 @@ Route::middleware(['auth', 'role:Admin'])
             
         Route::post('/permohonan/{letterRequest}/selesai',[AdminLetterRequestController::class, 'complete'])
             ->name('permohonan.complete');
-            
+
         Route::post('/permohonan/{letterRequest}/sudah-diambil',[AdminLetterRequestController::class, 'markPickedUp'])
             ->name('permohonan.picked-up');
+        
+        Route::get('/warga', [AdminResidentController::class, 'index'])
+            ->name('warga.index');
+
+        Route::get('/warga/{user}', [AdminResidentController::class, 'show'])
+            ->name('warga.show');
     });
