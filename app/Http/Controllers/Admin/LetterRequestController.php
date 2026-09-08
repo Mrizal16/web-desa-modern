@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\LetterRequest;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,6 +37,14 @@ class LetterRequestController extends Controller
             'admin_note' => null,
         ]);
 
+        Notification::create([
+            'user_id' => $letterRequest->user_id,
+            'title' => 'Permohonan Diverifikasi',
+            'message' => 'Permohonan surat Anda sudah diverifikasi dan sedang diproses.',
+            'type' => 'surat',
+            'link' => route('warga.letters.show', $letterRequest),
+        ]);
+
         return redirect()
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Permohonan berhasil diverifikasi.');
@@ -52,6 +61,14 @@ class LetterRequestController extends Controller
             'admin_note' => $validated['admin_note'],
         ]);
 
+        Notification::create([
+            'user_id' => $letterRequest->user_id,
+            'title' => 'Permohonan Perlu Diperbaiki',
+            'message' => 'Permohonan surat Anda perlu diperbaiki. Silakan lihat catatan admin.',
+            'type' => 'surat',
+            'link' => route('warga.letters.show', $letterRequest),
+        ]);
+
         return redirect()
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Permohonan dikembalikan untuk diperbaiki oleh warga.');
@@ -66,6 +83,14 @@ class LetterRequestController extends Controller
         $letterRequest->update([
             'status' => 'DITOLAK',
             'admin_note' => $validated['admin_note'],
+        ]);
+
+        Notification::create([
+            'user_id' => $letterRequest->user_id,
+            'title' => 'Permohonan Ditolak',
+            'message' => 'Permohonan surat Anda ditolak. Silakan lihat alasan dari admin.',
+            'type' => 'surat',
+            'link' => route('warga.letters.show', $letterRequest),
         ]);
 
         return redirect()
@@ -119,6 +144,16 @@ class LetterRequestController extends Controller
             'admin_note' => null,
         ]);
 
+        Notification::create([
+            'user_id' => $letterRequest->user_id,
+            'title' => 'Surat Selesai',
+            'message' => $validated['final_delivery_method'] === 'pdf'
+                ? 'Surat Anda sudah selesai dan dapat diunduh.'
+                : 'Surat Anda sudah selesai dan siap diambil di Balai Desa.',
+            'type' => 'surat',
+            'link' => route('warga.letters.show', $letterRequest),
+        ]);
+
         return redirect()
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Permohonan berhasil diselesaikan.');
@@ -135,6 +170,14 @@ class LetterRequestController extends Controller
 
         $letterRequest->update([
             'pickup_status' => 'SUDAH DIAMBIL',
+        ]);
+
+        Notification::create([
+            'user_id' => $letterRequest->user_id,
+            'title' => 'Surat Sudah Diambil',
+            'message' => 'Surat Anda telah tercatat sudah diambil.',
+            'type' => 'surat',
+            'link' => route('warga.letters.show', $letterRequest),
         ]);
 
         return redirect()

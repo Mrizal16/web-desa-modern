@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Complaint;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class ComplaintController extends Controller
@@ -30,6 +31,14 @@ class ComplaintController extends Controller
             'status' => 'DIPROSES',
         ]);
 
+        Notification::create([
+            'user_id' => $complaint->user_id,
+            'title' => 'Pengaduan Sedang Diproses',
+            'message' => 'Pengaduan Anda sedang ditindaklanjuti oleh admin desa.',
+            'type' => 'pengaduan',
+            'link' => route('warga.complaints.show', $complaint),
+        ]);
+
         return redirect()
             ->route('admin.complaints.show', $complaint)
             ->with('success', 'Pengaduan sedang diproses.');
@@ -44,6 +53,14 @@ class ComplaintController extends Controller
         $complaint->update([
             'status' => 'SELESAI',
             'admin_response' => $validated['admin_response'],
+        ]);
+
+        Notification::create([
+            'user_id' => $complaint->user_id,
+            'title' => 'Pengaduan Selesai',
+            'message' => 'Pengaduan Anda telah selesai ditindaklanjuti. Silakan lihat tanggapan admin.',
+            'type' => 'pengaduan',
+            'link' => route('warga.complaints.show', $complaint),
         ]);
 
         return redirect()
