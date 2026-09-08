@@ -7,6 +7,8 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\LetterRequestController;
 use App\Http\Controllers\Admin\LetterRequestController as AdminLetterRequestController;
 use App\Http\Controllers\Admin\ResidentController as AdminResidentController;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 
 
 // =========================
@@ -88,6 +90,18 @@ Route::middleware(['auth', 'role:Warga'])
 
         Route::put('/surat/{letterRequest}/perbaiki', [LetterRequestController::class, 'updateRevision'])
             ->name('letters.revision.update');
+
+        Route::get('/pengaduan', [ComplaintController::class, 'index'])
+            ->name('complaints.index');
+
+        Route::get('/pengaduan/buat', [ComplaintController::class, 'create'])
+            ->name('complaints.create');
+
+        Route::post('/pengaduan', [ComplaintController::class, 'store'])
+            ->name('complaints.store');
+
+        Route::get('/pengaduan/{complaint}', [ComplaintController::class, 'show'])
+            ->name('complaints.show');
     });
 
 
@@ -130,4 +144,16 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::get('/warga/{user}', [AdminResidentController::class, 'show'])
             ->name('warga.show');
+
+        Route::get('/pengaduan', [AdminComplaintController::class, 'index'])
+            ->name('complaints.index');
+
+        Route::get('/pengaduan/{complaint}', [AdminComplaintController::class, 'show'])
+            ->name('complaints.show');
+
+        Route::post('/pengaduan/{complaint}/proses', [AdminComplaintController::class, 'process'])
+            ->name('complaints.process');
+
+        Route::post('/pengaduan/{complaint}/selesai', [AdminComplaintController::class, 'complete'])
+            ->name('complaints.complete');
     });
