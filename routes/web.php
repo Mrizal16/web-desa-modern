@@ -1,60 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\LetterRequestController;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\LetterRequestController as AdminLetterRequestController;
 use App\Http\Controllers\Admin\ResidentController as AdminResidentController;
-use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 
-
-// =========================
 // HOME
-// =========================
-
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-// =========================
 // GUEST
-// =========================
-
 Route::middleware('guest')->group(function () {
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
-    Route::get('/register', [AuthController::class, 'showRegister'])
-        ->name('register');
-
-    Route::post('/register', [AuthController::class, 'register'])
-        ->name('register.process');
-
-    Route::get('/login', [AuthController::class, 'showLogin'])
-        ->name('login');
-
-    Route::post('/login', [AuthController::class, 'login'])
-        ->name('login.process');
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 });
 
-
-// =========================
-// LOGOUT
-// =========================
-
+// AUTH
 Route::middleware('auth')->group(function () {
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Redirect tombol Dashboard Laravel
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+
+        if ($user->resident) {
+            return redirect()->route('warga.dashboard');
+        }
+
+        return redirect()->route('admin.dashboard');
+    })->name('dashboard');
 });
 
-
-// =========================
 // WARGA
-// =========================
-
 Route::middleware(['auth', 'role:Warga'])
     ->prefix('warga')
     ->name('warga.')
@@ -64,17 +51,12 @@ Route::middleware(['auth', 'role:Warga'])
             return view('warga.dashboard');
         })->name('dashboard');
 
-        Route::get('/profil', [ResidentController::class, 'profile'])
-            ->name('profile');
+        Route::get('/profil', [ResidentController::class, 'profile'])->name('profile');
+        Route::put('/profil', [ResidentController::class, 'updateProfile'])->name('profile.update');
 
-        Route::put('/profil', [ResidentController::class, 'updateProfile'])
-            ->name('profile.update');
-
-        Route::get('/surat', [LetterRequestController::class, 'index'])
-            ->name('letters.index');
-
-        Route::get('/surat/ajukan', [LetterRequestController::class, 'create'])
-            ->name('letters.create');
+        // SURAT
+        Route::get('/surat', [LetterRequestController::class, 'index'])->name('letters.index');
+        Route::get('/surat/ajukan', [LetterRequestController::class, 'create'])->name('letters.create');
 
         Route::get('/surat/ajukan/{letterType}', [LetterRequestController::class, 'form'])
             ->name('letters.form');
@@ -91,24 +73,26 @@ Route::middleware(['auth', 'role:Warga'])
         Route::put('/surat/{letterRequest}/perbaiki', [LetterRequestController::class, 'updateRevision'])
             ->name('letters.revision.update');
 
-        Route::get('/pengaduan', [ComplaintController::class, 'index'])
-            ->name('complaints.index');
-
-        Route::get('/pengaduan/buat', [ComplaintController::class, 'create'])
-            ->name('complaints.create');
-
-        Route::post('/pengaduan', [ComplaintController::class, 'store'])
-            ->name('complaints.store');
+        // PENGADUAN
+        Route::get('/pengaduan', [ComplaintController::class, 'index'])->name('complaints.index');
+        Route::get('/pengaduan/buat', [ComplaintController::class, 'create'])->name('complaints.create');
+        Route::post('/pengaduan', [ComplaintController::class, 'store'])->name('complaints.store');
 
         Route::get('/pengaduan/{complaint}', [ComplaintController::class, 'show'])
             ->name('complaints.show');
+
+        // NOTIFIKASI
+        Route::get('/notifikasi', [NotificationController::class, 'index'])
+            ->name('notifications.index');
+
+        Route::post('/notifikasi/baca-semua', [NotificationController::class, 'readAll'])
+            ->name('notifications.read-all');
+
+        Route::get('/notifikasi/{notification}', [NotificationController::class, 'read'])
+            ->name('notifications.read');
     });
 
-
-// =========================
 // ADMIN
-// =========================
-
 Route::middleware(['auth', 'role:Admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -118,12 +102,13 @@ Route::middleware(['auth', 'role:Admin'])
             return view('admin.dashboard');
         })->name('dashboard');
 
+        // PERMOHONAN SURAT
         Route::get('/permohonan', [AdminLetterRequestController::class, 'index'])
             ->name('permohonan.index');
 
         Route::get('/permohonan/{letterRequest}', [AdminLetterRequestController::class, 'show'])
             ->name('permohonan.show');
-            
+
         Route::post('/permohonan/{letterRequest}/verifikasi', [AdminLetterRequestController::class, 'verify'])
             ->name('permohonan.verify');
 
@@ -132,19 +117,21 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::post('/permohonan/{letterRequest}/tolak', [AdminLetterRequestController::class, 'reject'])
             ->name('permohonan.reject');
-            
-        Route::post('/permohonan/{letterRequest}/selesai',[AdminLetterRequestController::class, 'complete'])
+
+        Route::post('/permohonan/{letterRequest}/selesai', [AdminLetterRequestController::class, 'complete'])
             ->name('permohonan.complete');
 
-        Route::post('/permohonan/{letterRequest}/sudah-diambil',[AdminLetterRequestController::class, 'markPickedUp'])
+        Route::post('/permohonan/{letterRequest}/sudah-diambil', [AdminLetterRequestController::class, 'markPickedUp'])
             ->name('permohonan.picked-up');
-        
+
+        // DATA WARGA
         Route::get('/warga', [AdminResidentController::class, 'index'])
             ->name('warga.index');
 
         Route::get('/warga/{user}', [AdminResidentController::class, 'show'])
             ->name('warga.show');
 
+        // PENGADUAN
         Route::get('/pengaduan', [AdminComplaintController::class, 'index'])
             ->name('complaints.index');
 
