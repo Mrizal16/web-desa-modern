@@ -184,4 +184,32 @@ class LetterRequestController extends Controller
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Surat berhasil ditandai sudah diambil oleh warga.');
     }
+    public function dashboard()
+    {
+        $stats = [
+            'total_warga' => \App\Models\User::whereHas('resident')->count(),
+            'menunggu' => LetterRequest::where('status', 'MENUNGGU VERIFIKASI')->count(),
+            'diproses' => LetterRequest::where('status', 'DIPROSES')->count(),
+            'perbaikan' => LetterRequest::where('status', 'PERLU PERBAIKAN')->count(),
+            'selesai' => LetterRequest::where('status', 'SELESAI')->count(),
+            'ditolak' => LetterRequest::where('status', 'DITOLAK')->count(),
+            'pengaduan' => \App\Models\Complaint::count(),
+        ];
+
+        $latestRequests = LetterRequest::with(['user', 'letterType'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $latestComplaints = \App\Models\Complaint::with('user')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact(
+            'stats',
+            'latestRequests',
+            'latestComplaints'
+        ));
+    }
 }
