@@ -7,176 +7,569 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
-<div class="max-w-5xl mx-auto py-10 px-4">
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+<div class="max-w-6xl mx-auto py-8 px-4">
 
     @php
         $status = strtoupper($complaint->status ?? '');
     @endphp
 
-    <div class="flex justify-between items-center mb-8">
+    {{-- HEADER --}}
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
+
         <div>
-            <h1 class="text-3xl font-bold text-gray-800">Detail Pengaduan</h1>
-            <p class="text-gray-500 mt-1">
-                Periksa dan tindak lanjuti pengaduan warga.
+            <p class="text-sm text-orange-600 font-semibold">
+                Layanan Pengaduan
+            </p>
+
+            <h1 class="text-3xl font-bold mt-1">
+                Detail Pengaduan
+            </h1>
+
+            <p class="text-slate-500 mt-1">
+                Periksa informasi dan tindak lanjuti pengaduan warga.
             </p>
         </div>
 
         <a href="{{ route('admin.complaints.index') }}"
-           class="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-lg">
+           class="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl transition">
+
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      d="M15 19l-7-7 7-7"/>
+            </svg>
+
             Kembali
         </a>
+
     </div>
 
+    {{-- SUCCESS --}}
     @if(session('success'))
-        <div class="bg-green-100 border border-green-200 text-green-700 p-4 rounded-lg mb-6">
-            {{ session('success') }}
+        <div class="flex items-start gap-3 bg-green-50 border border-green-200 text-green-700 p-4 rounded-2xl mb-6">
+
+            <div class="w-9 h-9 rounded-xl bg-green-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+
+            <div>
+                <p class="font-semibold">Berhasil</p>
+                <p class="text-sm mt-1">{{ session('success') }}</p>
+            </div>
+
         </div>
     @endif
 
+    {{-- ERROR --}}
     @if($errors->any())
-        <div class="bg-red-100 border border-red-200 text-red-700 p-4 rounded-lg mb-6">
-            {{ $errors->first() }}
+        <div class="flex items-start gap-3 bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl mb-6">
+
+            <div class="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 9v4m0 4h.01"/>
+                </svg>
+            </div>
+
+            <div>
+                <p class="font-semibold">Terjadi kesalahan</p>
+                <p class="text-sm mt-1">{{ $errors->first() }}</p>
+            </div>
+
         </div>
     @endif
 
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-        <h2 class="text-2xl font-bold text-gray-800 mb-5">
-            {{ $complaint->title }}
-        </h2>
+        {{-- MAIN CONTENT --}}
+        <div class="xl:col-span-2 space-y-6">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {{-- DETAIL --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
-            <div>
-                <p class="text-sm text-gray-500">Nama Warga</p>
-                <p class="font-semibold mt-1">
-                    {{ $complaint->user->name ?? '-' }}
-                </p>
-            </div>
+                <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
 
-            <div>
-                <p class="text-sm text-gray-500">Kategori</p>
-                <p class="font-semibold mt-1">
-                    {{ $complaint->category }}
-                </p>
-            </div>
+                    <div class="flex items-start gap-4">
 
-            <div>
-                <p class="text-sm text-gray-500">Tanggal</p>
-                <p class="font-semibold mt-1">
-                    {{ $complaint->created_at->format('d-m-Y H:i') }}
-                </p>
-            </div>
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+                            </svg>
+                        </div>
 
-            <div>
-                <p class="text-sm text-gray-500">Status</p>
+                        <div>
+                            <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                Judul Pengaduan
+                            </p>
 
-                <div class="mt-2">
-                    @if($status === 'MENUNGGU')
-                        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-semibold">
-                            Menunggu
-                        </span>
-                    @elseif($status === 'DIPROSES')
-                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-semibold">
-                            Diproses
-                        </span>
-                    @elseif($status === 'SELESAI')
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-semibold">
-                            Selesai
-                        </span>
-                    @endif
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-800 mt-1">
+                                {{ $complaint->title }}
+                            </h2>
+                        </div>
+
+                    </div>
+
                 </div>
+
+                <div class="p-6">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        {{-- WARGA --}}
+                        <div class="border border-slate-200 rounded-xl p-4">
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="w-10 h-10 rounded-xl bg-green-100 text-green-700 flex items-center justify-center font-bold">
+                                    {{ strtoupper(substr($complaint->user->name ?? '-', 0, 1)) }}
+                                </div>
+
+                                <div>
+                                    <p class="text-xs text-slate-400">
+                                        Nama Warga
+                                    </p>
+
+                                    <p class="font-semibold text-slate-800 mt-1">
+                                        {{ $complaint->user->name ?? '-' }}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {{-- KATEGORI --}}
+                        <div class="border border-slate-200 rounded-xl p-4">
+
+                            <p class="text-xs text-slate-400">
+                                Kategori
+                            </p>
+
+                            <span class="inline-flex mt-2 bg-orange-50 text-orange-700 border border-orange-100 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                {{ $complaint->category }}
+                            </span>
+
+                        </div>
+
+                        {{-- TANGGAL --}}
+                        <div class="border border-slate-200 rounded-xl p-4">
+
+                            <p class="text-xs text-slate-400">
+                                Tanggal Pengaduan
+                            </p>
+
+                            <p class="font-semibold text-slate-800 mt-1">
+                                {{ $complaint->created_at->format('d M Y, H:i') }}
+                            </p>
+
+                        </div>
+
+                        {{-- STATUS --}}
+                        <div class="border border-slate-200 rounded-xl p-4">
+
+                            <p class="text-xs text-slate-400 mb-2">
+                                Status
+                            </p>
+
+                            @if($status === 'MENUNGGU')
+                                <span class="inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                    Menunggu
+                                </span>
+
+                            @elseif($status === 'DIPROSES')
+                                <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    Diproses
+                                </span>
+
+                            @elseif($status === 'SELESAI')
+                                <span class="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                    Selesai
+                                </span>
+
+                            @else
+                                <span class="inline-flex bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    {{ $complaint->status }}
+                                </span>
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    {{-- MESSAGE --}}
+                    <div class="mt-6">
+
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-slate-800">
+                                Isi Pengaduan
+                            </h3>
+
+                            <span class="text-xs text-slate-400">
+                                Laporan warga
+                            </span>
+                        </div>
+
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+
+                            <p class="text-slate-700 leading-relaxed whitespace-pre-line">
+                                {{ $complaint->message }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+            {{-- ATTACHMENT --}}
+            @if($complaint->attachment_path)
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+                    <div class="px-6 py-5 border-b border-slate-200">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15.2 7.8l-6.8 6.8a2 2 0 102.8 2.8l7.5-7.5a4 4 0 00-5.7-5.7L5.5 11.7a6 6 0 108.5 8.5l6-6"/>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h2 class="font-bold text-slate-800">
+                                    Lampiran Pengaduan
+                                </h2>
+
+                                <p class="text-sm text-slate-400 mt-1">
+                                    File pendukung yang dikirim warga.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-6">
+
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-slate-200 bg-slate-50 rounded-xl p-4">
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="w-11 h-11 rounded-xl bg-white border border-slate-200 text-blue-600 flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              d="M7 3h7l5 5v13H7z"/>
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <p class="font-semibold text-slate-700">
+                                        File Lampiran
+                                    </p>
+
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        Klik tombol untuk membuka file.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <a href="{{ asset('storage/' . $complaint->attachment_path) }}"
+                               target="_blank"
+                               class="inline-flex justify-center items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition">
+
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M14 3h7v7m0-7L10 14M5 7v12h12v-5"/>
+                                </svg>
+
+                                Lihat Lampiran
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+            {{-- ADMIN RESPONSE --}}
+            @if($status === 'SELESAI' && $complaint->admin_response)
+
+                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+                    <div class="px-6 py-5 border-b border-slate-200">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h2 class="font-bold text-slate-800">
+                                    Tanggapan Admin
+                                </h2>
+
+                                <p class="text-sm text-slate-400 mt-1">
+                                    Hasil tindak lanjut pengaduan.
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-6">
+
+                        <div class="bg-green-50 border border-green-200 rounded-2xl p-5">
+
+                            <p class="text-green-800 leading-relaxed whitespace-pre-line">
+                                {{ $complaint->admin_response }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endif
 
         </div>
 
-        <div class="mt-6">
-            <p class="text-sm text-gray-500">Isi Pengaduan</p>
+        {{-- RIGHT SIDEBAR --}}
+        <div class="space-y-6">
 
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mt-2">
-                <p class="whitespace-pre-line text-gray-800">
-                    {{ $complaint->message }}
-                </p>
+            {{-- STATUS CARD --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Progress
+                    </p>
+
+                    <h2 class="font-bold text-slate-800 mt-1">
+                        Status Pengaduan
+                    </h2>
+
+                </div>
+
+                <div class="p-6">
+
+                    @if($status === 'MENUNGGU')
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+
+                            <span class="inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 text-sm font-semibold px-3 py-1.5 rounded-full">
+                                <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                Menunggu
+                            </span>
+
+                        </div>
+
+                        <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                            Pengaduan baru masuk dan menunggu untuk mulai ditindaklanjuti.
+                        </p>
+
+                    @elseif($status === 'DIPROSES')
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M4 4v6h6M20 20v-6h-6M5 19a9 9 0 0014-7M19 5a9 9 0 00-14 7"/>
+                                </svg>
+                            </div>
+
+                            <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 text-sm font-semibold px-3 py-1.5 rounded-full">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                Diproses
+                            </span>
+
+                        </div>
+
+                        <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                            Pengaduan sedang dalam proses tindak lanjut oleh admin desa.
+                        </p>
+
+                    @elseif($status === 'SELESAI')
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+
+                            <span class="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 text-sm font-semibold px-3 py-1.5 rounded-full">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                Selesai
+                            </span>
+
+                        </div>
+
+                        <p class="text-sm text-slate-500 mt-4 leading-relaxed">
+                            Pengaduan telah selesai ditindaklanjuti.
+                        </p>
+
+                    @endif
+
+                </div>
+
             </div>
+
+            {{-- ADMIN ACTION --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="font-bold text-slate-800">
+                        Tindakan Admin
+                    </h2>
+
+                    <p class="text-sm text-slate-400 mt-1">
+                        Kelola proses pengaduan warga.
+                    </p>
+
+                </div>
+
+                <div class="p-6">
+
+                    @if($status === 'MENUNGGU')
+
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-5">
+
+                            <p class="font-semibold text-blue-800 text-sm">
+                                Pengaduan belum diproses
+                            </p>
+
+                            <p class="text-sm text-blue-700 mt-1">
+                                Klik tombol di bawah untuk mulai menangani pengaduan ini.
+                            </p>
+
+                        </div>
+
+                        <form action="{{ route('admin.complaints.process', $complaint) }}"
+                              method="POST">
+
+                            @csrf
+
+                            <button type="submit"
+                                    onclick="return confirm('Mulai proses pengaduan ini?')"
+                                    class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold transition">
+
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M5 12h14M13 6l6 6-6 6"/>
+                                </svg>
+
+                                Proses Pengaduan
+                            </button>
+
+                        </form>
+
+                    @elseif($status === 'DIPROSES')
+
+                        <form action="{{ route('admin.complaints.complete', $complaint) }}"
+                              method="POST">
+
+                            @csrf
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Tanggapan Admin
+                                <span class="text-red-500">*</span>
+                            </label>
+
+                            <textarea name="admin_response"
+                                      rows="6"
+                                      required
+                                      placeholder="Tuliskan hasil tindak lanjut pengaduan..."
+                                      class="w-full resize-none border border-slate-300 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition">{{ old('admin_response') }}</textarea>
+
+                            <p class="text-xs text-slate-400 mt-2">
+                                Tanggapan ini akan dapat dilihat oleh warga.
+                            </p>
+
+                            <button type="submit"
+                                    onclick="return confirm('Selesaikan pengaduan ini?')"
+                                    class="w-full inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl font-semibold mt-5 transition">
+
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+                                </svg>
+
+                                Tandai Selesai
+                            </button>
+
+                        </form>
+
+                    @elseif($status === 'SELESAI')
+
+                        <div class="bg-green-50 border border-green-200 rounded-xl p-5">
+
+                            <div class="flex items-center gap-3">
+
+                                <div class="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                              d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <p class="font-semibold text-green-800">
+                                        Pengaduan Selesai
+                                    </p>
+
+                                    <p class="text-sm text-green-700 mt-1">
+                                        Tidak ada tindakan tambahan yang diperlukan.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
         </div>
-
-        @if($complaint->attachment_path)
-            <div class="mt-6">
-                <p class="text-sm text-gray-500 mb-2">Lampiran</p>
-
-                <a href="{{ asset('storage/' . $complaint->attachment_path) }}"
-                   target="_blank"
-                   class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                    Lihat Lampiran
-                </a>
-            </div>
-        @endif
-
-    </div>
-
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-
-        <h2 class="text-xl font-bold text-gray-800 mb-5">
-            Tindakan Admin
-        </h2>
-
-        @if($status === 'MENUNGGU')
-
-            <form action="{{ route('admin.complaints.process', $complaint) }}"
-                  method="POST">
-
-                @csrf
-
-                <button type="submit"
-                        onclick="return confirm('Mulai proses pengaduan ini?')"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg font-semibold">
-                    Proses Pengaduan
-                </button>
-
-            </form>
-
-        @elseif($status === 'DIPROSES')
-
-            <form action="{{ route('admin.complaints.complete', $complaint) }}"
-                  method="POST">
-
-                @csrf
-
-                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    Tanggapan Admin
-                </label>
-
-                <textarea name="admin_response"
-                          rows="5"
-                          required
-                          placeholder="Tuliskan hasil tindak lanjut pengaduan..."
-                          class="w-full border border-gray-300 rounded-lg px-4 py-3 mb-4">{{ old('admin_response') }}</textarea>
-
-                <button type="submit"
-                        onclick="return confirm('Selesaikan pengaduan ini?')"
-                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold">
-                    Tandai Selesai
-                </button>
-
-            </form>
-
-        @elseif($status === 'SELESAI')
-
-            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p class="font-semibold text-green-700 mb-2">
-                    ✓ Pengaduan telah selesai.
-                </p>
-
-                <p class="text-green-800 whitespace-pre-line">
-                    {{ $complaint->admin_response }}
-                </p>
-            </div>
-
-        @endif
 
     </div>
 
 </div>
+
 </body>
 </html>
