@@ -17,6 +17,7 @@ class LetterRequest extends Model
         'final_delivery_method',
         'result_file_path',
         'completed_at',
+        'pickup_status',
     ];
 
     protected $casts = [

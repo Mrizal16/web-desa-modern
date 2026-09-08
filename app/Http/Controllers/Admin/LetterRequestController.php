@@ -11,12 +11,9 @@ class LetterRequestController extends Controller
 {
     public function index()
     {
-        $requests = LetterRequest::with([
-            'user',
-            'letterType',
-        ])
-        ->latest()
-        ->get();
+        $requests = LetterRequest::with(['user', 'letterType'])
+            ->latest()
+            ->get();
 
         return view('admin.permohonan.index', compact('requests'));
     }
@@ -114,6 +111,9 @@ class LetterRequestController extends Controller
         $letterRequest->update([
             'status' => 'SELESAI',
             'final_delivery_method' => $validated['final_delivery_method'],
+            'pickup_status' => $validated['final_delivery_method'] === 'pickup'
+                ? 'SIAP DIAMBIL'
+                : null,
             'result_file_path' => $filePath,
             'completed_at' => now(),
             'admin_note' => null,
@@ -122,5 +122,23 @@ class LetterRequestController extends Controller
         return redirect()
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Permohonan berhasil diselesaikan.');
+    }
+
+    public function markPickedUp(LetterRequest $letterRequest)
+    {
+        if (
+            $letterRequest->status !== 'SELESAI' ||
+            $letterRequest->final_delivery_method !== 'pickup'
+        ) {
+            abort(403);
+        }
+
+        $letterRequest->update([
+            'pickup_status' => 'SUDAH DIAMBIL',
+        ]);
+
+        return redirect()
+            ->route('admin.permohonan.show', $letterRequest)
+            ->with('success', 'Surat berhasil ditandai sudah diambil oleh warga.');
     }
 }

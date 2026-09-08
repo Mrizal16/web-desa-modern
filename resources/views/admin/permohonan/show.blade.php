@@ -304,9 +304,51 @@
             </div>
 
         @elseif($status === 'SELESAI')
-            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p class="font-semibold text-green-700">✓ Permohonan telah selesai.</p>
-            </div>
+            @if($letterRequest->final_delivery_method === 'pdf')
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <p class="font-semibold text-green-700">✓ Permohonan telah selesai.</p>
+                    <p class="text-green-600 text-sm mt-1">Surat diberikan dalam bentuk PDF.</p>
+
+                    @if($letterRequest->result_file_path)
+                        <a href="{{ asset('storage/' . $letterRequest->result_file_path) }}"
+                           target="_blank"
+                           class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold">
+                            Lihat PDF Surat
+                        </a>
+                    @endif
+                </div>
+
+            @elseif($letterRequest->final_delivery_method === 'pickup')
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <p class="font-semibold text-blue-700">Surat siap diambil di Balai Desa.</p>
+                    <p class="text-blue-600 text-sm mt-1">
+                        Status pengambilan:
+                        <strong>{{ $letterRequest->pickup_status ?? 'SIAP DIAMBIL' }}</strong>
+                    </p>
+                </div>
+
+                @if($letterRequest->pickup_status !== 'SUDAH DIAMBIL')
+                    <form action="{{ route('admin.permohonan.picked-up', $letterRequest) }}"
+                          method="POST"
+                          class="mt-4">
+                        @csrf
+                        <button type="submit"
+                                onclick="return confirm('Yakin surat sudah diambil warga?')"
+                                class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold">
+                            ✓ Tandai Sudah Diambil
+                        </button>
+                    </form>
+                @else
+                    <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+                        <p class="font-semibold text-green-700">✓ Surat sudah diambil oleh warga.</p>
+                    </div>
+                @endif
+
+            @else
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <p class="font-semibold text-green-700">✓ Permohonan telah selesai.</p>
+                </div>
+            @endif
         @endif
     </div>
 

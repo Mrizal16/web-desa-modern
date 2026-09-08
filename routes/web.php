@@ -120,4 +120,7 @@ Route::middleware(['auth', 'role:Admin'])
             
         Route::post('/permohonan/{letterRequest}/selesai',[AdminLetterRequestController::class, 'complete'])
             ->name('permohonan.complete');
+            
+        Route::post('/permohonan/{letterRequest}/sudah-diambil',[AdminLetterRequestController::class, 'markPickedUp'])
+            ->name('permohonan.picked-up');
     });
