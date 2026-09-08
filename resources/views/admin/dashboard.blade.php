@@ -100,11 +100,10 @@
             <p class="text-gray-500 mt-2 mb-6">
                 Lihat laporan dan rekap pelayanan administrasi desa.
             </p>
-            <button type="button"
-                class="bg-gray-300 text-gray-600 px-5 py-2 rounded-lg cursor-not-allowed"
-                disabled>
-                Segera Dibuat
-            </button>
+            <a href="{{ route('admin.reports.index') }}"
+            class="inline-block bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg">
+                Lihat Laporan
+            </a>
         </div>
 
     </div>

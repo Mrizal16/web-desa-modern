@@ -54,9 +54,6 @@
                 @endif
             </a>
 
-            <a href="#" class="block px-4 py-3 rounded-lg hover:bg-green-600">
-                Pengaturan
-            </a>
         </nav>
 
         <div class="p-4">

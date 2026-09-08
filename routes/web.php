@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\LetterRequestController as AdminLetterRequestController;
 use App\Http\Controllers\Admin\ResidentController as AdminResidentController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\ReportController;
 
 // HOME
 Route::get('/', function () {
@@ -143,4 +144,10 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::post('/pengaduan/{complaint}/selesai', [AdminComplaintController::class, 'complete'])
             ->name('complaints.complete');
+
+        Route::get('/laporan', [ReportController::class, 'index'])
+            ->name('reports.index');
+
+        Route::get('/laporan/cetak', [ReportController::class, 'print'])
+            ->name('reports.print');
     });
