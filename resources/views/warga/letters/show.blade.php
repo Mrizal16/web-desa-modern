@@ -11,7 +11,7 @@
 <div class="mb-8">
     <a href="{{ route('warga.letters.index') }}"
        class="text-green-600 hover:text-green-700 hover:underline font-medium">
-        ← Kembali ke Surat Saya
+        Kembali ke Surat Saya
     </a>
 
     <h1 class="text-3xl font-bold text-gray-800 mt-4">Detail Permohonan</h1>
@@ -240,25 +240,28 @@
 
             @elseif($letterRequest->final_delivery_method === 'pickup')
 
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                    <h2 class="font-bold text-xl text-blue-800 mb-2">
-                        Surat Siap Diambil
-                    </h2>
-
-                    <p class="text-blue-700">
-                        Surat Anda telah selesai diproses dan dapat diambil langsung di Balai Desa.
-                    </p>
-
-                    <div class="bg-white border border-blue-200 rounded-lg p-4 mt-4">
-                        <p class="font-semibold text-gray-800">
-                            Silakan membawa identitas saat pengambilan surat.
-                        </p>
-
-                        <p class="text-sm text-gray-500 mt-1">
-                            Surat mungkin memerlukan tanda tangan atau stempel basah.
-                        </p>
+                @if($letterRequest->pickup_status === 'SUDAH DIAMBIL')
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                        <h2 class="font-bold text-xl text-green-800 mb-2">Surat Sudah Diambil</h2>
+                        <p class="text-green-700">Surat Anda telah diambil dari Balai Desa.</p>
                     </div>
-                </div>
+                @else
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                        <h2 class="font-bold text-xl text-blue-800 mb-2">Surat Siap Diambil</h2>
+                        <p class="text-blue-700">
+                            Surat Anda telah selesai dan siap diambil di Balai Desa.
+                        </p>
+
+                        <div class="bg-white border border-blue-200 rounded-lg p-4 mt-4">
+                            <p class="font-semibold text-gray-800">
+                                Silakan membawa identitas saat pengambilan surat.
+                            </p>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Surat mungkin memerlukan tanda tangan atau stempel basah.
+                            </p>
+                        </div>
+                    </div>
+                @endif
 
             @endif
 
@@ -352,9 +355,15 @@
 
                     @elseif($letterRequest->final_delivery_method === 'pickup')
 
-                        <p class="text-sm text-green-700">
-                            Surat telah selesai dan siap diambil di Balai Desa.
-                        </p>
+                        @if($letterRequest->pickup_status === 'SUDAH DIAMBIL')
+                            <p class="text-sm text-green-700">
+                                Surat telah selesai dan sudah diambil.
+                            </p>
+                        @else
+                            <p class="text-sm text-blue-700">
+                                Surat telah selesai dan siap diambil di Balai Desa.
+                            </p>
+                        @endif
 
                     @else
 
