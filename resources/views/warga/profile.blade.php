@@ -4,218 +4,394 @@
 
 @section('content')
 
-<div class="mb-8">
+<div class="space-y-6">
 
-    <h1 class="text-3xl font-bold text-gray-800">
-        Profil Saya
-    </h1>
+    {{-- HEADER --}}
+    <div>
+        <p class="text-sm font-semibold text-sky-600">
+            Akun Warga
+        </p>
 
-    <p class="text-gray-500 mt-1">
-        Informasi identitas akun warga
-    </p>
+        <h1 class="text-3xl font-bold text-slate-800 mt-1">
+            Profil Saya
+        </h1>
 
-</div>
-
-
-@if (session('success'))
-
-    <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-6">
-
-        {{ session('success') }}
-
+        <p class="text-slate-500 mt-1">
+            Kelola informasi identitas dan data pribadi akun warga Anda.
+        </p>
     </div>
 
-@endif
+    {{-- SUCCESS --}}
+    @if(session('success'))
+        <div class="flex items-start gap-3 bg-sky-50 border border-sky-200 text-sky-700 p-4 rounded-2xl">
 
-
-@if ($errors->any())
-
-    <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
-
-        <ul class="list-disc ml-5">
-
-            @foreach ($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-            @endforeach
-
-        </ul>
-
-    </div>
-
-@endif
-
-
-<div class="bg-white rounded-xl border shadow-sm">
-
-    <div class="p-6 border-b">
-
-        <h2 class="text-xl font-bold">
-            Data Identitas
-        </h2>
-
-    </div>
-
-
-    <form
-        action="{{ route('warga.profile.update') }}"
-        method="POST"
-        class="p-6">
-
-        @csrf
-        @method('PUT')
-
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-
-            {{-- NIK --}}
+            <div class="w-9 h-9 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
 
             <div>
-
-                <label class="block font-medium mb-2">
-                    NIK
-                </label>
-
-                <input
-                    type="text"
-                    value="{{ $resident->nik }}"
-                    disabled
-                    class="w-full border bg-gray-100 rounded-lg p-3">
-
-                <p class="text-xs text-gray-500 mt-1">
-                    NIK tidak dapat diubah melalui halaman ini.
+                <p class="font-semibold">
+                    Berhasil
                 </p>
 
-            </div>
-
-
-            {{-- NO KK --}}
-
-            <div>
-
-                <label class="block font-medium mb-2">
-                    Nomor KK
-                </label>
-
-                <input
-                    type="text"
-                    value="{{ $resident->no_kk }}"
-                    disabled
-                    class="w-full border bg-gray-100 rounded-lg p-3">
-
-                <p class="text-xs text-gray-500 mt-1">
-                    Nomor KK tidak dapat diubah melalui halaman ini.
+                <p class="text-sm mt-1">
+                    {{ session('success') }}
                 </p>
+            </div>
+
+        </div>
+    @endif
+
+    {{-- ERROR --}}
+    @if($errors->any())
+        <div class="bg-red-50 border border-red-200 rounded-2xl p-5">
+
+            <div class="flex gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 9v4m0 4h.01M10.3 3.7L2.7 17a2 2 0 001.7 3h15.2a2 2 0 001.7-3L13.7 3.7a2 2 0 00-3.4 0z"/>
+                    </svg>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-red-700">
+                        Periksa kembali data profil
+                    </p>
+
+                    <ul class="list-disc pl-5 mt-2 text-sm text-red-600 space-y-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
 
             </div>
 
+        </div>
+    @endif
 
-            {{-- NAMA --}}
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-            <div>
+        {{-- SIDEBAR PROFILE --}}
+        <div class="space-y-5">
 
-                <label class="block font-medium mb-2">
-                    Nama Lengkap
-                </label>
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
-                <input
-                    type="text"
-                    name="name"
-                    value="{{ old('name', $resident->name) }}"
-                    class="w-full border rounded-lg p-3">
+                <div class="bg-gradient-to-r from-sky-500 to-blue-600 h-24"></div>
+
+                <div class="px-6 pb-6">
+
+                    <div class="-mt-10">
+                        <div class="w-20 h-20 rounded-2xl bg-white p-1 shadow-md">
+
+                            <div class="w-full h-full rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white flex items-center justify-center text-2xl font-bold">
+                                {{ strtoupper(substr($resident->name ?? auth()->user()->name, 0, 1)) }}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+
+                        <h2 class="text-xl font-bold text-slate-800">
+                            {{ $resident->name }}
+                        </h2>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Warga Desa Sidorejo
+                        </p>
+
+                    </div>
+
+                    <div class="border-t border-slate-100 mt-5 pt-5 space-y-4">
+
+                        <div>
+                            <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                NIK
+                            </p>
+
+                            <p class="text-sm font-semibold text-slate-700 mt-1">
+                                {{ $resident->nik }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                Email
+                            </p>
+
+                            <p class="text-sm font-semibold text-slate-700 mt-1 break-all">
+                                {{ $user->email }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                WhatsApp
+                            </p>
+
+                            <p class="text-sm font-semibold text-slate-700 mt-1">
+                                {{ $resident->phone ?: '-' }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
+            {{-- INFO --}}
+            <div class="bg-sky-50 border border-sky-200 rounded-2xl p-5">
 
-            {{-- TANGGAL LAHIR --}}
+                <div class="flex gap-3">
 
-            <div>
+                    <div class="w-10 h-10 rounded-xl bg-white text-sky-600 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 9h.01M11 12h1v4h1m8-4a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
 
-                <label class="block font-medium mb-2">
-                    Tanggal Lahir
-                </label>
+                    <div>
+                        <p class="font-semibold text-sky-800">
+                            Data Identitas
+                        </p>
 
-                <input
-                    type="date"
-                    name="birth_date"
-                    value="{{ old(
-                        'birth_date',
-                        optional($resident->birth_date)->format('Y-m-d')
-                    ) }}"
-                    class="w-full border rounded-lg p-3">
+                        <p class="text-sm text-sky-700 leading-relaxed mt-2">
+                            NIK, Nomor KK, dan email tidak dapat diubah langsung melalui halaman ini.
+                        </p>
+                    </div>
 
-            </div>
-
-
-            {{-- WHATSAPP --}}
-
-            <div>
-
-                <label class="block font-medium mb-2">
-                    Nomor WhatsApp
-                </label>
-
-                <input
-                    type="text"
-                    name="phone"
-                    value="{{ old('phone', $resident->phone) }}"
-                    class="w-full border rounded-lg p-3">
+                </div>
 
             </div>
-
-
-            {{-- EMAIL --}}
-
-            <div>
-
-                <label class="block font-medium mb-2">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    value="{{ $user->email }}"
-                    disabled
-                    class="w-full border bg-gray-100 rounded-lg p-3">
-
-            </div>
-
 
         </div>
 
+        {{-- FORM --}}
+        <div class="xl:col-span-2">
 
-        {{-- ALAMAT --}}
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
-        <div class="mt-6">
+                <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
 
-            <label class="block font-medium mb-2">
-                Alamat
-            </label>
+                    <div class="flex items-center gap-3">
 
-            <textarea
-                name="address"
-                rows="4"
-                class="w-full border rounded-lg p-3"
-            >{{ old('address', $resident->address) }}</textarea>
+                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <h2 class="font-bold text-slate-800">
+                                Data Identitas
+                            </h2>
+
+                            <p class="text-sm text-slate-400 mt-1">
+                                Perbarui informasi profil yang dapat diubah.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <form action="{{ route('warga.profile.update') }}"
+                      method="POST">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="p-6 space-y-6">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                            {{-- NIK --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    NIK
+                                </label>
+
+                                <div class="relative">
+
+                                    <input type="text"
+                                           value="{{ $resident->nik }}"
+                                           disabled
+                                           class="w-full border border-slate-200 bg-slate-100 text-slate-500 rounded-xl px-4 py-3 pr-11 cursor-not-allowed">
+
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M7 10V7a5 5 0 0110 0v3m-11 0h12v11H6z"/>
+                                        </svg>
+                                    </div>
+
+                                </div>
+
+                                <p class="text-xs text-slate-400 mt-2">
+                                    NIK tidak dapat diubah melalui halaman ini.
+                                </p>
+
+                            </div>
+
+                            {{-- NOMOR KK --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Nomor KK
+                                </label>
+
+                                <div class="relative">
+
+                                    <input type="text"
+                                           value="{{ $resident->no_kk }}"
+                                           disabled
+                                           class="w-full border border-slate-200 bg-slate-100 text-slate-500 rounded-xl px-4 py-3 pr-11 cursor-not-allowed">
+
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M7 10V7a5 5 0 0110 0v3m-11 0h12v11H6z"/>
+                                        </svg>
+                                    </div>
+
+                                </div>
+
+                                <p class="text-xs text-slate-400 mt-2">
+                                    Nomor KK tidak dapat diubah melalui halaman ini.
+                                </p>
+
+                            </div>
+
+                            {{-- NAMA --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Nama Lengkap
+                                    <span class="text-red-500">*</span>
+                                </label>
+
+                                <input type="text"
+                                       name="name"
+                                       value="{{ old('name', $resident->name) }}"
+                                       required
+                                       class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition"
+                                       placeholder="Masukkan nama lengkap">
+
+                            </div>
+
+                            {{-- TANGGAL LAHIR --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Tanggal Lahir
+                                </label>
+
+                                <input type="date"
+                                       name="birth_date"
+                                       value="{{ old('birth_date', optional($resident->birth_date)->format('Y-m-d')) }}"
+                                       class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                            </div>
+
+                            {{-- WHATSAPP --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Nomor WhatsApp
+                                </label>
+
+                                <input type="text"
+                                       name="phone"
+                                       value="{{ old('phone', $resident->phone) }}"
+                                       class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition"
+                                       placeholder="Contoh: 081234567890">
+
+                            </div>
+
+                            {{-- EMAIL --}}
+                            <div>
+
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Email
+                                </label>
+
+                                <div class="relative">
+
+                                    <input type="email"
+                                           value="{{ $user->email }}"
+                                           disabled
+                                           class="w-full border border-slate-200 bg-slate-100 text-slate-500 rounded-xl px-4 py-3 pr-11 cursor-not-allowed">
+
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3 8l9 6 9-6M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>
+                                        </svg>
+                                    </div>
+
+                                </div>
+
+                                <p class="text-xs text-slate-400 mt-2">
+                                    Email akun tidak dapat diubah melalui halaman ini.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        {{-- ALAMAT --}}
+                        <div>
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Alamat
+                            </label>
+
+                            <textarea name="address"
+                                      rows="4"
+                                      placeholder="Masukkan alamat lengkap..."
+                                      class="w-full resize-none border border-slate-300 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">{{ old('address', $resident->address) }}</textarea>
+
+                        </div>
+
+                    </div>
+
+                    {{-- FOOTER --}}
+                    <div class="px-6 py-5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+
+                        <p class="text-xs text-slate-400">
+                            Pastikan data yang Anda masukkan sudah benar.
+                        </p>
+
+                        <button type="submit"
+                                class="inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition">
+
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                            Simpan Perubahan
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
 
-
-        <div class="mt-6">
-
-            <button
-                type="submit"
-                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
-
-                Simpan Perubahan
-
-            </button>
-
-        </div>
-
-    </form>
+    </div>
 
 </div>
 
