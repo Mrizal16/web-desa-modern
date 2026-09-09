@@ -152,6 +152,11 @@
                     Berita
                 </a>
 
+                <a href="#pengumuman"
+                   class="hover:text-orange-600 transition">
+                    Pengumuman
+                </a>
+
                 <a href="#potensi"
                    class="hover:text-sky-600 transition">
                     Potensi
@@ -287,6 +292,12 @@
                    onclick="closeMobileMenu()"
                    class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-sky-50 hover:text-sky-700 font-medium">
                     Berita
+                </a>
+
+                <a href="#pengumuman"
+                   onclick="closeMobileMenu()"
+                   class="block px-4 py-3 rounded-xl text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium">
+                    Pengumuman
                 </a>
 
                 <a href="#potensi"
@@ -966,7 +977,7 @@
 
             </div>
 
-            <a href="#"
+            <a href="{{ route('news.index') }}"
                class="text-sky-600 font-semibold text-sm hover:text-sky-700">
                 Lihat Semua Berita
             </a>
@@ -976,59 +987,143 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            @for($i = 1; $i <= 3; $i++)
+            @forelse($latestNews as $item)
 
-                <article class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                <article class="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
-                    <div class="aspect-[16/10] bg-gradient-to-br from-slate-200 to-slate-100 flex items-center justify-center text-slate-400">
+                    <a href="{{ route('news.show', $item->slug) }}"
+                    class="block">
 
-                        <svg class="w-12 h-12"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
+                        <div class="aspect-[16/10] bg-slate-100 overflow-hidden">
 
-                            <path stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M4 5h16v14H4zM8 9h8M8 13h5"/>
+                            @if($item->image)
 
-                        </svg>
+                                <img src="{{ asset('storage/' . $item->image) }}"
+                                    alt="{{ $item->title }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
-                    </div>
+                            @else
+
+                                <div class="w-full h-full bg-gradient-to-br from-sky-100 to-blue-100 flex items-center justify-center text-sky-400">
+
+                                    <svg class="w-12 h-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24">
+
+                                        <path stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M4 5h16v14H4zM8 9h8M8 13h5"/>
+
+                                    </svg>
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    </a>
+
 
                     <div class="p-5">
 
-                        <div class="flex items-center gap-2 text-xs text-slate-400">
+                        <div class="flex items-center gap-2 flex-wrap text-xs">
 
                             <span class="bg-sky-50 text-sky-600 font-semibold px-2.5 py-1 rounded-full">
-                                Berita Desa
+                                {{ $item->category ?: 'Berita Desa' }}
                             </span>
 
-                            <span>
-                                {{ now()->format('d M Y') }}
+                            <span class="text-slate-400">
+                                {{ ($item->published_at ?? $item->created_at)->format('d M Y') }}
                             </span>
 
                         </div>
 
-                        <h3 class="text-lg font-bold text-slate-800 mt-4 leading-snug">
-                            Contoh Judul Berita Desa Sidorejo {{ $i }}
-                        </h3>
+
+                        <a href="{{ route('news.show', $item->slug) }}">
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-4 leading-snug group-hover:text-sky-600 transition">
+                                {{ $item->title }}
+                            </h3>
+
+                        </a>
+
 
                         <p class="text-sm text-slate-500 leading-relaxed mt-3">
-                            Konten berita nantinya dapat dikelola langsung oleh admin melalui
-                            dashboard website desa.
+
+                            @if($item->excerpt)
+
+                                {{ \Illuminate\Support\Str::limit($item->excerpt, 130) }}
+
+                            @else
+
+                                {{ \Illuminate\Support\Str::limit(strip_tags($item->content), 130) }}
+
+                            @endif
+
                         </p>
 
-                        <a href="#"
-                           class="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 mt-4">
+
+                        <a href="{{ route('news.show', $item->slug) }}"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 mt-4">
+
                             Baca Selengkapnya
+
+                            <svg class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M5 12h14M13 6l6 6-6 6"/>
+
+                            </svg>
+
                         </a>
 
                     </div>
 
                 </article>
 
-            @endfor
+            @empty
+
+                <div class="md:col-span-2 lg:col-span-3">
+
+                    <div class="bg-white border border-slate-200 rounded-2xl py-14 px-6 text-center">
+
+                        <div class="w-14 h-14 bg-sky-50 text-sky-500 rounded-2xl flex items-center justify-center mx-auto">
+
+                            <svg class="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M4 5h16v14H4zM8 9h8M8 13h5"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 mt-4">
+                            Belum Ada Berita
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-2">
+                            Berita terbaru Desa Sidorejo akan ditampilkan di bagian ini.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            @endforelse
 
         </div>
 
@@ -1040,7 +1135,8 @@
 {{-- ========================================================= --}}
 {{-- ANNOUNCEMENT --}}
 {{-- ========================================================= --}}
-<section class="py-20">
+<section id="pengumuman"
+         class="py-20">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
@@ -1061,49 +1157,106 @@
                     pemberitahuan penting lainnya.
                 </p>
 
+                <a href="{{ route('announcements.index') }}"
+                   class="inline-flex items-center gap-2 text-sm font-semibold text-orange-600 hover:text-orange-700 mt-5 transition">
+
+                    Lihat Semua Pengumuman
+
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M5 12h14M13 6l6 6-6 6"/>
+
+                    </svg>
+
+                </a>
+
             </div>
 
             <div class="lg:col-span-2 space-y-3">
 
-                @for($i = 1; $i <= 3; $i++)
+                @forelse($latestAnnouncements as $announcement)
 
-                    <div class="flex gap-4 bg-white border border-slate-200 rounded-2xl p-5">
+                    <div class="group flex gap-4 bg-white border border-slate-200 rounded-2xl p-5 hover:border-orange-200 hover:shadow-md transition">
 
                         <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0">
 
                             <svg class="w-6 h-6"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 viewBox="0 0 24 24">
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
 
                                 <path stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M18 8a6 6 0 00-12 0c0 7-3 7-3 7h18s-3 0-3-7M10 19h4"/>
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M18 8a6 6 0 00-12 0c0 7-3 7-3 7h18s-3 0-3-7M10 19h4"/>
 
                             </svg>
 
                         </div>
 
-                        <div class="min-w-0">
+                        <div class="min-w-0 flex-1">
 
-                            <p class="text-xs text-orange-600 font-semibold">
-                                PENGUMUMAN
-                            </p>
+                            <div class="flex items-center gap-2 flex-wrap">
 
-                            <h3 class="font-bold text-slate-800 mt-1">
-                                Contoh Pengumuman Desa Sidorejo {{ $i }}
+                                <span class="text-xs font-bold text-orange-600 uppercase tracking-wider">
+                                    Pengumuman
+                                </span>
+
+                                <span class="text-xs text-slate-400">
+                                    {{ ($announcement->published_at ?? $announcement->created_at)->format('d M Y') }}
+                                </span>
+
+                            </div>
+
+                            <h3 class="font-bold text-slate-800 mt-1 group-hover:text-orange-600 transition">
+                                {{ $announcement->title }}
                             </h3>
 
-                            <p class="text-sm text-slate-500 mt-2">
-                                Informasi ini nantinya dapat dibuat dan diperbarui oleh admin.
+                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                                {{ \Illuminate\Support\Str::limit($announcement->content, 180) }}
                             </p>
 
                         </div>
 
                     </div>
 
-                @endfor
+                @empty
+
+                    <div class="bg-white border border-slate-200 rounded-2xl py-12 px-6 text-center">
+
+                        <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center mx-auto">
+
+                            <svg class="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M18 8a6 6 0 00-12 0c0 7-3 7-3 7h18s-3 0-3-7M10 19h4"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="font-bold text-slate-700 mt-4">
+                            Belum Ada Pengumuman
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Pengumuman terbaru Desa Sidorejo akan tampil di bagian ini.
+                        </p>
+
+                    </div>
+
+                @endforelse
 
             </div>
 
