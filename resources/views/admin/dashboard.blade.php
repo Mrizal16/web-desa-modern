@@ -649,37 +649,129 @@
 
 
             {{-- GALERI --}}
-            <div class="bg-white border border-dashed border-slate-300 rounded-2xl p-5 opacity-70">
+            <a href="{{ route('admin.galleries.index') }}"
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-5 hover:border-indigo-300 hover:shadow-lg transition">
 
-                <div class="w-11 h-11 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                <div class="absolute right-0 top-0 w-24 h-24 bg-indigo-50 rounded-bl-full"></div>
 
-                    <svg class="w-5 h-5"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
+                <div class="relative">
 
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M4 5h16v14H4zM8 14l3-3 2 2 3-4 4 5"/>
+                    <div class="w-11 h-11 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
 
-                    </svg>
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M4 5h16v14H4zM8 14l3-3 2 2 3-4 4 5"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div class="flex items-center gap-2">
+
+                        <h3 class="font-bold text-slate-800 group-hover:text-indigo-600 transition">
+                            Galeri Desa
+                        </h3>
+
+                        <span class="bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
+                            Aktif
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Kelola dokumentasi foto kegiatan desa.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 mt-4">
+
+                        Kelola Galeri
+
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
 
                 </div>
 
-                <h3 class="font-bold text-slate-700">
-                    Galeri Desa
-                </h3>
+            </a>
 
-                <p class="text-sm text-slate-400 mt-2">
-                    Kelola dokumentasi foto kegiatan desa.
-                </p>
 
-                <span class="inline-flex bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full mt-4">
-                    Segera
-                </span>
+            {{-- POTENSI DESA --}}
+            <a href="{{ route('admin.potentials.index') }}"
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-5 hover:border-emerald-300 hover:shadow-lg transition">
 
-            </div>
+                <div class="absolute right-0 top-0 w-24 h-24 bg-emerald-50 rounded-bl-full"></div>
+
+                <div class="relative">
+
+                    <div class="w-11 h-11 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M12 21V9m0 0C9 9 6 7 6 4c3 0 6 2 6 5zm0 0c3 0 6-2 6-5-3 0-6 2-6 5z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div class="flex items-center gap-2">
+
+                        <h3 class="font-bold text-slate-800 group-hover:text-emerald-600 transition">
+                            Potensi Desa
+                        </h3>
+
+                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
+                            Aktif
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Kelola potensi seperti pertanian, UMKM, perdagangan dan peternakan.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 mt-4">
+
+                        Kelola Potensi
+
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
+                </div>
+
+            </a>
 
         </div>
 

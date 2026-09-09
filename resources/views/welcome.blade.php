@@ -1293,118 +1293,93 @@
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-10">
 
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
+            @forelse($potentials as $potential)
 
-                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                <div class="group bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transition duration-300">
 
-                    <svg class="w-6 h-6"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
+                    @if($potential->image)
 
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 21V9m0 0C9 9 6 7 6 4c3 0 6 2 6 5zm0 0c3 0 6-2 6-5-3 0-6 2-6 5z"/>
+                        <div class="aspect-[16/10] bg-slate-100 overflow-hidden">
 
-                    </svg>
+                            <img src="{{ asset('storage/' . $potential->image) }}"
+                                 alt="{{ $potential->title }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
-                </div>
+                        </div>
 
-                <h3 class="font-bold text-slate-800 mt-4">
-                    Pertanian
-                </h3>
+                    @endif
 
-                <p class="hidden sm:block text-sm text-slate-500 mt-2">
-                    Potensi hasil pertanian masyarakat desa.
-                </p>
+                    <div class="p-5 sm:p-6">
 
-            </div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
 
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
+                            <svg class="w-6 h-6"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
 
-                <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                                <path stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 21V9m0 0C9 9 6 7 6 4c3 0 6 2 6 5zm0 0c3 0 6-2 6-5-3 0-6 2-6 5z"/>
 
-                    <svg class="w-6 h-6"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
+                            </svg>
 
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M4 9h16l-1 11H5L4 9zm2 0V6a6 6 0 0112 0v3"/>
+                        </div>
 
-                    </svg>
+                        <h3 class="font-bold text-slate-800 mt-4">
+                            {{ $potential->title }}
+                        </h3>
 
-                </div>
+                        @if($potential->description)
 
-                <h3 class="font-bold text-slate-800 mt-4">
-                    UMKM
-                </h3>
+                            <p class="hidden sm:block text-sm text-slate-500 mt-2">
+                                {{ \Illuminate\Support\Str::limit($potential->description, 120) }}
+                            </p>
 
-                <p class="hidden sm:block text-sm text-slate-500 mt-2">
-                    Produk dan usaha lokal masyarakat desa.
-                </p>
+                        @endif
 
-            </div>
-
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
-
-                <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
-
-                    <svg class="w-6 h-6"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
-
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M3 20l6-9 4 5 3-4 5 8H3z"/>
-
-                    </svg>
+                    </div>
 
                 </div>
 
-                <h3 class="font-bold text-slate-800 mt-4">
-                    Wisata
-                </h3>
+            @empty
 
-                <p class="hidden sm:block text-sm text-slate-500 mt-2">
-                    Potensi wisata dan lingkungan desa.
-                </p>
+                <div class="col-span-2 lg:col-span-4">
 
-            </div>
+                    <div class="bg-white border border-slate-200 rounded-2xl py-14 px-6 text-center">
 
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6">
+                        <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto">
 
-                <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                            <svg class="w-8 h-8"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
 
-                    <svg class="w-6 h-6"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
+                                <path stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 21V9m0 0C9 9 6 7 6 4c3 0 6 2 6 5zm0 0c3 0 6-2 6-5-3 0-6 2-6 5z"/>
 
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M4 18h16M6 18V9h12v9M9 9V6h6v3"/>
+                            </svg>
 
-                    </svg>
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 mt-4">
+                            Belum Ada Potensi Desa
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-2">
+                            Potensi unggulan Desa Sidorejo akan ditampilkan di bagian ini.
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <h3 class="font-bold text-slate-800 mt-4">
-                    Peternakan
-                </h3>
+            @endforelse
 
-                <p class="hidden sm:block text-sm text-slate-500 mt-2">
-                    Sektor peternakan masyarakat Sidorejo.
-                </p>
-
-            </div>
-
+        </div>
         </div>
 
     </div>
@@ -1559,33 +1534,69 @@
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
-            @for($i = 1; $i <= 8; $i++)
+            @forelse($galleries as $gallery)
 
-                <div class="aspect-square bg-gradient-to-br from-slate-200 to-slate-100 rounded-2xl overflow-hidden flex items-center justify-center">
+                <div class="group relative aspect-square bg-slate-100 rounded-2xl overflow-hidden shadow-sm">
 
-                    <div class="text-center text-slate-400">
+                    <img src="{{ asset('storage/' . $gallery->image) }}"
+                         alt="{{ $gallery->title }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
-                        <svg class="w-9 h-9 mx-auto"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
 
-                            <path stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M4 5h16v14H4zM8 14l3-3 2 2 3-4 4 5"/>
+                    <div class="absolute inset-x-0 bottom-0 p-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-300">
 
-                        </svg>
+                        <h3 class="text-white font-bold text-sm sm:text-base leading-snug">
+                            {{ $gallery->title }}
+                        </h3>
 
-                        <p class="text-xs mt-2">
-                            Foto {{ $i }}
+                        @if($gallery->description)
+
+                            <p class="hidden sm:block text-xs text-slate-200 mt-1 line-clamp-2">
+                                {{ $gallery->description }}
+                            </p>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <div class="col-span-2 lg:col-span-4">
+
+                    <div class="bg-white border border-slate-200 rounded-2xl py-14 px-6 text-center">
+
+                        <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center mx-auto">
+
+                            <svg class="w-8 h-8"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M4 5h16v14H4zM8 14l3-3 2 2 3-4 4 5"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 mt-4">
+                            Belum Ada Galeri
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-2">
+                            Dokumentasi kegiatan Desa Sidorejo akan ditampilkan di bagian ini.
                         </p>
 
                     </div>
 
                 </div>
 
-            @endfor
+            @endforelse
 
         </div>
 

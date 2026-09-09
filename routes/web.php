@@ -15,10 +15,14 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\ApparatusController;
+use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\PotentialController;
 
 use App\Models\News;
 use App\Models\Announcement;
 use App\Models\Apparatus;
+use App\Models\Gallery;
+use App\Models\Potential;
 
 
 /*
@@ -47,10 +51,24 @@ Route::get('/', function () {
         ->take(8)
         ->get();
 
+    $galleries = Gallery::where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderByDesc('created_at')
+        ->take(8)
+        ->get();
+
+    $potentials = Potential::where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->take(8)
+        ->get();
+
     return view('welcome', compact(
         'latestNews',
         'latestAnnouncements',
-        'apparatuses'
+        'apparatuses',
+        'galleries',
+        'potentials'
     ));
 
 })->name('home');
@@ -419,5 +437,56 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::delete('/aparatur/{apparatus}', [ApparatusController::class, 'destroy'])
             ->name('apparatuses.destroy');
+
+    
+
+        /*
+        |--------------------------------------------------------------------------
+        | GALERI DESA
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/galeri', [GalleryController::class, 'index'])
+            ->name('galleries.index');
+
+        Route::get('/galeri/tambah', [GalleryController::class, 'create'])
+            ->name('galleries.create');
+
+        Route::post('/galeri', [GalleryController::class, 'store'])
+            ->name('galleries.store');
+
+        Route::get('/galeri/{gallery}/edit', [GalleryController::class, 'edit'])
+            ->name('galleries.edit');
+
+        Route::put('/galeri/{gallery}', [GalleryController::class, 'update'])
+            ->name('galleries.update');
+
+        Route::delete('/galeri/{gallery}', [GalleryController::class, 'destroy'])
+            ->name('galleries.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | POTENSI DESA
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/potensi', [PotentialController::class, 'index'])
+            ->name('potentials.index');
+
+        Route::get('/potensi/tambah', [PotentialController::class, 'create'])
+            ->name('potentials.create');
+
+        Route::post('/potensi', [PotentialController::class, 'store'])
+            ->name('potentials.store');
+
+        Route::get('/potensi/{potential}/edit', [PotentialController::class, 'edit'])
+            ->name('potentials.edit');
+
+        Route::put('/potensi/{potential}', [PotentialController::class, 'update'])
+            ->name('potentials.update');
+
+        Route::delete('/potensi/{potential}', [PotentialController::class, 'destroy'])
+            ->name('potentials.destroy');
 
     });
