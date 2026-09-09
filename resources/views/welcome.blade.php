@@ -1438,46 +1438,89 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
 
-            @foreach([
-                ['Kepala Desa', 'Nama Kepala Desa'],
-                ['Sekretaris Desa', 'Nama Sekretaris'],
-                ['Kasi Pelayanan', 'Nama Aparatur'],
-                ['Kaur Umum', 'Nama Aparatur']
-            ] as $apparatus)
+            @forelse($apparatuses as $apparatus)
 
-                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden text-center">
+                <div class="group bg-white border border-slate-200 rounded-2xl overflow-hidden text-center shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
-                    <div class="h-52 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                    <div class="h-56 bg-gradient-to-br from-slate-100 to-slate-200 overflow-hidden flex items-center justify-center">
 
-                        <svg class="w-20 h-20 text-slate-300"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
+                        @if($apparatus->photo)
 
-                            <path stroke-width="1.5"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+                            <img src="{{ asset('storage/' . $apparatus->photo) }}"
+                                 alt="{{ $apparatus->name }}"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
 
-                        </svg>
+                        @else
+
+                            <div class="w-full h-full flex items-center justify-center">
+
+                                <svg class="w-20 h-20 text-slate-300"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+
+                                </svg>
+
+                            </div>
+
+                        @endif
 
                     </div>
 
                     <div class="p-5">
 
                         <p class="text-xs uppercase tracking-wider font-bold text-sky-600">
-                            {{ $apparatus[0] }}
+                            {{ $apparatus->position }}
                         </p>
 
                         <h3 class="font-bold text-slate-800 mt-2">
-                            {{ $apparatus[1] }}
+                            {{ $apparatus->name }}
                         </h3>
 
                     </div>
 
                 </div>
 
-            @endforeach
+            @empty
+
+                <div class="sm:col-span-2 lg:col-span-4">
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl py-14 px-6 text-center">
+
+                        <div class="w-16 h-16 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center mx-auto">
+
+                            <svg class="w-8 h-8"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="font-bold text-slate-800 mt-4">
+                            Belum Ada Data Aparatur
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-2">
+                            Data aparatur Desa Sidorejo akan ditampilkan di bagian ini.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            @endforelse
 
         </div>
 

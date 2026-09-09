@@ -586,37 +586,66 @@
 
 
             {{-- APARATUR --}}
-            <div class="bg-white border border-dashed border-slate-300 rounded-2xl p-5 opacity-70">
+            <a href="{{ route('admin.apparatuses.index') }}"
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-5 hover:border-emerald-300 hover:shadow-lg transition">
 
-                <div class="w-11 h-11 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+                <div class="absolute right-0 top-0 w-24 h-24 bg-emerald-50 rounded-bl-full"></div>
 
-                    <svg class="w-5 h-5"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
+                <div class="relative">
 
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+                    <div class="w-11 h-11 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
 
-                    </svg>
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div class="flex items-center gap-2">
+
+                        <h3 class="font-bold text-slate-800 group-hover:text-emerald-600 transition">
+                            Aparatur Desa
+                        </h3>
+
+                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
+                            Aktif
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Kelola nama, jabatan, foto dan urutan aparatur.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 mt-4">
+
+                        Kelola Aparatur
+
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
 
                 </div>
 
-                <h3 class="font-bold text-slate-700">
-                    Aparatur Desa
-                </h3>
-
-                <p class="text-sm text-slate-400 mt-2">
-                    Kelola nama, jabatan, foto dan urutan aparatur.
-                </p>
-
-                <span class="inline-flex bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full mt-4">
-                    Segera
-                </span>
-
-            </div>
+            </a>
 
 
             {{-- GALERI --}}

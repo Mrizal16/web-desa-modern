@@ -14,9 +14,11 @@ use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\AnnouncementController;
+use App\Http\Controllers\Admin\ApparatusController;
 
 use App\Models\News;
 use App\Models\Announcement;
+use App\Models\Apparatus;
 
 
 /*
@@ -39,9 +41,16 @@ Route::get('/', function () {
         ->take(3)
         ->get();
 
+    $apparatuses = Apparatus::where('is_active', true)
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->take(8)
+        ->get();
+
     return view('welcome', compact(
         'latestNews',
-        'latestAnnouncements'
+        'latestAnnouncements',
+        'apparatuses'
     ));
 
 })->name('home');
@@ -385,5 +394,30 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::delete('/pengumuman/{announcement}', [AnnouncementController::class, 'destroy'])
             ->name('announcements.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | APARATUR DESA
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/aparatur', [ApparatusController::class, 'index'])
+            ->name('apparatuses.index');
+
+        Route::get('/aparatur/tambah', [ApparatusController::class, 'create'])
+            ->name('apparatuses.create');
+
+        Route::post('/aparatur', [ApparatusController::class, 'store'])
+            ->name('apparatuses.store');
+
+        Route::get('/aparatur/{apparatus}/edit', [ApparatusController::class, 'edit'])
+            ->name('apparatuses.edit');
+
+        Route::put('/aparatur/{apparatus}', [ApparatusController::class, 'update'])
+            ->name('apparatuses.update');
+
+        Route::delete('/aparatur/{apparatus}', [ApparatusController::class, 'destroy'])
+            ->name('apparatuses.destroy');
 
     });
