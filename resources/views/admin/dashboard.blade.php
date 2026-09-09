@@ -773,6 +773,69 @@
 
             </a>
 
+
+            {{-- PROFIL DESA --}}
+            <a href="{{ route('admin.village-profile.edit') }}"
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-2xl p-5 hover:border-cyan-300 hover:shadow-lg transition">
+
+                <div class="absolute right-0 top-0 w-24 h-24 bg-cyan-50 rounded-bl-full"></div>
+
+                <div class="relative">
+
+                    <div class="w-11 h-11 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center mb-4">
+
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div class="flex items-center gap-2">
+
+                        <h3 class="font-bold text-slate-800 group-hover:text-cyan-600 transition">
+                            Profil Desa
+                        </h3>
+
+                        <span class="bg-cyan-50 text-cyan-600 text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
+                            Aktif
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-2">
+                        Kelola profil, visi, misi, foto dan statistik desa.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-cyan-600 mt-4">
+
+                        Kelola Profil
+
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
+                </div>
+
+            </a>
+
         </div>
 
     </div>

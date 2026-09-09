@@ -17,12 +17,14 @@ use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\ApparatusController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\PotentialController;
+use App\Http\Controllers\Admin\VillageProfileController;
 
 use App\Models\News;
 use App\Models\Announcement;
 use App\Models\Apparatus;
 use App\Models\Gallery;
 use App\Models\Potential;
+use App\Models\VillageProfile;
 
 
 /*
@@ -63,12 +65,15 @@ Route::get('/', function () {
         ->take(8)
         ->get();
 
+    $villageProfile = VillageProfile::first();
+
     return view('welcome', compact(
         'latestNews',
         'latestAnnouncements',
         'apparatuses',
         'galleries',
-        'potentials'
+        'potentials',
+        'villageProfile'
     ));
 
 })->name('home');
@@ -488,5 +493,18 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::delete('/potensi/{potential}', [PotentialController::class, 'destroy'])
             ->name('potentials.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PROFIL DESA
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/profil-desa', [VillageProfileController::class, 'edit'])
+            ->name('village-profile.edit');
+
+        Route::put('/profil-desa', [VillageProfileController::class, 'update'])
+            ->name('village-profile.update');
 
     });

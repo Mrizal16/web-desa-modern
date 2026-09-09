@@ -29,7 +29,7 @@
     </style>
 </head>
 
-<body class="bg-white text-slate-800">
+<body class="bg-white text-slate-800 overflow-x-hidden">
 
 {{-- ========================================================= --}}
 {{-- TOP BAR --}}
@@ -764,59 +764,104 @@
 
 
 {{-- ========================================================= --}}
+{{-- ========================================================= --}}
 {{-- PROFILE --}}
 {{-- ========================================================= --}}
 <section id="profil"
-         class="py-20 sm:py-24">
+         class="py-20 sm:py-24 bg-white overflow-hidden">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-14 items-center">
 
             {{-- IMAGE --}}
             <div class="relative">
 
-                <div class="aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br from-sky-100 to-blue-100">
+                <div class="relative rounded-[28px] overflow-hidden border border-slate-200 shadow-xl bg-slate-100">
 
-                    <div class="w-full h-full flex items-center justify-center">
+                    @if($villageProfile && $villageProfile->image)
 
-                        <div class="text-center text-sky-700">
+                        <img src="{{ asset('storage/' . $villageProfile->image) }}"
+                             alt="{{ $villageProfile->village_name ?: 'Desa Sidorejo' }}"
+                             class="w-full h-[340px] sm:h-[430px] lg:h-[500px] object-cover">
 
-                            <svg class="w-20 h-20 mx-auto opacity-60"
-                                 fill="none"
-                                 stroke="currentColor"
-                                 viewBox="0 0 24 24">
+                    @else
 
-                                <path stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>
+                        <div class="w-full h-[340px] sm:h-[430px] lg:h-[500px] bg-gradient-to-br from-sky-100 via-white to-blue-100 flex items-center justify-center">
 
-                            </svg>
+                            <div class="text-center px-8 text-sky-700">
 
-                            <p class="font-bold text-lg mt-4">
-                                Foto Desa Sidorejo
-                            </p>
+                                <div class="w-20 h-20 rounded-3xl bg-white/80 border border-sky-100 shadow-sm flex items-center justify-center mx-auto">
 
-                            <p class="text-sm opacity-70 mt-1">
-                                Nantinya bisa diganti melalui admin
-                            </p>
+                                    <svg class="w-10 h-10"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+
+                                        <path stroke-width="1.5"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>
+
+                                    </svg>
+
+                                </div>
+
+                                <p class="font-bold text-lg mt-4">
+                                    Foto {{ $villageProfile->village_name ?? 'Desa Sidorejo' }}
+                                </p>
+
+                                <p class="text-sm text-sky-600/70 mt-1">
+                                    Foto desa dapat diatur melalui halaman admin.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-transparent pointer-events-none"></div>
+
+                </div>
+
+                <div class="relative sm:absolute sm:left-6 sm:bottom-6 mt-4 sm:mt-0">
+
+                    <div class="bg-white/95 backdrop-blur border border-slate-200 shadow-xl rounded-2xl px-5 py-4 sm:max-w-[290px]">
+
+                        <div class="flex items-start gap-3">
+
+                            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+
+                                <svg class="w-5 h-5"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+
+                                </svg>
+
+                            </div>
+
+                            <div>
+
+                                <p class="text-[11px] uppercase tracking-[0.18em] font-bold text-sky-600">
+                                    Komitmen Kami
+                                </p>
+
+                                <p class="font-bold text-slate-800 leading-snug mt-1">
+                                    Pelayanan Cepat, Transparan & Digital
+                                </p>
+
+                            </div>
 
                         </div>
 
                     </div>
-
-                </div>
-
-                <div class="absolute -bottom-5 -right-3 sm:right-6 bg-white shadow-xl border border-slate-100 rounded-2xl p-5 max-w-[230px]">
-
-                    <p class="text-xs uppercase tracking-wider font-bold text-sky-600">
-                        Komitmen Kami
-                    </p>
-
-                    <p class="font-bold text-slate-800 mt-2">
-                        Pelayanan Cepat, Transparan & Digital
-                    </p>
 
                 </div>
 
@@ -826,53 +871,105 @@
             {{-- CONTENT --}}
             <div>
 
-                <p class="text-sm uppercase tracking-widest font-bold text-sky-600">
-                    Tentang Desa
-                </p>
+                <div class="inline-flex items-center gap-2 text-sky-600">
 
-                <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 leading-tight mt-3">
+                    <span class="w-8 h-[2px] bg-sky-500 rounded-full"></span>
+
+                    <p class="text-xs sm:text-sm uppercase tracking-[0.2em] font-bold">
+                        Tentang Desa
+                    </p>
+
+                </div>
+
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mt-4">
                     Mengenal Lebih Dekat
-                    <span class="text-sky-600">
-                        Desa Sidorejo
+                    <span class="text-sky-600 block sm:inline">
+                        {{ $villageProfile->village_name ?? 'Desa Sidorejo' }}
                     </span>
                 </h2>
 
-                <p class="text-slate-500 leading-relaxed mt-6">
-                    Desa Sidorejo merupakan desa yang terus berkembang dengan semangat
-                    kebersamaan, pelayanan masyarakat, serta pembangunan yang berkelanjutan.
-                    Pemerintah desa berkomitmen menghadirkan pelayanan yang mudah diakses
-                    oleh seluruh masyarakat.
+                <p class="text-slate-600 text-base sm:text-lg leading-8 mt-6 whitespace-pre-line">
+                    {{ $villageProfile && $villageProfile->description
+                        ? $villageProfile->description
+                        : 'Informasi profil Desa Sidorejo belum diisi melalui halaman admin.' }}
                 </p>
 
-                <p class="text-slate-500 leading-relaxed mt-4">
-                    Melalui website ini, masyarakat dapat memperoleh informasi mengenai
-                    kegiatan desa, pelayanan administrasi, berita, pengumuman, potensi desa,
-                    serta menyampaikan aspirasi secara digital.
-                </p>
 
-                <div class="grid grid-cols-2 gap-4 mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
 
-                    <div class="bg-slate-50 rounded-2xl p-4">
+                    {{-- VISI --}}
+                    <div class="group relative overflow-hidden bg-gradient-to-br from-sky-50 to-white border border-sky-100 rounded-2xl p-5 sm:p-6">
 
-                        <p class="font-bold text-slate-800">
-                            Visi Desa
-                        </p>
+                        <div class="absolute right-0 top-0 w-24 h-24 bg-sky-100/60 rounded-bl-full"></div>
 
-                        <p class="text-sm text-slate-500 mt-2">
-                            Mewujudkan desa yang maju, mandiri dan sejahtera.
-                        </p>
+                        <div class="relative">
+
+                            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                                <svg class="w-5 h-5"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          d="M12 3v2M21 12h-2M12 21v-2M3 12h2"/>
+
+                                </svg>
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-4">
+                                Visi Desa
+                            </h3>
+
+                            <p class="text-sm text-slate-600 leading-7 mt-2 whitespace-pre-line break-words">
+                                {{ $villageProfile && $villageProfile->vision
+                                    ? $villageProfile->vision
+                                    : 'Visi desa belum diisi.' }}
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <div class="bg-slate-50 rounded-2xl p-4">
 
-                        <p class="font-bold text-slate-800">
-                            Pelayanan
-                        </p>
+                    {{-- MISI --}}
+                    <div class="group relative overflow-hidden bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-2xl p-5 sm:p-6">
 
-                        <p class="text-sm text-slate-500 mt-2">
-                            Memberikan pelayanan publik yang mudah dan transparan.
-                        </p>
+                        <div class="absolute right-0 top-0 w-24 h-24 bg-indigo-100/60 rounded-bl-full"></div>
+
+                        <div class="relative">
+
+                            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+
+                                <svg class="w-5 h-5"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7M5 7h7M5 19h7"/>
+
+                                </svg>
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-slate-800 mt-4">
+                                Misi Desa
+                            </h3>
+
+                            <p class="text-sm text-slate-600 leading-7 mt-2 whitespace-pre-line break-words">
+                                {{ $villageProfile && $villageProfile->mission
+                                    ? $villageProfile->mission
+                                    : 'Misi desa belum diisi.' }}
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -899,7 +996,9 @@
             <div class="text-center border border-white/10 rounded-2xl p-5">
 
                 <p class="text-3xl sm:text-4xl font-bold text-white">
-                    —
+                    {{ $villageProfile?->population !== null
+                        ? number_format($villageProfile->population, 0, ',', '.')
+                        : '—' }}
                 </p>
 
                 <p class="text-sm text-slate-400 mt-2">
@@ -911,7 +1010,9 @@
             <div class="text-center border border-white/10 rounded-2xl p-5">
 
                 <p class="text-3xl sm:text-4xl font-bold text-white">
-                    —
+                    {{ $villageProfile?->families !== null
+                        ? number_format($villageProfile->families, 0, ',', '.')
+                        : '—' }}
                 </p>
 
                 <p class="text-sm text-slate-400 mt-2">
@@ -923,7 +1024,9 @@
             <div class="text-center border border-white/10 rounded-2xl p-5">
 
                 <p class="text-3xl sm:text-4xl font-bold text-white">
-                    —
+                    {{ $villageProfile?->hamlets !== null
+                        ? number_format($villageProfile->hamlets, 0, ',', '.')
+                        : '—' }}
                 </p>
 
                 <p class="text-sm text-slate-400 mt-2">
@@ -935,7 +1038,11 @@
             <div class="text-center border border-white/10 rounded-2xl p-5">
 
                 <p class="text-3xl sm:text-4xl font-bold text-white">
-                    —
+                    @if($villageProfile && ($villageProfile->rt !== null || $villageProfile->rw !== null))
+                        {{ $villageProfile->rt ?? '—' }} / {{ $villageProfile->rw ?? '—' }}
+                    @else
+                        —
+                    @endif
                 </p>
 
                 <p class="text-sm text-slate-400 mt-2">
@@ -951,7 +1058,6 @@
 </section>
 
 
-{{-- ========================================================= --}}
 {{-- NEWS --}}
 {{-- ========================================================= --}}
 <section id="berita"
@@ -1379,7 +1485,6 @@
 
             @endforelse
 
-        </div>
         </div>
 
     </div>
