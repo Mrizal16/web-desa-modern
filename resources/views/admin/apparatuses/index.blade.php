@@ -14,48 +14,70 @@
 
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6">
 
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    {{-- HEADER --}}
+    <div class="relative overflow-hidden bg-gradient-to-br from-sky-600 via-blue-600 to-indigo-700 rounded-3xl p-6 sm:p-8 mb-8 text-white shadow-lg shadow-blue-100">
 
-        <div>
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-20 left-1/3 w-56 h-56 bg-white/10 rounded-full"></div>
 
-            <p class="text-sm font-semibold text-sky-600">
-                Website Desa
-            </p>
+        <div class="relative flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-            <h1 class="text-3xl font-bold mt-1">
-                Aparatur Desa
-            </h1>
+            <div>
 
-            <p class="text-slate-500 mt-1">
-                Kelola nama, jabatan, foto dan urutan aparatur Desa Sidorejo.
-            </p>
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-100">
+                    Website Desa
+                </div>
 
-        </div>
+                <h1 class="text-3xl sm:text-4xl font-bold mt-4">
+                    Kelola Aparatur Desa
+                </h1>
 
-        <div class="flex flex-col sm:flex-row gap-3">
+                <p class="text-blue-100 mt-2 max-w-2xl">
+                    Kelola nama, jabatan, foto, urutan tampil, dan status aparatur Desa Sidorejo.
+                </p>
 
-            <a href="{{ route('admin.dashboard') }}"
-               class="inline-flex items-center justify-center bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-xl font-semibold">
-                Dashboard
-            </a>
+            </div>
 
-            <a href="{{ route('admin.apparatuses.create') }}"
-               class="inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-5 py-3 rounded-xl font-semibold">
+            <div class="flex flex-col sm:flex-row gap-3">
 
-                <svg class="w-5 h-5"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
+                <a href="{{ route('admin.dashboard') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-3 rounded-xl font-semibold transition">
 
-                    <path stroke-width="2"
-                          stroke-linecap="round"
-                          d="M12 5v14M5 12h14"/>
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
 
-                </svg>
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 18l-6-6 6-6"/>
 
-                Tambah Aparatur
+                    </svg>
 
-            </a>
+                    Kembali ke Dashboard
+
+                </a>
+
+                <a href="{{ route('admin.apparatuses.create') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 hover:bg-blue-50 px-5 py-3 rounded-xl font-bold transition shadow-sm">
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              d="M12 5v14M5 12h14"/>
+
+                    </svg>
+
+                    Tambah Aparatur
+
+                </a>
+
+            </div>
 
         </div>
 
@@ -66,38 +88,90 @@
 
         <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-2xl p-4 mb-6">
 
-            <p class="font-semibold">
-                Berhasil
-            </p>
+            <div class="flex items-start gap-3">
 
-            <p class="text-sm mt-1">
-                {{ session('success') }}
-            </p>
+                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M5 13l4 4L19 7"/>
+
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <p class="font-semibold">
+                        Berhasil
+                    </p>
+
+                    <p class="text-sm mt-1">
+                        {{ session('success') }}
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
     @endif
 
 
-    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-        <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between gap-4">
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
-            <div>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                <h2 class="font-bold text-lg">
-                    Daftar Aparatur
-                </h2>
+                <div class="flex items-center gap-3">
 
-                <p class="text-sm text-slate-400 mt-1">
-                    Urutan terkecil akan tampil lebih dulu di website.
-                </p>
+                    <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M20 21a8 8 0 10-16 0m8-10a4 4 0 100-8 4 4 0 000 8z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="font-bold text-lg">
+                            Daftar Aparatur
+                        </h2>
+
+                        <p class="text-sm text-slate-400 mt-0.5">
+                            Urutan terkecil akan tampil lebih dulu di website.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <span class="inline-flex items-center gap-2 w-fit bg-sky-50 text-sky-700 border border-sky-100 text-xs font-bold px-3 py-2 rounded-full">
+
+                    <span class="w-2 h-2 bg-sky-500 rounded-full"></span>
+
+                    {{ $apparatuses->count() }} Aparatur
+
+                </span>
 
             </div>
-
-            <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full">
-                {{ $apparatuses->count() }} Aparatur
-            </span>
 
         </div>
 
@@ -139,7 +213,7 @@
 
                     @forelse($apparatuses as $apparatus)
 
-                        <tr class="hover:bg-slate-50 transition">
+                        <tr class="hover:bg-sky-50/40 transition">
 
                             <td class="px-6 py-4">
 
@@ -211,14 +285,14 @@
 
                                 @if($apparatus->is_active)
 
-                                    <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full">
                                         <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
                                         Aktif
                                     </span>
 
                                 @else
 
-                                    <span class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    <span class="inline-flex items-center gap-2 bg-slate-100 text-slate-500 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full">
                                         <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
                                         Nonaktif
                                     </span>
@@ -232,7 +306,7 @@
                                 <div class="flex justify-end gap-2">
 
                                     <a href="{{ route('admin.apparatuses.edit', $apparatus) }}"
-                                       class="bg-sky-50 hover:bg-sky-100 text-sky-700 px-4 py-2 rounded-xl text-sm font-semibold">
+                                       class="inline-flex items-center justify-center bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-100 px-4 py-2 rounded-xl text-sm font-semibold transition">
 
                                         Edit
 
@@ -246,7 +320,7 @@
 
                                         <button type="submit"
                                                 onclick="return confirm('Yakin ingin menghapus aparatur ini?')"
-                                                class="bg-red-50 hover:bg-red-100 text-red-700 px-4 py-2 rounded-xl text-sm font-semibold">
+                                                class="inline-flex items-center justify-center bg-red-50 hover:bg-red-100 text-red-700 border border-red-100 px-4 py-2 rounded-xl text-sm font-semibold transition">
 
                                             Hapus
 
@@ -293,7 +367,7 @@
 
             @forelse($apparatuses as $apparatus)
 
-                <div class="p-4">
+                <div class="p-4 sm:p-5 hover:bg-sky-50/30 transition">
 
                     <div class="flex gap-4">
 
