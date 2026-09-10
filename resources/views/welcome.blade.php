@@ -774,12 +774,12 @@
 {{-- ========================================================= --}}
 {{-- PROFILE --}}
 {{-- ========================================================= --}}
-<section id="profil"
-         class="py-20 sm:py-24 bg-white overflow-hidden">
+<section id="profil" class="py-20 sm:py-24 bg-white overflow-hidden">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-14 items-center">
+        {{-- FOTO + DESKRIPSI --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
             {{-- IMAGE --}}
             <div class="relative">
@@ -790,28 +790,19 @@
 
                         <img src="{{ asset('storage/' . $villageProfile->image) }}"
                              alt="{{ $villageProfile->village_name ?: 'Desa Sidorejo' }}"
-                             class="w-full h-[340px] sm:h-[430px] lg:h-[500px] object-cover">
+                             class="w-full h-[340px] sm:h-[430px] lg:h-[470px] object-cover">
 
                     @else
 
-                        <div class="w-full h-[340px] sm:h-[430px] lg:h-[500px] bg-gradient-to-br from-sky-100 via-white to-blue-100 flex items-center justify-center">
+                        <div class="w-full h-[340px] sm:h-[430px] lg:h-[470px] bg-gradient-to-br from-sky-100 via-white to-blue-100 flex items-center justify-center">
 
                             <div class="text-center px-8 text-sky-700">
 
                                 <div class="w-20 h-20 rounded-3xl bg-white/80 border border-sky-100 shadow-sm flex items-center justify-center mx-auto">
-
-                                    <svg class="w-10 h-10"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         viewBox="0 0 24 24">
-
-                                        <path stroke-width="1.5"
-                                              stroke-linecap="round"
-                                              stroke-linejoin="round"
+                                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                                               d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/>
-
                                     </svg>
-
                                 </div>
 
                                 <p class="font-bold text-lg mt-4">
@@ -828,34 +819,22 @@
 
                     @endif
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-transparent pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent pointer-events-none"></div>
 
                 </div>
 
                 <div class="relative sm:absolute sm:left-6 sm:bottom-6 mt-4 sm:mt-0">
-
-                    <div class="bg-white/95 backdrop-blur border border-slate-200 shadow-xl rounded-2xl px-5 py-4 sm:max-w-[290px]">
-
+                    <div class="bg-white/95 backdrop-blur border border-slate-200 shadow-xl rounded-2xl px-5 py-4 sm:max-w-[300px]">
                         <div class="flex items-start gap-3">
 
                             <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
-
-                                <svg class="w-5 h-5"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24">
-
-                                    <path stroke-width="2"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                           d="M5 13l4 4L19 7"/>
-
                                 </svg>
-
                             </div>
 
                             <div>
-
                                 <p class="text-[11px] uppercase tracking-[0.18em] font-bold text-sky-600">
                                     Komitmen Kami
                                 </p>
@@ -863,13 +842,10 @@
                                 <p class="font-bold text-slate-800 leading-snug mt-1">
                                     Pelayanan Cepat, Transparan & Digital
                                 </p>
-
                             </div>
 
                         </div>
-
                     </div>
-
                 </div>
 
             </div>
@@ -879,13 +855,10 @@
             <div>
 
                 <div class="inline-flex items-center gap-2 text-sky-600">
-
                     <span class="w-8 h-[2px] bg-sky-500 rounded-full"></span>
-
                     <p class="text-xs sm:text-sm uppercase tracking-[0.2em] font-bold">
                         Tentang Desa
                     </p>
-
                 </div>
 
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mt-4">
@@ -895,93 +868,87 @@
                     </span>
                 </h2>
 
-                <p class="text-slate-600 text-base sm:text-lg leading-8 mt-6 whitespace-pre-line">
+                <p class="text-slate-600 text-base sm:text-lg leading-8 mt-6 whitespace-pre-line break-words">
                     {{ $villageProfile && $villageProfile->description
                         ? $villageProfile->description
                         : 'Informasi profil Desa Sidorejo belum diisi melalui halaman admin.' }}
                 </p>
 
+            </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        </div>
 
-                    {{-- VISI --}}
-                    <div class="group relative overflow-hidden bg-gradient-to-br from-sky-50 to-white border border-sky-100 rounded-2xl p-5 sm:p-6">
 
-                        <div class="absolute right-0 top-0 w-24 h-24 bg-sky-100/60 rounded-bl-full"></div>
+        {{-- VISI & MISI --}}
+        <div class="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-5 sm:gap-6 mt-10 lg:mt-12">
 
-                        <div class="relative">
+            {{-- VISI --}}
+            <div class="relative overflow-hidden bg-gradient-to-br from-sky-50 to-white border border-sky-100 rounded-3xl p-6 sm:p-8">
+                <div class="absolute right-0 top-0 w-28 h-28 bg-sky-100/70 rounded-bl-full"></div>
 
-                            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                <div class="relative">
 
-                                <svg class="w-5 h-5"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                                <path stroke-width="2" stroke-linecap="round"
+                                      d="M12 3v2M21 12h-2M12 21v-2M3 12h2"/>
+                            </svg>
+                        </div>
 
-                                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
-                                    <circle cx="12" cy="12" r="4" stroke-width="2"/>
-                                    <path stroke-width="2"
-                                          stroke-linecap="round"
-                                          d="M12 3v2M21 12h-2M12 21v-2M3 12h2"/>
-
-                                </svg>
-
-                            </div>
-
-                            <h3 class="text-lg font-bold text-slate-800 mt-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.18em] font-bold text-sky-600">
+                                Arah Pembangunan
+                            </p>
+                            <h3 class="text-xl font-bold text-slate-900 mt-1">
                                 Visi Desa
                             </h3>
-
-                            <p class="text-sm text-slate-600 leading-7 mt-2 whitespace-pre-line break-words">
-                                {{ $villageProfile && $villageProfile->vision
-                                    ? $villageProfile->vision
-                                    : 'Visi desa belum diisi.' }}
-                            </p>
-
                         </div>
-
                     </div>
 
-
-                    {{-- MISI --}}
-                    <div class="group relative overflow-hidden bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-2xl p-5 sm:p-6">
-
-                        <div class="absolute right-0 top-0 w-24 h-24 bg-indigo-100/60 rounded-bl-full"></div>
-
-                        <div class="relative">
-
-                            <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
-
-                                <svg class="w-5 h-5"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24">
-
-                                    <path stroke-width="2"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M5 13l4 4L19 7M5 7h7M5 19h7"/>
-
-                                </svg>
-
-                            </div>
-
-                            <h3 class="text-lg font-bold text-slate-800 mt-4">
-                                Misi Desa
-                            </h3>
-
-                            <p class="text-sm text-slate-600 leading-7 mt-2 whitespace-pre-line break-words">
-                                {{ $villageProfile && $villageProfile->mission
-                                    ? $villageProfile->mission
-                                    : 'Misi desa belum diisi.' }}
-                            </p>
-
-                        </div>
-
+                    <div class="mt-5 text-sm sm:text-base text-slate-600 leading-7 whitespace-pre-line break-words">
+                        {{ $villageProfile && $villageProfile->vision
+                            ? $villageProfile->vision
+                            : 'Visi desa belum diisi.' }}
                     </div>
 
                 </div>
+            </div>
 
+
+            {{-- MISI --}}
+            <div class="relative overflow-hidden bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-3xl p-6 sm:p-8">
+                <div class="absolute right-0 top-0 w-32 h-32 bg-indigo-100/70 rounded-bl-full"></div>
+
+                <div class="relative">
+
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7M5 7h7M5 19h7"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.18em] font-bold text-indigo-600">
+                                Langkah Strategis
+                            </p>
+                            <h3 class="text-xl font-bold text-slate-900 mt-1">
+                                Misi Desa
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 text-sm sm:text-base text-slate-600 leading-7 whitespace-pre-line break-words">
+                        {{ $villageProfile && $villageProfile->mission
+                            ? $villageProfile->mission
+                            : 'Misi desa belum diisi.' }}
+                    </div>
+
+                </div>
             </div>
 
         </div>
