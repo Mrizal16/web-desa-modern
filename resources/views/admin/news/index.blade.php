@@ -15,40 +15,44 @@
 <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6">
 
     {{-- HEADER --}}
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <div class="relative overflow-hidden bg-gradient-to-br from-sky-600 via-blue-600 to-indigo-700 rounded-3xl p-6 sm:p-8 mb-8 text-white shadow-lg shadow-blue-100">
 
-        <div>
-            <p class="text-sm font-semibold text-sky-600">
-                Website Desa
-            </p>
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-20 left-1/3 w-56 h-56 bg-white/10 rounded-full"></div>
 
-            <h1 class="text-3xl font-bold mt-1">
-                Kelola Berita
-            </h1>
+        <div class="relative flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-            <p class="text-slate-500 mt-1">
-                Tambah, edit, publish, atau hapus berita Desa Sidorejo.
-            </p>
+            <div>
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-100">
+                    Website Desa
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-bold mt-4">Kelola Berita</h1>
+
+                <p class="text-blue-100 mt-2 max-w-2xl">
+                    Tambah, edit, publikasikan, atau hapus berita yang tampil di website Desa Sidorejo.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('admin.dashboard') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-3 rounded-xl font-semibold transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Kembali ke Dashboard
+                </a>
+
+                <a href="{{ route('admin.news.create') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 hover:bg-blue-50 px-5 py-3 rounded-xl font-bold transition shadow-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Tambah Berita
+                </a>
+            </div>
+
         </div>
-
-        <a href="{{ route('admin.news.create') }}"
-           class="inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-5 py-3 rounded-xl font-semibold transition">
-
-            <svg class="w-5 h-5"
-                 fill="none"
-                 stroke="currentColor"
-                 viewBox="0 0 24 24">
-
-                <path stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 5v14M5 12h14"/>
-
-            </svg>
-
-            Tambah Berita
-
-        </a>
 
     </div>
 
@@ -72,25 +76,30 @@
 
 
     {{-- TABLE CARD --}}
-    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-        <div class="px-6 py-5 border-b border-slate-200">
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
             <div class="flex items-center justify-between gap-4">
 
                 <div>
 
-                    <h2 class="font-bold text-lg">
-                        Daftar Berita
-                    </h2>
-
-                    <p class="text-sm text-slate-400 mt-1">
-                        Semua artikel berita yang telah dibuat.
-                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="font-bold text-lg">Daftar Berita</h2>
+                            <p class="text-sm text-slate-400 mt-0.5">Semua artikel berita yang telah dibuat.</p>
+                        </div>
+                    </div>
 
                 </div>
 
-                <span class="bg-slate-100 text-slate-600 text-xs font-semibold px-3 py-1.5 rounded-full">
+                <span class="inline-flex items-center gap-2 bg-sky-50 text-sky-700 border border-sky-100 text-xs font-bold px-3 py-2 rounded-full">
+                    <span class="w-2 h-2 bg-sky-500 rounded-full"></span>
                     {{ $news->total() }} Berita
                 </span>
 
@@ -104,7 +113,7 @@
 
             <table class="w-full min-w-[900px]">
 
-                <thead class="bg-slate-50 border-b border-slate-200">
+                <thead class="bg-slate-50/80 border-b border-slate-200">
 
                     <tr>
 
@@ -136,7 +145,7 @@
 
                     @forelse($news as $item)
 
-                        <tr class="hover:bg-slate-50 transition">
+                        <tr class="hover:bg-sky-50/40 transition">
 
                             <td class="px-6 py-4">
 
