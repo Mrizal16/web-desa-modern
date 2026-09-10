@@ -19,37 +19,72 @@
     @endphp
 
     {{-- HEADER --}}
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <div class="relative overflow-hidden bg-gradient-to-br from-sky-600 via-blue-600 to-indigo-700 rounded-3xl p-6 sm:p-8 mb-8 text-white shadow-lg shadow-blue-100">
 
-        <div>
-            <p class="text-sm font-semibold text-emerald-600">
-                Pelayanan Administrasi
-            </p>
+        <div class="absolute -top-16 -right-16 w-48 h-48 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-20 left-1/3 w-56 h-56 bg-white/10 rounded-full"></div>
 
-            <h1 class="text-3xl font-bold text-slate-800 mt-1">
-                Detail Permohonan
-            </h1>
+        <div class="relative flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-            <p class="text-slate-500 mt-1">
-                Periksa data, dokumen, dan tindak lanjuti permohonan warga.
-            </p>
+            <div>
+
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-blue-100">
+                    Pelayanan Administrasi
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-bold mt-4">
+                    Detail Permohonan
+                </h1>
+
+                <p class="text-blue-100 mt-2 max-w-2xl">
+                    Periksa data, dokumen, dan tindak lanjuti permohonan surat warga.
+                </p>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+
+                <a href="{{ route('admin.dashboard') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-3 rounded-xl font-semibold transition">
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 18l-6-6 6-6"/>
+
+                    </svg>
+
+                    Dashboard
+
+                </a>
+
+                <a href="{{ route('admin.permohonan.index') }}"
+                   class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 hover:bg-blue-50 px-5 py-3 rounded-xl font-bold transition">
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+
+                    </svg>
+
+                    Daftar Permohonan
+
+                </a>
+
+            </div>
+
         </div>
-
-        <a href="{{ route('admin.permohonan.index') }}"
-           class="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-semibold transition">
-
-            <svg class="w-4 h-4"
-                 fill="none"
-                 stroke="currentColor"
-                 viewBox="0 0 24 24">
-                <path stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15 19l-7-7 7-7"/>
-            </svg>
-
-            Kembali
-        </a>
 
     </div>
 
@@ -117,13 +152,13 @@
         <div class="xl:col-span-2 space-y-6">
 
             {{-- DATA PERMOHONAN --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/60">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
                     <div class="flex items-center gap-3">
 
-                        <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
 
                             <svg class="w-5 h-5"
                                  fill="none"
@@ -153,12 +188,12 @@
 
                 </div>
 
-                <div class="p-6">
+                <div class="p-5 sm:p-6">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         {{-- NOMOR --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                                 Nomor Permohonan
@@ -171,7 +206,7 @@
                         </div>
 
                         {{-- TANGGAL --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                                 Tanggal Pengajuan
@@ -184,7 +219,7 @@
                         </div>
 
                         {{-- JENIS SURAT --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                                 Jenis Surat
@@ -197,7 +232,7 @@
                         </div>
 
                         {{-- STATUS --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400 mb-2">
                                 Status
@@ -249,7 +284,7 @@
                         </div>
 
                         {{-- METODE --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                                 Metode Penerimaan
@@ -278,7 +313,7 @@
                             Keperluan
                         </p>
 
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-slate-700 leading-relaxed">
                                 {{ $letterRequest->purpose ?? '-' }}
@@ -293,9 +328,9 @@
             </div>
 
             {{-- DATA WARGA --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
                     <div class="flex items-center gap-3">
 
@@ -329,46 +364,46 @@
 
                 </div>
 
-                <div class="p-6">
+                <div class="p-5 sm:p-6">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">Nama</p>
                             <p class="font-semibold text-slate-800 mt-1">
                                 {{ $letterRequest->user->name ?? '-' }}
                             </p>
                         </div>
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">Email</p>
                             <p class="font-semibold text-slate-800 mt-1 break-all">
                                 {{ $letterRequest->user->email ?? '-' }}
                             </p>
                         </div>
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">NIK</p>
                             <p class="font-semibold text-slate-800 mt-1">
                                 {{ $letterRequest->user->resident->nik ?? '-' }}
                             </p>
                         </div>
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">Nomor KK</p>
                             <p class="font-semibold text-slate-800 mt-1">
                                 {{ $letterRequest->user->resident->no_kk ?? '-' }}
                             </p>
                         </div>
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">No. HP</p>
                             <p class="font-semibold text-slate-800 mt-1">
                                 {{ $letterRequest->user->resident->phone ?? '-' }}
                             </p>
                         </div>
 
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="border border-slate-200 rounded-2xl p-4">
                             <p class="text-xs text-slate-400">Alamat</p>
                             <p class="font-semibold text-slate-800 mt-1">
                                 {{ $letterRequest->user->resident->address ?? '-' }}
@@ -382,9 +417,9 @@
             </div>
 
             {{-- DOKUMEN --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
                     <div class="flex items-center gap-3">
 
@@ -422,7 +457,7 @@
 
                     @forelse($letterRequest->documents ?? [] as $document)
 
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-slate-200 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50/30 transition">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-slate-200 rounded-2xl p-4 hover:border-blue-200 hover:bg-blue-50/40 transition">
 
                             <div class="flex items-center gap-3 min-w-0">
 
@@ -499,9 +534,9 @@
         <div class="space-y-6">
 
             {{-- STATUS CARD --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden xl:sticky xl:top-6">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden xl:sticky xl:top-6">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
                     <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                         Status Saat Ini
@@ -513,7 +548,7 @@
 
                 </div>
 
-                <div class="p-6">
+                <div class="p-5 sm:p-6">
 
                     @if($status === 'MENUNGGU VERIFIKASI')
 
@@ -694,9 +729,9 @@
             </div>
 
             {{-- AKSI ADMIN --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-slate-50">
 
                     <h2 class="font-bold text-slate-800">
                         Tindakan Admin
@@ -708,7 +743,7 @@
 
                 </div>
 
-                <div class="p-6">
+                <div class="p-5 sm:p-6">
 
                     @if($status === 'MENUNGGU VERIFIKASI')
 
