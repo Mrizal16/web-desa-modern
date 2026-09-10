@@ -12,10 +12,17 @@ class VillageProfile extends Model
         'vision',
         'mission',
         'image',
+
         'population',
         'families',
         'hamlets',
         'rt',
         'rw',
+
+        'address',
+        'email',
+        'phone',
+        'service_hours',
+        'maps_embed',
     ];
 }

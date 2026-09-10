@@ -44,6 +44,12 @@ class VillageProfileController extends Controller
             'hamlets' => 'nullable|integer|min:0',
             'rt' => 'nullable|integer|min:0',
             'rw' => 'nullable|integer|min:0',
+
+            'address' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:50',
+            'service_hours' => 'nullable|string|max:255',
+            'maps_embed' => 'nullable|string',
         ]);
 
         $imagePath = $profile->image;
@@ -72,10 +78,16 @@ class VillageProfileController extends Controller
             'hamlets' => $validated['hamlets'] ?? null,
             'rt' => $validated['rt'] ?? null,
             'rw' => $validated['rw'] ?? null,
+
+            'address' => $validated['address'] ?? null,
+            'email' => $validated['email'] ?? null,
+            'phone' => $validated['phone'] ?? null,
+            'service_hours' => $validated['service_hours'] ?? null,
+            'maps_embed' => $validated['maps_embed'] ?? null,
         ]);
 
         return redirect()
             ->route('admin.village-profile.edit')
-            ->with('success', 'Profil desa berhasil diperbarui.');
+            ->with('success', 'Profil dan kontak desa berhasil diperbarui.');
     }
 }

@@ -234,6 +234,95 @@
 
                 </div>
 
+
+                {{-- KONTAK DESA --}}
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-7 shadow-sm">
+
+                    <h2 class="text-lg font-bold">
+                        Kontak Desa
+                    </h2>
+
+                    <p class="text-sm text-slate-400 mt-1">
+                        Informasi kontak yang ditampilkan di website publik.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-6">
+
+                        <div class="sm:col-span-2">
+
+                            <label class="block text-sm font-semibold mb-2">
+                                Alamat Kantor Desa
+                            </label>
+
+                            <input type="text"
+                                   name="address"
+                                   value="{{ old('address', $profile->address) }}"
+                                   placeholder="Contoh: Jl. ..."
+                                   class="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100">
+
+                        </div>
+
+                        <div>
+
+                            <label class="block text-sm font-semibold mb-2">
+                                Email
+                            </label>
+
+                            <input type="email"
+                                   name="email"
+                                   value="{{ old('email', $profile->email) }}"
+                                   placeholder="desa@example.com"
+                                   class="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100">
+
+                        </div>
+
+                        <div>
+
+                            <label class="block text-sm font-semibold mb-2">
+                                Telepon / WhatsApp
+                            </label>
+
+                            <input type="text"
+                                   name="phone"
+                                   value="{{ old('phone', $profile->phone) }}"
+                                   placeholder="08xxxxxxxxxx"
+                                   class="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100">
+
+                        </div>
+
+                        <div class="sm:col-span-2">
+
+                            <label class="block text-sm font-semibold mb-2">
+                                Jam Pelayanan
+                            </label>
+
+                            <input type="text"
+                                   name="service_hours"
+                                   value="{{ old('service_hours', $profile->service_hours) }}"
+                                   placeholder="Contoh: Senin - Jumat, 08.00 - 15.00 WIB"
+                                   class="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100">
+
+                        </div>
+
+                        <div class="sm:col-span-2">
+
+                            <label class="block text-sm font-semibold mb-2">
+                                Google Maps Embed
+                            </label>
+
+                            <textarea name="maps_embed"
+                                      rows="6"
+                                      placeholder='Tempel kode iframe Google Maps di sini...'
+                                      class="w-full border border-slate-300 rounded-xl px-4 py-3 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100">{{ old('maps_embed', $profile->maps_embed) }}</textarea>
+
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
 

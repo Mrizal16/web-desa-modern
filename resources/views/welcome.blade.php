@@ -38,10 +38,10 @@
 
     <div class="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between gap-6">
 
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-6 min-w-0">
 
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-sky-400"
+            <div class="flex items-center gap-2 min-w-0">
+                <svg class="w-4 h-4 text-sky-400 flex-shrink-0"
                      fill="none"
                      stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -52,32 +52,39 @@
                     <circle cx="12" cy="9" r="2.5" stroke-width="2"/>
                 </svg>
 
-                <span>
-                    Kantor Desa Sidorejo
+                <span class="truncate">
+                    {{ $villageProfile?->address ?: 'Kantor ' . ($villageProfile?->village_name ?? 'Desa Sidorejo') }}
                 </span>
             </div>
 
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-sky-400"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
-                    <path stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M3 8l9 6 9-6M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>
-                </svg>
+            @if($villageProfile?->email)
+                <a href="mailto:{{ $villageProfile->email }}"
+                   class="flex items-center gap-2 hover:text-white transition">
 
-                <span>
-                    desasidorejo@example.com
-                </span>
+                    <svg class="w-4 h-4 text-sky-400 flex-shrink-0"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M3 8l9 6 9-6M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>
+                    </svg>
+
+                    <span>
+                        {{ $villageProfile->email }}
+                    </span>
+
+                </a>
+            @endif
+
+        </div>
+
+        @if($villageProfile?->service_hours)
+            <div class="flex-shrink-0">
+                {{ $villageProfile->service_hours }}
             </div>
-
-        </div>
-
-        <div>
-            Senin - Jumat, 08.00 - 15.00 WIB
-        </div>
+        @endif
 
     </div>
 
@@ -1782,8 +1789,9 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
 
+            {{-- CONTACT INFO --}}
             <div>
 
                 <p class="text-sm uppercase tracking-widest font-bold text-sky-400">
@@ -1791,16 +1799,17 @@
                 </p>
 
                 <h2 class="text-3xl sm:text-4xl font-bold mt-2">
-                    Hubungi Pemerintah Desa Sidorejo
+                    Hubungi Pemerintah
+                    {{ $villageProfile?->village_name ?? 'Desa Sidorejo' }}
                 </h2>
 
                 <p class="text-slate-400 leading-relaxed mt-4 max-w-lg">
-                    Silakan hubungi atau datang langsung ke kantor desa apabila
-                    membutuhkan informasi dan pelayanan lebih lanjut.
+                    Informasi kontak dan lokasi kantor desa dapat dilihat di bagian ini.
                 </p>
 
                 <div class="space-y-4 mt-8">
 
+                    {{-- ADDRESS --}}
                     <div class="flex gap-4">
 
                         <div class="w-11 h-11 rounded-xl bg-white/10 text-sky-400 flex items-center justify-center flex-shrink-0">
@@ -1812,21 +1821,24 @@
                                       stroke-linecap="round"
                                       stroke-linejoin="round"
                                       d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7z"/>
+                                <circle cx="12" cy="9" r="2.5" stroke-width="2"/>
                             </svg>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
                             <p class="font-semibold">
                                 Alamat
                             </p>
 
-                            <p class="text-sm text-slate-400 mt-1">
-                                Kantor Desa Sidorejo
+                            <p class="text-sm text-slate-400 mt-1 break-words">
+                                {{ $villageProfile?->address ?: 'Alamat kantor desa belum diisi.' }}
                             </p>
                         </div>
 
                     </div>
 
+
+                    {{-- EMAIL --}}
                     <div class="flex gap-4">
 
                         <div class="w-11 h-11 rounded-xl bg-white/10 text-sky-400 flex items-center justify-center flex-shrink-0">
@@ -1841,18 +1853,27 @@
                             </svg>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
                             <p class="font-semibold">
                                 Email
                             </p>
 
-                            <p class="text-sm text-slate-400 mt-1">
-                                desasidorejo@example.com
-                            </p>
+                            @if($villageProfile?->email)
+                                <a href="mailto:{{ $villageProfile->email }}"
+                                   class="text-sm text-slate-400 hover:text-sky-400 transition mt-1 block break-all">
+                                    {{ $villageProfile->email }}
+                                </a>
+                            @else
+                                <p class="text-sm text-slate-400 mt-1">
+                                    Email desa belum diisi.
+                                </p>
+                            @endif
                         </div>
 
                     </div>
 
+
+                    {{-- PHONE --}}
                     <div class="flex gap-4">
 
                         <div class="w-11 h-11 rounded-xl bg-white/10 text-sky-400 flex items-center justify-center flex-shrink-0">
@@ -1867,13 +1888,42 @@
                             </svg>
                         </div>
 
-                        <div>
+                        <div class="min-w-0">
                             <p class="font-semibold">
                                 Telepon / WhatsApp
                             </p>
 
-                            <p class="text-sm text-slate-400 mt-1">
-                                08xxxxxxxxxx
+                            <p class="text-sm text-slate-400 mt-1 break-words">
+                                {{ $villageProfile?->phone ?: 'Nomor telepon belum diisi.' }}
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    {{-- SERVICE HOURS --}}
+                    <div class="flex gap-4">
+
+                        <div class="w-11 h-11 rounded-xl bg-white/10 text-sky-400 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                                <path stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 7v5l3 2"/>
+                            </svg>
+                        </div>
+
+                        <div class="min-w-0">
+                            <p class="font-semibold">
+                                Jam Pelayanan
+                            </p>
+
+                            <p class="text-sm text-slate-400 mt-1 break-words">
+                                {{ $villageProfile?->service_hours ?: 'Jam pelayanan belum diisi.' }}
                             </p>
                         </div>
 
@@ -1885,40 +1935,54 @@
 
 
             {{-- MAP --}}
-            <div class="min-h-[330px] bg-slate-800 border border-slate-700 rounded-3xl flex items-center justify-center">
+            <div class="min-h-[340px] lg:min-h-full bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden">
 
-                <div class="text-center px-6">
+                @if($villageProfile?->maps_embed)
 
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
+                    <div class="w-full h-full min-h-[340px] [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:min-h-[340px] [&_iframe]:border-0">
+                        {!! $villageProfile->maps_embed !!}
+                    </div>
 
-                        <svg class="w-8 h-8"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
+                @else
 
-                            <path stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7z"/>
+                    <div class="min-h-[340px] h-full flex items-center justify-center">
 
-                            <circle cx="12"
-                                    cy="9"
-                                    r="2.5"
-                                    stroke-width="2"/>
+                        <div class="text-center px-6">
 
-                        </svg>
+                            <div class="w-16 h-16 mx-auto rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
+
+                                <svg class="w-8 h-8"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7z"/>
+
+                                    <circle cx="12"
+                                            cy="9"
+                                            r="2.5"
+                                            stroke-width="2"/>
+
+                                </svg>
+
+                            </div>
+
+                            <h3 class="font-bold text-lg mt-4">
+                                Google Maps
+                            </h3>
+
+                            <p class="text-sm text-slate-400 mt-2 max-w-sm">
+                                Lokasi Google Maps belum diatur melalui halaman admin.
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    <h3 class="font-bold text-lg mt-4">
-                        Google Maps
-                    </h3>
-
-                    <p class="text-sm text-slate-400 mt-2">
-                        Embed lokasi Kantor Desa Sidorejo dapat dipasang di bagian ini.
-                    </p>
-
-                </div>
+                @endif
 
             </div>
 
