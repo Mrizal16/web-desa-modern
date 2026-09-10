@@ -13,32 +13,32 @@
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Inter, Arial, Helvetica, sans-serif;
             font-size: 11px;
             color: #1e293b;
             margin: 0;
-            background: #f1f5f9;
+            background: #eef2ff;
         }
 
         .page {
             width: 100%;
             max-width: 1250px;
-            margin: 30px auto;
+            margin: 26px auto 40px;
             background: #ffffff;
-            padding: 30px;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            padding: 32px;
+            border: 1px solid #dbeafe;
+            border-radius: 22px;
+            box-shadow: 0 18px 45px rgba(30, 64, 175, 0.10);
         }
 
         /* ACTIONS */
 
         .actions {
             max-width: 1250px;
-            margin: 25px auto 0;
+            margin: 24px auto 0;
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px;
             padding: 0 4px;
         }
 
@@ -52,33 +52,35 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            padding: 10px 16px;
+            gap: 8px;
+            padding: 11px 17px;
             border: none;
-            border-radius: 9px;
+            border-radius: 12px;
             text-decoration: none;
             cursor: pointer;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             transition: 0.2s;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
         }
 
         .btn-print {
-            background: #059669;
+            background: #2563eb;
             color: #ffffff;
         }
 
         .btn-print:hover {
-            background: #047857;
+            background: #1d4ed8;
         }
 
         .btn-back {
-            background: #334155;
-            color: #ffffff;
+            background: #ffffff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
         }
 
         .btn-back:hover {
-            background: #1e293b;
+            background: #eff6ff;
         }
 
         /* HEADER */
@@ -88,8 +90,10 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 20px;
-            padding-bottom: 18px;
-            border-bottom: 2px solid #0f172a;
+            padding: 20px 22px;
+            border-radius: 16px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 55%, #4338ca 100%);
         }
 
         .brand {
@@ -99,43 +103,47 @@
         }
 
         .logo {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
-            background: #ecfdf5;
-            color: #059669;
+            width: 58px;
+            height: 58px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.16);
+            color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            border: 1px solid #a7f3d0;
+            font-size: 22px;
+            font-weight: 800;
+            border: 1px solid rgba(255,255,255,0.26);
         }
 
         .brand h1 {
             margin: 0;
             font-size: 22px;
-            color: #0f172a;
+            color: #ffffff;
         }
 
         .brand p {
             margin: 5px 0 0;
-            color: #64748b;
+            color: #dbeafe;
             font-size: 11px;
         }
 
         .report-info {
             text-align: right;
             font-size: 10px;
-            color: #64748b;
+            color: #dbeafe;
             line-height: 1.7;
+        }
+
+        .report-info strong {
+            color: #ffffff;
         }
 
         /* TITLE */
 
         .report-title {
             text-align: center;
-            margin: 25px 0 20px;
+            margin: 28px 0 18px;
         }
 
         .report-title h2 {
@@ -152,11 +160,12 @@
         /* PERIOD */
 
         .period-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 9px;
-            padding: 11px 14px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 12px 14px;
             margin-bottom: 20px;
+            color: #1e3a8a;
         }
 
         .period-box strong {
@@ -175,8 +184,8 @@
         .stats td {
             width: 33.33%;
             padding: 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 9px;
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
             vertical-align: top;
             background: #ffffff;
         }
@@ -210,6 +219,8 @@
             margin: 0;
             font-size: 15px;
             color: #0f172a;
+            padding-left: 9px;
+            border-left: 4px solid #2563eb;
         }
 
         .section-title span {
@@ -235,8 +246,8 @@
         }
 
         table.data th {
-            background: #f1f5f9;
-            color: #334155;
+            background: #eff6ff;
+            color: #1e40af;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
@@ -358,6 +369,8 @@
                 background: #ffffff;
                 margin: 0;
                 font-size: 9px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
             .actions {
@@ -375,7 +388,9 @@
             }
 
             .report-header {
-                padding-bottom: 10px;
+                padding: 14px 16px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
 
             .report-title {
@@ -450,6 +465,10 @@
         ]) }}"
            class="btn btn-back">
 
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
             Kembali
 
         </a>
@@ -460,6 +479,11 @@
 
         <button onclick="window.print()"
                 class="btn btn-print">
+
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
 
             Cetak / Simpan PDF
 
