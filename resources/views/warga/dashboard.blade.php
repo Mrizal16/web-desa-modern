@@ -26,245 +26,531 @@
 <div class="space-y-8">
 
     {{-- HERO --}}
-    <div class="relative overflow-hidden bg-gradient-to-r from-sky-500 via-blue-500 to-blue-600 rounded-3xl p-7 md:p-9 text-white shadow-lg">
+    <section class="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 rounded-[2rem] p-6 sm:p-8 md:p-10 text-white shadow-xl shadow-blue-100">
 
-        <div class="absolute -right-16 -top-16 w-52 h-52 bg-white/10 rounded-full"></div>
-        <div class="absolute right-20 -bottom-24 w-56 h-56 bg-white/10 rounded-full"></div>
+        <div class="absolute -top-24 -right-16 w-72 h-72 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-28 left-1/3 w-80 h-80 bg-white/10 rounded-full"></div>
+        <div class="absolute top-10 right-1/4 w-20 h-20 border border-white/10 rounded-3xl rotate-12"></div>
 
-        <div class="relative z-10">
-            <p class="text-sky-100 text-sm font-medium">
-                Portal Warga
-            </p>
+        <div class="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
-            <h1 class="text-2xl md:text-4xl font-bold mt-2">
-                Halo, {{ auth()->user()->name }}
-            </h1>
+            <div class="max-w-3xl">
 
-            <p class="text-sky-100 mt-3 max-w-2xl leading-relaxed">
-                Kelola permohonan surat, pengaduan, dan informasi pelayanan desa dengan mudah dari satu tempat.
-            </p>
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-blue-100">
 
-            <div class="flex flex-wrap gap-3 mt-6">
+                    <span class="w-2 h-2 rounded-full bg-emerald-300"></span>
+
+                    Portal Warga
+
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-black tracking-tight mt-5">
+                    Halo, {{ auth()->user()->name }}
+                </h1>
+
+                <p class="text-blue-100 mt-4 max-w-2xl leading-relaxed text-base md:text-lg">
+                    Kelola permohonan surat, pengaduan, dan informasi pelayanan desa dari satu tempat yang lebih mudah digunakan.
+                </p>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row xl:flex-col gap-3 xl:min-w-[220px]">
 
                 <a href="{{ route('warga.letters.create') }}"
-                   class="inline-flex items-center gap-2 bg-white text-sky-700 px-5 py-3 rounded-xl font-semibold hover:bg-sky-50 transition shadow-sm">
+                   class="inline-flex items-center justify-center gap-2 bg-white text-blue-700 px-5 py-3.5 rounded-2xl font-bold hover:bg-blue-50 transition shadow-sm">
 
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                               d="M12 4v16m8-8H4"/>
+
                     </svg>
 
                     Ajukan Surat
+
                 </a>
 
                 <a href="{{ route('warga.complaints.create') }}"
-                   class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white px-5 py-3 rounded-xl font-semibold hover:bg-white/20 transition backdrop-blur">
+                   class="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white px-5 py-3.5 rounded-2xl font-semibold hover:bg-white/20 transition">
 
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                               d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+
                     </svg>
 
                     Buat Pengaduan
+
                 </a>
 
             </div>
+
         </div>
-    </div>
+
+    </section>
+
 
     {{-- STATISTIK --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition">
-            <div class="flex justify-between items-start">
-
-                <div>
-                    <p class="text-sm text-slate-500">Pengajuan Aktif</p>
-
-                    <h2 class="text-3xl font-bold text-sky-600 mt-2">
-                        {{ $activeLetters }}
-                    </h2>
-
-                    <p class="text-xs text-slate-400 mt-2">
-                        Surat yang masih dalam proses.
-                    </p>
-                </div>
-
-                <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition">
-            <div class="flex justify-between items-start">
-
-                <div>
-                    <p class="text-sm text-slate-500">Surat Selesai</p>
-
-                    <h2 class="text-3xl font-bold text-blue-600 mt-2">
-                        {{ $completedLetters }}
-                    </h2>
-
-                    <p class="text-xs text-slate-400 mt-2">
-                        Permohonan yang sudah selesai.
-                    </p>
-                </div>
-
-                <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M5 13l4 4L19 7"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition">
-            <div class="flex justify-between items-start">
-
-                <div>
-                    <p class="text-sm text-slate-500">Pengaduan</p>
-
-                    <h2 class="text-3xl font-bold text-indigo-600 mt-2">
-                        {{ $complaintCount }}
-                    </h2>
-
-                    <p class="text-xs text-slate-400 mt-2">
-                        Total pengaduan yang pernah dikirim.
-                    </p>
-                </div>
-
-                <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    {{-- AKSES CEPAT --}}
-    <div>
+    <section>
 
         <div class="mb-4">
-            <h2 class="text-lg font-bold text-slate-800">
+
+            <p class="text-xs uppercase tracking-[0.18em] font-bold text-sky-600">
+                Ringkasan
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+                Aktivitas Pelayanan Anda
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Ringkasan permohonan dan pengaduan yang tersimpan di akun Anda.
+            </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+
+            <div class="relative overflow-hidden bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-lg transition">
+
+                <div class="absolute inset-x-0 top-0 h-1 bg-sky-500"></div>
+
+                <div class="flex justify-between items-start gap-4">
+
+                    <div>
+
+                        <p class="text-sm font-medium text-slate-500">
+                            Pengajuan Aktif
+                        </p>
+
+                        <h2 class="text-3xl font-black text-sky-600 mt-2">
+                            {{ $activeLetters }}
+                        </h2>
+
+                        <p class="text-xs text-slate-400 mt-2">
+                            Surat yang masih dalam proses.
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="relative overflow-hidden bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-lg transition">
+
+                <div class="absolute inset-x-0 top-0 h-1 bg-emerald-500"></div>
+
+                <div class="flex justify-between items-start gap-4">
+
+                    <div>
+
+                        <p class="text-sm font-medium text-slate-500">
+                            Surat Selesai
+                        </p>
+
+                        <h2 class="text-3xl font-black text-emerald-600 mt-2">
+                            {{ $completedLetters }}
+                        </h2>
+
+                        <p class="text-xs text-slate-400 mt-2">
+                            Permohonan yang sudah selesai.
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M5 13l4 4L19 7"/>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="relative overflow-hidden bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-lg transition">
+
+                <div class="absolute inset-x-0 top-0 h-1 bg-indigo-500"></div>
+
+                <div class="flex justify-between items-start gap-4">
+
+                    <div>
+
+                        <p class="text-sm font-medium text-slate-500">
+                            Pengaduan
+                        </p>
+
+                        <h2 class="text-3xl font-black text-indigo-600 mt-2">
+                            {{ $complaintCount }}
+                        </h2>
+
+                        <p class="text-xs text-slate-400 mt-2">
+                            Total pengaduan yang pernah dikirim.
+                        </p>
+
+                    </div>
+
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- AKSES CEPAT --}}
+    <section>
+
+        <div class="mb-4">
+
+            <p class="text-xs uppercase tracking-[0.18em] font-bold text-slate-400">
+                Layanan
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
                 Akses Cepat
             </h2>
 
-            <p class="text-sm text-slate-400 mt-1">
-                Pelayanan yang sering digunakan.
+            <p class="text-sm text-slate-500 mt-1">
+                Pilih layanan yang ingin Anda gunakan.
             </p>
+
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
             <a href="{{ route('warga.letters.create') }}"
-               class="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-sky-300 transition">
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-3xl p-5 hover:border-sky-300 hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
-                <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4 group-hover:bg-sky-600 group-hover:text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M12 4v16m8-8H4"/>
-                    </svg>
+                <div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-sky-50"></div>
+
+                <div class="relative">
+
+                    <div class="w-12 h-12 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M12 4v16m8-8H4"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3 class="font-bold text-slate-900 group-hover:text-sky-600 mt-5 transition">
+                        Ajukan Surat
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Buat permohonan surat baru secara online.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-sky-600 mt-5">
+                        Mulai Pengajuan
+
+                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
                 </div>
 
-                <h3 class="font-bold group-hover:text-sky-600 transition">
-                    Ajukan Surat
-                </h3>
-
-                <p class="text-sm text-slate-500 mt-2">
-                    Buat permohonan surat baru.
-                </p>
             </a>
+
 
             <a href="{{ route('warga.letters.index') }}"
-               class="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-blue-300 transition">
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-3xl p-5 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
-                <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
-                    </svg>
+                <div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-blue-50"></div>
+
+                <div class="relative">
+
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3 class="font-bold text-slate-900 group-hover:text-blue-600 mt-5 transition">
+                        Surat Saya
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Lihat status seluruh permohonan surat Anda.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 mt-5">
+                        Lihat Permohonan
+
+                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
                 </div>
 
-                <h3 class="font-bold group-hover:text-blue-600 transition">
-                    Surat Saya
-                </h3>
-
-                <p class="text-sm text-slate-500 mt-2">
-                    Lihat status seluruh permohonan.
-                </p>
             </a>
+
 
             <a href="{{ route('warga.complaints.index') }}"
-               class="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-indigo-300 transition">
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-3xl p-5 hover:border-indigo-300 hover:shadow-xl hover:-translate-y-1 transition duration-300">
 
-                <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
-                    </svg>
+                <div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-indigo-50"></div>
+
+                <div class="relative">
+
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3 class="font-bold text-slate-900 group-hover:text-indigo-600 mt-5 transition">
+                        Pengaduan
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Pantau dan kirim pengaduan kepada desa.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 mt-5">
+                        Lihat Pengaduan
+
+                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
                 </div>
 
-                <h3 class="font-bold group-hover:text-indigo-600 transition">
-                    Pengaduan
-                </h3>
-
-                <p class="text-sm text-slate-500 mt-2">
-                    Pantau dan kirim pengaduan.
-                </p>
             </a>
 
-            <a href="{{ route('warga.notifications.index') }}"
-               class="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-md hover:border-violet-300 transition">
 
-                <div class="w-11 h-11 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center mb-4 group-hover:bg-violet-600 group-hover:text-white transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0a3 3 0 01-6 0"/>
-                    </svg>
+            <a href="{{ route('warga.notifications.index') }}"
+               class="group relative overflow-hidden bg-white border border-slate-200 rounded-3xl p-5 hover:border-violet-300 hover:shadow-xl hover:-translate-y-1 transition duration-300">
+
+                <div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-violet-50"></div>
+
+                <div class="relative">
+
+                    <div class="w-12 h-12 rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0a3 3 0 01-6 0"/>
+
+                        </svg>
+
+                    </div>
+
+                    <h3 class="font-bold text-slate-900 group-hover:text-violet-600 mt-5 transition">
+                        Notifikasi
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mt-2 leading-relaxed">
+                        Lihat pembaruan terbaru dari pelayanan desa.
+                    </p>
+
+                    <span class="inline-flex items-center gap-1 text-sm font-semibold text-violet-600 mt-5">
+                        Buka Notifikasi
+
+                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 18l6-6-6-6"/>
+
+                        </svg>
+
+                    </span>
+
                 </div>
 
-                <h3 class="font-bold group-hover:text-violet-600 transition">
-                    Notifikasi
-                </h3>
-
-                <p class="text-sm text-slate-500 mt-2">
-                    Lihat pembaruan pelayanan terbaru.
-                </p>
             </a>
 
         </div>
-    </div>
+
+    </section>
+
 
     {{-- NOTIFIKASI TERBARU --}}
-    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+    <section class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
 
-        <div class="px-6 py-5 border-b border-slate-200 flex justify-between items-center">
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
 
-            <div>
-                <h2 class="font-bold text-lg">
-                    Notifikasi Terbaru
-                </h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                <p class="text-sm text-slate-400 mt-1">
-                    Informasi terbaru dari pelayanan desa.
-                </p>
+                <div class="flex items-center gap-3">
+
+                    <div class="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center">
+
+                        <svg class="w-5 h-5"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="font-bold text-lg text-slate-900">
+                            Notifikasi Terbaru
+                        </h2>
+
+                        <p class="text-sm text-slate-400 mt-0.5">
+                            Informasi terbaru dari pelayanan desa.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <a href="{{ route('warga.notifications.index') }}"
+                   class="inline-flex items-center gap-1 text-sm text-sky-600 font-semibold hover:text-sky-700">
+
+                    Lihat Semua
+
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M9 18l6-6-6-6"/>
+
+                    </svg>
+
+                </a>
+
             </div>
-
-            <a href="{{ route('warga.notifications.index') }}"
-               class="text-sm text-sky-600 font-semibold hover:text-sky-700">
-                Lihat Semua
-            </a>
 
         </div>
 
@@ -273,11 +559,11 @@
             @forelse($latestNotifications as $notification)
 
                 <a href="{{ route('warga.notifications.read', $notification) }}"
-                   class="block px-6 py-5 hover:bg-sky-50/40 transition">
+                   class="block px-5 sm:px-6 py-5 hover:bg-sky-50/40 transition">
 
-                    <div class="flex justify-between gap-5">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
 
-                        <div class="flex gap-4">
+                        <div class="flex gap-4 min-w-0">
 
                             <div class="w-11 h-11 rounded-xl flex-shrink-0
                                 {{ $notification->type === 'pengaduan'
@@ -287,37 +573,51 @@
 
                                 @if($notification->type === 'pengaduan')
 
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    <svg class="w-5 h-5"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+
+                                        <path stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
                                               d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+
                                     </svg>
 
                                 @else
 
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    <svg class="w-5 h-5"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+
+                                        <path stroke-width="2"
+                                              stroke-linecap="round"
+                                              stroke-linejoin="round"
                                               d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
+
                                     </svg>
 
                                 @endif
 
                             </div>
 
-                            <div>
+                            <div class="min-w-0">
 
                                 <div class="flex items-center gap-2">
 
-                                    <h3 class="font-semibold text-slate-800">
+                                    <h3 class="font-semibold text-slate-900 truncate">
                                         {{ $notification->title }}
                                     </h3>
 
                                     @if(!$notification->is_read)
-                                        <span class="w-2 h-2 bg-sky-500 rounded-full"></span>
+                                        <span class="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></span>
                                     @endif
 
                                 </div>
 
-                                <p class="text-sm text-slate-500 mt-1">
+                                <p class="text-sm text-slate-500 mt-1 leading-relaxed">
                                     {{ $notification->message }}
                                 </p>
 
@@ -330,9 +630,11 @@
                         </div>
 
                         @if(!$notification->is_read)
-                            <span class="bg-sky-100 text-sky-700 text-xs font-semibold px-3 py-1 rounded-full h-fit">
+
+                            <span class="inline-flex w-fit bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold px-3 py-1.5 rounded-full">
                                 Baru
                             </span>
+
                         @endif
 
                     </div>
@@ -343,11 +645,20 @@
 
                 <div class="px-6 py-14 text-center">
 
-                    <div class="w-14 h-14 bg-sky-50 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    <div class="w-14 h-14 bg-sky-50 text-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24">
+
+                            <path stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
                                   d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5"/>
+
                         </svg>
+
                     </div>
 
                     <p class="font-semibold text-slate-600">
@@ -363,7 +674,8 @@
             @endforelse
 
         </div>
-    </div>
+
+    </section>
 
 </div>
 
