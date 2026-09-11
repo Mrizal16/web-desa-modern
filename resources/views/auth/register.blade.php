@@ -443,9 +443,16 @@
 
                     {{-- BUTTON --}}
                     <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold px-5 py-3.5 rounded-xl shadow-md shadow-sky-100 transition">
+                            class="w-full inline-flex items-center justify-center bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-semibold px-5 py-3.5 rounded-xl shadow-md shadow-sky-100 transition">
 
                         Buat Akun Warga
+
+                    </button>
+
+
+                    {{-- KEMBALI KE HALAMAN UTAMA --}}
+                    <a href="{{ route('home') }}"
+                       class="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-5 py-3.5 rounded-xl font-semibold transition">
 
                         <svg class="w-5 h-5"
                              fill="none"
@@ -455,10 +462,13 @@
                             <path stroke-width="2"
                                   stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  d="M5 12h14M13 6l6 6-6 6"/>
+                                  d="M15 18l-6-6 6-6"/>
+
                         </svg>
 
-                    </button>
+                        Kembali ke Halaman Utama
+
+                    </a>
 
                 </form>
 
