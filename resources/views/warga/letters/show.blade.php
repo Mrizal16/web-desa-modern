@@ -8,41 +8,52 @@
     $status = strtoupper($letterRequest->status ?? '');
 @endphp
 
-<div class="space-y-6">
+<div class="space-y-8">
 
-    {{-- HEADER --}}
-    <div>
-        <a href="{{ route('warga.letters.index') }}"
-           class="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 transition">
+    {{-- HERO --}}
+    <section class="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 rounded-[2rem] p-6 sm:p-8 text-white shadow-xl shadow-blue-100">
 
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      d="M15 19l-7-7 7-7"/>
-            </svg>
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-24 left-1/3 w-72 h-72 bg-white/10 rounded-full"></div>
 
-            Kembali ke Surat Saya
-        </a>
+        <div class="relative z-10">
 
-        <div class="mt-5">
-            <p class="text-sm font-semibold text-sky-600">
-                Administrasi Surat
-            </p>
+            <a href="{{ route('warga.letters.index') }}"
+               class="inline-flex items-center gap-2 text-sm font-semibold text-blue-100 hover:text-white transition">
 
-            <h1 class="text-3xl font-bold text-slate-800 mt-1">
-                Detail Permohonan
-            </h1>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          d="M15 19l-7-7 7-7"/>
+                </svg>
 
-            <p class="text-slate-500 mt-1">
-                Lihat informasi, dokumen, dan perkembangan permohonan surat Anda.
-            </p>
+                Kembali ke Surat Saya
+            </a>
+
+            <div class="mt-5 max-w-3xl">
+
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-blue-100">
+                    Administrasi Surat
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-4">
+                    Detail Permohonan
+                </h1>
+
+                <p class="text-blue-100 mt-3 leading-relaxed">
+                    Lihat informasi, dokumen, status, dan perkembangan permohonan surat Anda.
+                </p>
+
+            </div>
+
         </div>
-    </div>
+
+    </section>
 
     {{-- SUCCESS --}}
     @if(session('success'))
-        <div class="flex items-start gap-3 bg-sky-50 border border-sky-200 text-sky-700 p-4 rounded-2xl">
+        <div class="flex items-start gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-2xl">
 
-            <div class="w-9 h-9 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                           d="M5 13l4 4L19 7"/>
@@ -68,13 +79,13 @@
         <div class="xl:col-span-2 space-y-6">
 
             {{-- INFORMASI PERMOHONAN --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
 
                     <div class="flex items-start gap-4">
 
-                        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
 
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -88,7 +99,7 @@
                                 Jenis Surat
                             </p>
 
-                            <h2 class="text-xl md:text-2xl font-bold text-slate-800 mt-1">
+                            <h2 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">
                                 {{ $letterRequest->letterType->name ?? '-' }}
                             </h2>
                         </div>
@@ -102,46 +113,46 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         {{-- NOMOR --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs text-slate-400">
                                 Nomor Permohonan
                             </p>
 
-                            <p class="font-semibold text-slate-800 mt-1">
+                            <p class="font-semibold text-slate-900 mt-1">
                                 {{ $letterRequest->request_number }}
                             </p>
 
                         </div>
 
                         {{-- TANGGAL --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs text-slate-400">
                                 Tanggal Pengajuan
                             </p>
 
-                            <p class="font-semibold text-slate-800 mt-1">
+                            <p class="font-semibold text-slate-900 mt-1">
                                 {{ $letterRequest->created_at->format('d M Y, H:i') }}
                             </p>
 
                         </div>
 
                         {{-- PEMOHON --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs text-slate-400">
                                 Nama Pemohon
                             </p>
 
-                            <p class="font-semibold text-slate-800 mt-1">
+                            <p class="font-semibold text-slate-900 mt-1">
                                 {{ $letterRequest->user->name ?? auth()->user()->name }}
                             </p>
 
                         </div>
 
                         {{-- PENERIMAAN --}}
-                        <div class="border border-slate-200 rounded-xl p-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
 
                             <p class="text-xs text-slate-400">
                                 Pilihan Awal Penerimaan
@@ -151,7 +162,7 @@
 
                                 @if($letterRequest->delivery_method === 'pdf')
 
-                                    <span class="inline-flex items-center gap-2 bg-sky-50 text-sky-700 border border-sky-100 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                    <span class="inline-flex items-center gap-2 bg-sky-50 text-emerald-700 border border-sky-100 px-3 py-1.5 rounded-full text-xs font-semibold">
 
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -186,7 +197,7 @@
                     {{-- KEPERLUAN --}}
                     <div class="mt-6">
 
-                        <h3 class="font-bold text-slate-800">
+                        <h3 class="font-bold text-slate-900">
                             Keperluan Surat
                         </h3>
 
@@ -205,9 +216,9 @@
             </div>
 
             {{-- DOKUMEN --}}
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/30">
 
                     <div class="flex items-center gap-3">
 
@@ -221,7 +232,7 @@
                         </div>
 
                         <div>
-                            <h2 class="font-bold text-slate-800">
+                            <h2 class="font-bold text-slate-900">
                                 Dokumen Persyaratan
                             </h2>
 
@@ -238,7 +249,7 @@
 
                     @forelse($letterRequest->documents as $document)
 
-                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border border-slate-200 bg-slate-50/50 rounded-xl p-4">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 border border-slate-200 bg-gradient-to-r from-white to-sky-50/40 rounded-2xl p-4">
 
                             <div class="flex items-center gap-3">
 
@@ -253,7 +264,7 @@
 
                                 <div class="min-w-0">
 
-                                    <p class="font-semibold text-slate-800">
+                                    <p class="font-semibold text-slate-900">
                                         {{ $document->document_type }}
                                     </p>
 
@@ -307,11 +318,11 @@
             {{-- CATATAN ADMIN --}}
             @if(!empty($letterRequest->admin_note))
 
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                    <div class="px-6 py-5 border-b border-slate-200">
+                    <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/30">
 
-                        <h2 class="font-bold text-slate-800">
+                        <h2 class="font-bold text-slate-900">
                             Catatan Admin
                         </h2>
 
@@ -422,11 +433,6 @@
 
                             Perbaiki Permohonan
 
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                      d="M9 18l6-6-6-6"/>
-                            </svg>
-
                         </a>
 
                     </div>
@@ -440,7 +446,7 @@
 
                 @if($letterRequest->final_delivery_method === 'pdf')
 
-                    <div class="bg-sky-50 border border-sky-200 rounded-2xl p-6">
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-3xl p-6">
 
                         <div class="flex gap-4">
 
@@ -455,11 +461,11 @@
 
                             <div class="flex-1">
 
-                                <h2 class="font-bold text-xl text-sky-800">
+                                <h2 class="font-bold text-xl text-emerald-800">
                                     Surat Siap Diunduh
                                 </h2>
 
-                                <p class="text-sm text-sky-700 mt-2">
+                                <p class="text-sm text-emerald-700 mt-2">
                                     Permohonan Anda telah selesai. Surat tersedia dalam bentuk PDF.
                                 </p>
 
@@ -495,11 +501,11 @@
 
                     @if($letterRequest->pickup_status === 'SUDAH DIAMBIL')
 
-                        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-6">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-3xl p-6">
 
                             <div class="flex gap-4">
 
-                                <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
 
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -509,11 +515,11 @@
                                 </div>
 
                                 <div>
-                                    <h2 class="font-bold text-xl text-sky-800">
+                                    <h2 class="font-bold text-xl text-emerald-800">
                                         Surat Sudah Diambil
                                     </h2>
 
-                                    <p class="text-sky-700 mt-2">
+                                    <p class="text-emerald-700 mt-2">
                                         Surat Anda telah diambil dari Balai Desa.
                                     </p>
                                 </div>
@@ -549,7 +555,7 @@
 
                                     <div class="bg-white border border-blue-200 rounded-xl p-4 mt-4">
 
-                                        <p class="font-semibold text-slate-800">
+                                        <p class="font-semibold text-slate-900">
                                             Jangan lupa membawa identitas.
                                         </p>
 
@@ -576,15 +582,15 @@
         {{-- SIDEBAR STATUS --}}
         <div class="space-y-5">
 
-            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden sticky top-24">
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden xl:sticky xl:top-6">
 
-                <div class="px-6 py-5 border-b border-slate-200">
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/30">
 
                     <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
                         Status
                     </p>
 
-                    <h2 class="font-bold text-slate-800 mt-1">
+                    <h2 class="font-bold text-slate-900 mt-1">
                         Status Permohonan
                     </h2>
 
@@ -625,8 +631,8 @@
 
                         @elseif($status === 'SELESAI')
 
-                            <span class="inline-flex items-center gap-2 bg-sky-50 text-sky-700 border border-sky-200 px-3 py-1.5 rounded-full text-sm font-semibold">
-                                <span class="w-2 h-2 bg-sky-500 rounded-full"></span>
+                            <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full text-sm font-semibold">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
                                 Selesai
                             </span>
 
@@ -687,7 +693,7 @@
 
                             @if($letterRequest->final_delivery_method === 'pdf')
 
-                                <p class="font-semibold text-sky-700 text-sm">
+                                <p class="font-semibold text-emerald-700 text-sm">
                                     Surat selesai
                                 </p>
 
@@ -699,7 +705,7 @@
 
                                 @if($letterRequest->pickup_status === 'SUDAH DIAMBIL')
 
-                                    <p class="font-semibold text-sky-700 text-sm">
+                                    <p class="font-semibold text-emerald-700 text-sm">
                                         Surat sudah diambil
                                     </p>
 
@@ -734,7 +740,7 @@
                     {{-- TIMELINE --}}
                     <div class="border-t border-slate-200 mt-6 pt-5">
 
-                        <h3 class="font-bold text-slate-800 text-sm mb-5">
+                        <h3 class="font-bold text-slate-900 text-sm mb-5">
                             Riwayat Waktu
                         </h3>
 
@@ -742,7 +748,7 @@
 
                             <div class="flex gap-3">
 
-                                <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
 
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

@@ -4,79 +4,127 @@
 
 @section('content')
 
-<div class="max-w-5xl mx-auto space-y-6">
+<div class="max-w-5xl mx-auto space-y-8">
 
-    {{-- HEADER --}}
-    <div>
-        <a href="{{ route('warga.letters.show', $letterRequest) }}"
-           class="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 transition">
+    {{-- HERO --}}
+    <section class="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 rounded-[2rem] p-6 sm:p-8 text-white shadow-xl shadow-blue-100">
 
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      d="M15 19l-7-7 7-7"/>
-            </svg>
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full"></div>
+        <div class="absolute -bottom-24 left-1/3 w-72 h-72 bg-white/10 rounded-full"></div>
 
-            Kembali ke Detail
-        </a>
+        <div class="relative z-10">
 
-        <div class="mt-5">
-            <p class="text-sm font-semibold text-sky-600">
-                Revisi Permohonan
-            </p>
+            <a href="{{ route('warga.letters.show', $letterRequest) }}"
+               class="inline-flex items-center gap-2 text-sm font-semibold text-blue-100 hover:text-white transition">
 
-            <h1 class="text-3xl font-bold text-slate-800 mt-1">
-                Perbaiki Permohonan
-            </h1>
+                <svg class="w-4 h-4"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
 
-            <p class="text-slate-500 mt-1">
-                Perbaiki data atau dokumen sesuai catatan yang diberikan oleh admin desa.
-            </p>
+                    <path stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 19l-7-7 7-7"/>
+
+                </svg>
+
+                Kembali ke Detail
+
+            </a>
+
+            <div class="mt-5 max-w-3xl">
+
+                <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-blue-100">
+                    Revisi Permohonan
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-black tracking-tight mt-4">
+                    Perbaiki Permohonan
+                </h1>
+
+                <p class="text-blue-100 mt-3 leading-relaxed">
+                    Perbaiki data atau dokumen sesuai catatan yang diberikan oleh admin desa.
+                </p>
+
+            </div>
+
         </div>
-    </div>
+
+    </section>
+
 
     {{-- ERROR --}}
     @if($errors->any())
+
         <div class="bg-red-50 border border-red-200 rounded-2xl p-5">
+
             <div class="flex gap-3">
 
                 <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                               d="M12 9v4m0 4h.01M10.3 3.7L2.7 17a2 2 0 001.7 3h15.2a2 2 0 001.7-3L13.7 3.7a2 2 0 00-3.4 0z"/>
+
                     </svg>
+
                 </div>
 
                 <div>
+
                     <p class="font-semibold text-red-700">
                         Periksa kembali data perbaikan
                     </p>
 
                     <ul class="list-disc pl-5 mt-2 text-sm text-red-600 space-y-1">
+
                         @foreach($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
+
                     </ul>
+
                 </div>
 
             </div>
+
         </div>
+
     @endif
+
 
     {{-- CATATAN ADMIN --}}
     @if($letterRequest->admin_note)
 
-        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5">
+        <div class="bg-amber-50 border border-amber-200 rounded-3xl p-5">
 
             <div class="flex gap-4">
 
                 <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                    <svg class="w-5 h-5"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
                               d="M12 9v4m0 4h.01M10.3 3.7L2.7 17a2 2 0 001.7 3h15.2a2 2 0 001.7-3L13.7 3.7a2 2 0 00-3.4 0z"/>
+
                     </svg>
+
                 </div>
 
                 <div>
+
                     <p class="text-sm font-bold text-amber-800">
                         Catatan Perbaikan dari Admin
                     </p>
@@ -84,6 +132,7 @@
                     <p class="text-sm text-amber-800 leading-relaxed mt-2 whitespace-pre-line">
                         {{ $letterRequest->admin_note }}
                     </p>
+
                 </div>
 
             </div>
@@ -91,6 +140,7 @@
         </div>
 
     @endif
+
 
     <form action="{{ route('warga.letters.revision.update', $letterRequest) }}"
           method="POST"
@@ -99,40 +149,53 @@
         @csrf
         @method('PUT')
 
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {{-- FORM UTAMA --}}
             <div class="lg:col-span-2 space-y-6">
 
                 {{-- DATA PERMOHONAN --}}
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <section class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                    <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
+                    <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
 
                         <div class="flex items-center gap-3">
 
                             <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                                <svg class="w-5 h-5"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
                                           d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
+
                                 </svg>
+
                             </div>
 
                             <div>
-                                <h2 class="font-bold text-slate-800">
+
+                                <h2 class="font-bold text-lg text-slate-900">
                                     Data Permohonan
                                 </h2>
 
-                                <p class="text-sm text-slate-400 mt-1">
+                                <p class="text-sm text-slate-400 mt-0.5">
                                     Perbarui informasi yang perlu diperbaiki.
                                 </p>
+
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div class="p-6">
+
+                    <div class="p-5 sm:p-6">
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
                             Keperluan Surat
@@ -143,7 +206,7 @@
                                   rows="5"
                                   required
                                   placeholder="Jelaskan tujuan penggunaan surat..."
-                                  class="w-full resize-none border border-slate-300 rounded-xl px-4 py-3 text-slate-700 placeholder:text-slate-400 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">{{ old('purpose', $letterRequest->purpose) }}</textarea>
+                                  class="w-full resize-none border border-slate-300 rounded-xl px-4 py-3.5 text-slate-700 placeholder:text-slate-400 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">{{ old('purpose', $letterRequest->purpose) }}</textarea>
 
                         <p class="text-xs text-slate-400 mt-2">
                             Pastikan tujuan surat sudah sesuai dengan perbaikan yang diminta admin.
@@ -151,46 +214,63 @@
 
                     </div>
 
-                </div>
+                </section>
+
 
                 {{-- DOKUMEN --}}
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <section class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
-                    <div class="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
+                    <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
 
                         <div class="flex items-center gap-3">
 
                             <div class="w-11 h-11 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                                <svg class="w-5 h-5"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
                                           d="M12 16V4m0 0L7 9m5-5l5 5M5 20h14"/>
+
                                 </svg>
+
                             </div>
 
                             <div>
-                                <h2 class="font-bold text-slate-800">
+
+                                <h2 class="font-bold text-lg text-slate-900">
                                     Upload Ulang Dokumen
                                 </h2>
 
-                                <p class="text-sm text-slate-400 mt-1">
+                                <p class="text-sm text-slate-400 mt-0.5">
                                     Upload hanya dokumen yang perlu diperbaiki.
                                 </p>
+
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div class="p-6 space-y-5">
 
-                        <div class="bg-sky-50 border border-sky-100 rounded-xl px-4 py-3">
+                    <div class="p-5 sm:p-6 space-y-5">
+
+                        <div class="bg-sky-50 border border-sky-100 rounded-2xl px-4 py-3">
+
                             <p class="text-sm text-sky-700">
                                 Jika dokumen tidak diganti, sistem akan tetap menggunakan dokumen lama.
                             </p>
+
                         </div>
+
 
                         {{-- KTP --}}
                         <div>
+
                             <label class="block text-sm font-semibold text-slate-700 mb-2">
                                 KTP
                             </label>
@@ -200,13 +280,23 @@
                                 <div class="flex items-center gap-4">
 
                                     <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                                        <svg class="w-5 h-5"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             viewBox="0 0 24 24">
+
+                                            <path stroke-width="2"
+                                                  stroke-linecap="round"
+                                                  stroke-linejoin="round"
                                                   d="M12 16V4m0 0L7 9m5-5l5 5M5 20h14"/>
+
                                         </svg>
+
                                     </div>
 
                                     <div class="min-w-0">
+
                                         <p class="font-semibold text-slate-700">
                                             Upload KTP Baru
                                         </p>
@@ -218,6 +308,7 @@
                                         <p id="ktpFileName"
                                            class="hidden text-xs text-sky-600 font-semibold mt-1 truncate">
                                         </p>
+
                                     </div>
 
                                 </div>
@@ -229,10 +320,13 @@
                                        onchange="showFileName(this, 'ktpFileName')">
 
                             </label>
+
                         </div>
+
 
                         {{-- KK --}}
                         <div>
+
                             <label class="block text-sm font-semibold text-slate-700 mb-2">
                                 Kartu Keluarga
                             </label>
@@ -242,13 +336,23 @@
                                 <div class="flex items-center gap-4">
 
                                     <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                                        <svg class="w-5 h-5"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             viewBox="0 0 24 24">
+
+                                            <path stroke-width="2"
+                                                  stroke-linecap="round"
+                                                  stroke-linejoin="round"
                                                   d="M12 16V4m0 0L7 9m5-5l5 5M5 20h14"/>
+
                                         </svg>
+
                                     </div>
 
                                     <div class="min-w-0">
+
                                         <p class="font-semibold text-slate-700">
                                             Upload Kartu Keluarga Baru
                                         </p>
@@ -260,6 +364,7 @@
                                         <p id="kkFileName"
                                            class="hidden text-xs text-sky-600 font-semibold mt-1 truncate">
                                         </p>
+
                                     </div>
 
                                 </div>
@@ -271,10 +376,13 @@
                                        onchange="showFileName(this, 'kkFileName')">
 
                             </label>
+
                         </div>
+
 
                         {{-- PENDUKUNG --}}
                         <div>
+
                             <label class="block text-sm font-semibold text-slate-700 mb-2">
                                 Dokumen Pendukung
                             </label>
@@ -284,13 +392,23 @@
                                 <div class="flex items-center gap-4">
 
                                     <div class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                                        <svg class="w-5 h-5"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             viewBox="0 0 24 24">
+
+                                            <path stroke-width="2"
+                                                  stroke-linecap="round"
+                                                  stroke-linejoin="round"
                                                   d="M15.2 7.8l-6.8 6.8a2 2 0 102.8 2.8l7.5-7.5a4 4 0 00-5.7-5.7L5.5 11.7a6 6 0 108.5 8.5l6-6"/>
+
                                         </svg>
+
                                     </div>
 
                                     <div class="min-w-0">
+
                                         <p class="font-semibold text-slate-700">
                                             Upload Dokumen Pendukung Baru
                                         </p>
@@ -302,6 +420,7 @@
                                         <p id="supportingFileName"
                                            class="hidden text-xs text-indigo-600 font-semibold mt-1 truncate">
                                         </p>
+
                                     </div>
 
                                 </div>
@@ -313,34 +432,41 @@
                                        onchange="showFileName(this, 'supportingFileName')">
 
                             </label>
+
                         </div>
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
+
             {{-- SIDEBAR --}}
-            <div class="space-y-5">
+            <aside class="space-y-5">
 
-                <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden lg:sticky lg:top-6">
 
-                    <div class="px-5 py-4 border-b border-slate-200">
-                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                    <div class="px-5 py-4 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/30">
+
+                        <p class="text-xs uppercase tracking-[0.18em] font-semibold text-sky-600">
                             Status
                         </p>
 
-                        <h3 class="font-bold text-slate-800 mt-1">
+                        <h3 class="font-bold text-slate-900 mt-1">
                             Perlu Perbaikan
                         </h3>
+
                     </div>
 
                     <div class="p-5">
 
                         <span class="inline-flex items-center gap-2 bg-orange-50 text-orange-700 border border-orange-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+
                             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+
                             Perlu Perbaikan
+
                         </span>
 
                         <p class="text-sm text-slate-500 leading-relaxed mt-4">
@@ -351,18 +477,29 @@
 
                 </div>
 
-                <div class="bg-sky-50 border border-sky-200 rounded-2xl p-5">
+
+                <div class="bg-sky-50 border border-sky-200 rounded-3xl p-5">
 
                     <div class="flex gap-3">
 
                         <div class="w-10 h-10 rounded-xl bg-white text-sky-600 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+                            <svg class="w-5 h-5"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
                                       d="M12 9h.01M11 12h1v4h1m8-4a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
                             </svg>
+
                         </div>
 
                         <div>
+
                             <p class="font-semibold text-sky-800">
                                 Tips Perbaikan
                             </p>
@@ -370,34 +507,34 @@
                             <p class="text-sm text-sky-700 leading-relaxed mt-2">
                                 Baca catatan admin dengan teliti dan hanya ganti bagian yang diminta agar proses verifikasi lebih cepat.
                             </p>
+
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </aside>
 
         </div>
 
+
         {{-- ACTION --}}
-        <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+        <div class="mt-6 bg-white border border-slate-200 rounded-3xl p-5 shadow-sm flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
 
             <a href="{{ route('warga.letters.show', $letterRequest) }}"
                class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-white border border-slate-300 text-slate-600 font-semibold hover:bg-slate-100 transition">
+
                 Batal
+
             </a>
 
             <button type="submit"
                     onclick="return confirm('Kirim perbaikan permohonan ini ke admin?')"
-                    class="inline-flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition">
-
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          d="M5 12h14M13 6l6 6-6 6"/>
-                </svg>
+                    class="inline-flex items-center justify-center bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition">
 
                 Kirim Perbaikan
+
             </button>
 
         </div>
@@ -405,6 +542,7 @@
     </form>
 
 </div>
+
 
 <script>
     function showFileName(input, elementId) {
