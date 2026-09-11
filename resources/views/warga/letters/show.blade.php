@@ -73,6 +73,428 @@
         </div>
     @endif
 
+
+    {{-- PROGRESS PERMOHONAN --}}
+    @php
+        $isWaiting  = $status === 'MENUNGGU VERIFIKASI';
+        $isProcess  = $status === 'DIPROSES';
+        $isRevision = $status === 'PERLU PERBAIKAN';
+        $isRejected = $status === 'DITOLAK';
+        $isDone     = $status === 'SELESAI';
+
+        $stepTwoDone   = $isProcess || $isDone;
+        $stepThreeDone = $isDone;
+    @endphp
+
+    <section class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
+
+            <p class="text-xs uppercase tracking-[0.18em] font-bold text-sky-600">
+                Progress Permohonan
+            </p>
+
+            <h2 class="font-bold text-xl text-slate-900 mt-1">
+                Tahapan Proses Surat
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Pantau posisi permohonan Anda pada setiap tahap proses.
+            </p>
+
+        </div>
+
+
+        {{-- MOBILE STEPPER --}}
+        <div class="sm:hidden p-5">
+
+            <div class="relative space-y-1">
+
+                {{-- STEP 1 --}}
+                <div class="relative flex gap-4 pb-6">
+
+                    <div class="absolute left-[17px] top-9 bottom-0 w-0.5 bg-sky-200"></div>
+
+                    <div class="relative z-10 w-9 h-9 rounded-full bg-sky-600 text-white flex items-center justify-center flex-shrink-0">
+
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M5 13l4 4L19 7"/>
+                        </svg>
+
+                    </div>
+
+                    <div class="pt-1">
+
+                        <p class="font-bold text-slate-900">
+                            Diajukan
+                        </p>
+
+                        <p class="text-xs text-slate-500 mt-1">
+                            Permohonan berhasil dikirim.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- STEP 2 --}}
+                <div class="relative flex gap-4 pb-6">
+
+                    <div class="absolute left-[17px] top-9 bottom-0 w-0.5
+                        {{ $stepTwoDone || $isDone ? 'bg-sky-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="relative z-10 w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0
+                        {{ $isRejected
+                            ? 'bg-red-500 text-white'
+                            : ($isRevision
+                                ? 'bg-orange-500 text-white'
+                                : ($stepTwoDone
+                                    ? 'bg-sky-600 text-white'
+                                    : ($isWaiting
+                                        ? 'bg-amber-500 text-white ring-4 ring-amber-100'
+                                        : 'bg-slate-100 text-slate-400'))) }}">
+
+                        @if($isRejected)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+
+                        @elseif($isRevision)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 9v4m0 4h.01"/>
+                            </svg>
+
+                        @elseif($stepTwoDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">2</span>
+
+                        @endif
+
+                    </div>
+
+                    <div class="pt-1">
+
+                        <p class="font-bold
+                            {{ $isRejected
+                                ? 'text-red-700'
+                                : ($isRevision
+                                    ? 'text-orange-700'
+                                    : ($isWaiting ? 'text-amber-700' : 'text-slate-900')) }}">
+
+                            @if($isRejected)
+                                Ditolak
+                            @elseif($isRevision)
+                                Perlu Perbaikan
+                            @else
+                                Verifikasi
+                            @endif
+
+                        </p>
+
+                        <p class="text-xs text-slate-500 mt-1">
+
+                            @if($isRejected)
+                                Permohonan berhenti pada tahap verifikasi.
+                            @elseif($isRevision)
+                                Ada data atau dokumen yang perlu diperbaiki.
+                            @elseif($isWaiting)
+                                Sedang menunggu pemeriksaan admin.
+                            @else
+                                Data telah melewati tahap pemeriksaan.
+                            @endif
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- STEP 3 --}}
+                <div class="relative flex gap-4 pb-6">
+
+                    <div class="absolute left-[17px] top-9 bottom-0 w-0.5
+                        {{ $stepThreeDone ? 'bg-emerald-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="relative z-10 w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0
+                        {{ $stepThreeDone
+                            ? 'bg-sky-600 text-white'
+                            : ($isProcess
+                                ? 'bg-blue-600 text-white ring-4 ring-blue-100'
+                                : 'bg-slate-100 text-slate-400') }}">
+
+                        @if($stepThreeDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">3</span>
+
+                        @endif
+
+                    </div>
+
+                    <div class="pt-1">
+
+                        <p class="font-bold {{ $isProcess ? 'text-blue-700' : 'text-slate-900' }}">
+                            Diproses
+                        </p>
+
+                        <p class="text-xs text-slate-500 mt-1">
+                            {{ $isProcess ? 'Surat sedang diproses oleh admin desa.' : 'Tahap pemrosesan surat oleh admin.' }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- STEP 4 --}}
+                <div class="relative flex gap-4">
+
+                    <div class="relative z-10 w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0
+                        {{ $isDone
+                            ? 'bg-emerald-500 text-white ring-4 ring-emerald-100'
+                            : 'bg-slate-100 text-slate-400' }}">
+
+                        @if($isDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">4</span>
+
+                        @endif
+
+                    </div>
+
+                    <div class="pt-1">
+
+                        <p class="font-bold {{ $isDone ? 'text-emerald-700' : 'text-slate-900' }}">
+                            Selesai
+                        </p>
+
+                        <p class="text-xs text-slate-500 mt-1">
+                            {{ $isDone ? 'Surat telah selesai diproses.' : 'Surat akan tersedia setelah seluruh proses selesai.' }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- DESKTOP / TABLET STEPPER --}}
+        <div class="hidden sm:block p-6 lg:p-7">
+
+            <div class="grid grid-cols-4 gap-0">
+
+                {{-- STEP 1 --}}
+                <div class="relative text-center">
+
+                    <div class="absolute top-[18px] left-1/2 right-0 h-0.5 bg-sky-200"></div>
+
+                    <div class="relative z-10 w-9 h-9 mx-auto rounded-full bg-sky-600 text-white flex items-center justify-center">
+
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M5 13l4 4L19 7"/>
+                        </svg>
+
+                    </div>
+
+                    <p class="font-bold text-sm text-slate-900 mt-3">
+                        Diajukan
+                    </p>
+
+                    <p class="text-xs text-slate-400 mt-1 px-2">
+                        Permohonan dikirim
+                    </p>
+
+                </div>
+
+
+                {{-- STEP 2 --}}
+                <div class="relative text-center">
+
+                    <div class="absolute top-[18px] left-0 right-1/2 h-0.5 bg-sky-200"></div>
+
+                    <div class="absolute top-[18px] left-1/2 right-0 h-0.5
+                        {{ $stepTwoDone ? 'bg-sky-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="relative z-10 w-9 h-9 mx-auto rounded-full flex items-center justify-center
+                        {{ $isRejected
+                            ? 'bg-red-500 text-white'
+                            : ($isRevision
+                                ? 'bg-orange-500 text-white'
+                                : ($stepTwoDone
+                                    ? 'bg-sky-600 text-white'
+                                    : ($isWaiting
+                                        ? 'bg-amber-500 text-white ring-4 ring-amber-100'
+                                        : 'bg-slate-100 text-slate-400'))) }}">
+
+                        @if($isRejected)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+
+                        @elseif($isRevision)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 9v4m0 4h.01"/>
+                            </svg>
+
+                        @elseif($stepTwoDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">2</span>
+
+                        @endif
+
+                    </div>
+
+                    <p class="font-bold text-sm mt-3
+                        {{ $isRejected
+                            ? 'text-red-700'
+                            : ($isRevision
+                                ? 'text-orange-700'
+                                : ($isWaiting ? 'text-amber-700' : 'text-slate-900')) }}">
+
+                        @if($isRejected)
+                            Ditolak
+                        @elseif($isRevision)
+                            Perlu Perbaikan
+                        @else
+                            Verifikasi
+                        @endif
+
+                    </p>
+
+                    <p class="text-xs text-slate-400 mt-1 px-2">
+                        Pemeriksaan admin
+                    </p>
+
+                </div>
+
+
+                {{-- STEP 3 --}}
+                <div class="relative text-center">
+
+                    <div class="absolute top-[18px] left-0 right-1/2 h-0.5
+                        {{ $stepTwoDone ? 'bg-sky-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="absolute top-[18px] left-1/2 right-0 h-0.5
+                        {{ $stepThreeDone ? 'bg-emerald-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="relative z-10 w-9 h-9 mx-auto rounded-full flex items-center justify-center
+                        {{ $stepThreeDone
+                            ? 'bg-sky-600 text-white'
+                            : ($isProcess
+                                ? 'bg-blue-600 text-white ring-4 ring-blue-100'
+                                : 'bg-slate-100 text-slate-400') }}">
+
+                        @if($stepThreeDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">3</span>
+
+                        @endif
+
+                    </div>
+
+                    <p class="font-bold text-sm mt-3 {{ $isProcess ? 'text-blue-700' : 'text-slate-900' }}">
+                        Diproses
+                    </p>
+
+                    <p class="text-xs text-slate-400 mt-1 px-2">
+                        Pembuatan surat
+                    </p>
+
+                </div>
+
+
+                {{-- STEP 4 --}}
+                <div class="relative text-center">
+
+                    <div class="absolute top-[18px] left-0 right-1/2 h-0.5
+                        {{ $isDone ? 'bg-emerald-200' : 'bg-slate-200' }}"></div>
+
+                    <div class="relative z-10 w-9 h-9 mx-auto rounded-full flex items-center justify-center
+                        {{ $isDone
+                            ? 'bg-emerald-500 text-white ring-4 ring-emerald-100'
+                            : 'bg-slate-100 text-slate-400' }}">
+
+                        @if($isDone)
+
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+                            </svg>
+
+                        @else
+
+                            <span class="text-xs font-black">4</span>
+
+                        @endif
+
+                    </div>
+
+                    <p class="font-bold text-sm mt-3 {{ $isDone ? 'text-emerald-700' : 'text-slate-900' }}">
+                        Selesai
+                    </p>
+
+                    <p class="text-xs text-slate-400 mt-1 px-2">
+                        Surat tersedia
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         {{-- KONTEN UTAMA --}}
@@ -85,7 +507,7 @@
 
                     <div class="flex items-start gap-4">
 
-                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0">
+                        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0">
 
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -162,7 +584,7 @@
 
                                 @if($letterRequest->delivery_method === 'pdf')
 
-                                    <span class="inline-flex items-center gap-2 bg-sky-50 text-emerald-700 border border-sky-100 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                    <span class="inline-flex items-center gap-2 bg-sky-50 text-sky-700 border border-sky-100 px-3 py-1.5 rounded-full text-xs font-semibold">
 
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

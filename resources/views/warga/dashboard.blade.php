@@ -15,7 +15,20 @@
         ->where('status', 'SELESAI')
         ->count();
 
+    $revisionLetters = \App\Models\LetterRequest::where('user_id', $userId)
+        ->where('status', 'PERLU PERBAIKAN')
+        ->count();
+
     $complaintCount = \App\Models\Complaint::where('user_id', $userId)->count();
+
+    $latestLetter = \App\Models\LetterRequest::with('letterType')
+        ->where('user_id', $userId)
+        ->latest()
+        ->first();
+
+    $latestComplaint = \App\Models\Complaint::where('user_id', $userId)
+        ->latest()
+        ->first();
 
     $latestNotifications = \App\Models\Notification::where('user_id', $userId)
         ->latest()
@@ -99,6 +112,50 @@
         </div>
 
     </section>
+
+
+    {{-- ALERT PERBAIKAN --}}
+    @if($revisionLetters > 0)
+
+        <section class="bg-orange-50 border border-orange-200 rounded-3xl p-5 sm:p-6">
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+
+                <div class="flex gap-4">
+
+                    <div class="w-11 h-11 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center flex-shrink-0">
+
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 9v4m0 4h.01"/>
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <p class="font-bold text-orange-900">
+                            Ada {{ $revisionLetters }} permohonan yang perlu diperbaiki
+                        </p>
+
+                        <p class="text-sm text-orange-700 mt-1 leading-relaxed">
+                            Periksa catatan admin dan kirim perbaikan agar permohonan dapat diproses kembali.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <a href="{{ route('warga.letters.index') }}"
+                   class="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold transition flex-shrink-0">
+                    Lihat Permohonan
+                </a>
+
+            </div>
+
+        </section>
+
+    @endif
 
 
     {{-- STATISTIK --}}
@@ -255,6 +312,263 @@
     </section>
 
 
+    {{-- AKTIVITAS TERBARU --}}
+    <section>
+
+        <div class="mb-4">
+
+            <p class="text-xs uppercase tracking-[0.18em] font-bold text-sky-600">
+                Terbaru
+            </p>
+
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
+                Aktivitas Terakhir
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Lihat perkembangan terbaru dari layanan yang Anda gunakan.
+            </p>
+
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+
+            {{-- SURAT TERBARU --}}
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+
+                <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 12h6m-6 4h6M7 3h7l5 5v13H7z"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-bold text-slate-900">
+                                Permohonan Surat Terbaru
+                            </h3>
+
+                            <p class="text-sm text-slate-400 mt-0.5">
+                                Status permohonan terakhir Anda.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                @if($latestLetter)
+
+                    @php
+                        $latestLetterStatus = strtoupper($latestLetter->status ?? '');
+                    @endphp
+
+                    <div class="p-5 sm:p-6">
+
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+
+                            <div class="min-w-0">
+
+                                <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                    {{ $latestLetter->request_number }}
+                                </p>
+
+                                <h4 class="font-bold text-lg text-slate-900 mt-1">
+                                    {{ $latestLetter->letterType->name ?? '-' }}
+                                </h4>
+
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Diajukan {{ $latestLetter->created_at->format('d M Y, H:i') }}
+                                </p>
+
+                            </div>
+
+                            <div class="flex-shrink-0">
+
+                                @if($latestLetterStatus === 'MENUNGGU VERIFIKASI')
+                                    <span class="inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        Menunggu Verifikasi
+                                    </span>
+                                @elseif($latestLetterStatus === 'DIPROSES')
+                                    <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                        Diproses
+                                    </span>
+                                @elseif($latestLetterStatus === 'PERLU PERBAIKAN')
+                                    <span class="inline-flex items-center gap-2 bg-orange-50 text-orange-700 border border-orange-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+                                        Perlu Perbaikan
+                                    </span>
+                                @elseif($latestLetterStatus === 'DITOLAK')
+                                    <span class="inline-flex items-center gap-2 bg-red-50 text-red-700 border border-red-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                        Ditolak
+                                    </span>
+                                @elseif($latestLetterStatus === 'SELESAI')
+                                    <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        Selesai
+                                    </span>
+                                @else
+                                    <span class="inline-flex bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        {{ $latestLetter->status }}
+                                    </span>
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                        <a href="{{ route('warga.letters.show', $latestLetter) }}"
+                           class="mt-5 inline-flex items-center justify-center w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white px-5 py-3 rounded-xl font-semibold transition">
+                            Lihat Detail Surat
+                        </a>
+
+                    </div>
+
+                @else
+
+                    <div class="p-6 text-center">
+
+                        <p class="font-semibold text-slate-600">
+                            Belum ada permohonan surat
+                        </p>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Permohonan terbaru akan tampil di sini.
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- PENGADUAN TERBARU --}}
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+
+                <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-bold text-slate-900">
+                                Pengaduan Terbaru
+                            </h3>
+
+                            <p class="text-sm text-slate-400 mt-0.5">
+                                Pengaduan terakhir yang Anda kirim.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                @if($latestComplaint)
+
+                    @php
+                        $latestComplaintStatus = strtoupper($latestComplaint->status ?? '');
+                    @endphp
+
+                    <div class="p-5 sm:p-6">
+
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+
+                            <div class="min-w-0">
+
+                                <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                                    {{ $latestComplaint->category ?? 'Pengaduan' }}
+                                </p>
+
+                                <h4 class="font-bold text-lg text-slate-900 mt-1">
+                                    {{ $latestComplaint->title }}
+                                </h4>
+
+                                <p class="text-sm text-slate-500 mt-2">
+                                    Dikirim {{ $latestComplaint->created_at->format('d M Y, H:i') }}
+                                </p>
+
+                            </div>
+
+                            <div class="flex-shrink-0">
+
+                                @if($latestComplaintStatus === 'MENUNGGU')
+                                    <span class="inline-flex items-center gap-2 bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                        Menunggu
+                                    </span>
+                                @elseif($latestComplaintStatus === 'DIPROSES')
+                                    <span class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                        Diproses
+                                    </span>
+                                @elseif($latestComplaintStatus === 'SELESAI')
+                                    <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                        Selesai
+                                    </span>
+                                @else
+                                    <span class="inline-flex bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-xs font-semibold">
+                                        {{ $latestComplaint->status }}
+                                    </span>
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                        <a href="{{ route('warga.complaints.show', $latestComplaint) }}"
+                           class="mt-5 inline-flex items-center justify-center w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white px-5 py-3 rounded-xl font-semibold transition">
+                            Lihat Detail Pengaduan
+                        </a>
+
+                    </div>
+
+                @else
+
+                    <div class="p-6 text-center">
+
+                        <p class="font-semibold text-slate-600">
+                            Belum ada pengaduan
+                        </p>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Pengaduan terbaru akan tampil di sini.
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+        </div>
+
+    </section>
+
+
     {{-- AKSES CEPAT --}}
     <section>
 
@@ -310,17 +624,7 @@
                     <span class="inline-flex items-center gap-1 text-sm font-semibold text-sky-600 mt-5">
                         Mulai Pengajuan
 
-                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-
-                            <path stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 18l6-6-6-6"/>
-
-                        </svg>
+                        
 
                     </span>
 
@@ -363,17 +667,7 @@
                     <span class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 mt-5">
                         Lihat Permohonan
 
-                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-
-                            <path stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 18l6-6-6-6"/>
-
-                        </svg>
+                        
 
                     </span>
 
@@ -416,17 +710,7 @@
                     <span class="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 mt-5">
                         Lihat Pengaduan
 
-                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-
-                            <path stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 18l6-6-6-6"/>
-
-                        </svg>
+                        
 
                     </span>
 
@@ -469,17 +753,7 @@
                     <span class="inline-flex items-center gap-1 text-sm font-semibold text-violet-600 mt-5">
                         Buka Notifikasi
 
-                        <svg class="w-4 h-4 transition group-hover:translate-x-1"
-                             fill="none"
-                             stroke="currentColor"
-                             viewBox="0 0 24 24">
-
-                            <path stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M9 18l6-6-6-6"/>
-
-                        </svg>
+                        
 
                     </span>
 
@@ -536,17 +810,7 @@
 
                     Lihat Semua
 
-                    <svg class="w-4 h-4"
-                         fill="none"
-                         stroke="currentColor"
-                         viewBox="0 0 24 24">
-
-                        <path stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M9 18l6-6-6-6"/>
-
-                    </svg>
+                    
 
                 </a>
 

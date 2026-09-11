@@ -260,11 +260,75 @@
         </div>
 
 
-        <div class="divide-y divide-slate-100">
+        {{-- FILTER & PENCARIAN --}}
+        <div class="px-5 sm:px-6 py-4 border-b border-slate-200 bg-white">
+
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+                <div class="flex flex-wrap gap-2">
+
+                    <button type="button"
+                            data-notification-filter="all"
+                            class="notification-filter-btn bg-sky-600 text-white border-sky-600 inline-flex items-center justify-center px-4 py-2 rounded-xl border text-sm font-semibold transition">
+                        Semua
+                    </button>
+
+                    <button type="button"
+                            data-notification-filter="unread"
+                            class="notification-filter-btn bg-white text-slate-600 border-slate-200 hover:bg-slate-50 inline-flex items-center justify-center px-4 py-2 rounded-xl border text-sm font-semibold transition">
+                        Belum Dibaca
+                    </button>
+
+                    <button type="button"
+                            data-notification-filter="surat"
+                            class="notification-filter-btn bg-white text-slate-600 border-slate-200 hover:bg-slate-50 inline-flex items-center justify-center px-4 py-2 rounded-xl border text-sm font-semibold transition">
+                        Surat
+                    </button>
+
+                    <button type="button"
+                            data-notification-filter="pengaduan"
+                            class="notification-filter-btn bg-white text-slate-600 border-slate-200 hover:bg-slate-50 inline-flex items-center justify-center px-4 py-2 rounded-xl border text-sm font-semibold transition">
+                        Pengaduan
+                    </button>
+
+                </div>
+
+                <div class="relative w-full lg:w-72">
+
+                    <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+
+                    </svg>
+
+                    <input id="notificationSearch"
+                           type="text"
+                           placeholder="Cari notifikasi..."
+                           class="w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-4 py-2.5 text-sm text-slate-700 outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="notificationList"
+             class="divide-y divide-slate-100">
 
             @forelse($notifications as $notification)
 
                 <a href="{{ route('warga.notifications.read', $notification) }}"
+                   data-notification-item
+                   data-type="{{ strtolower($notification->type ?? 'surat') }}"
+                   data-read="{{ $notification->is_read ? '1' : '0' }}"
+                   data-search="{{ strtolower(($notification->title ?? '') . ' ' . ($notification->message ?? '') . ' ' . ($notification->type ?? '')) }}"
                    class="group block px-5 sm:px-6 py-5 transition
                    {{ !$notification->is_read
                         ? 'bg-sky-50/60 hover:bg-sky-50'
@@ -362,13 +426,17 @@
 
                                 </div>
 
+                                <span class="sm:hidden inline-flex mt-3 text-xs font-semibold text-sky-600">
+                                    {{ $notification->type === 'pengaduan' ? 'Buka Pengaduan' : 'Buka Informasi' }}
+                                </span>
+
                             </div>
 
                         </div>
 
 
                         {{-- RIGHT --}}
-                        <div class="flex items-center gap-3 flex-shrink-0">
+                        <div class="flex flex-col items-end gap-2 flex-shrink-0">
 
                             @if(!$notification->is_read)
 
@@ -378,27 +446,44 @@
 
                             @endif
 
-                            <div class="hidden sm:flex w-8 h-8 rounded-lg bg-slate-50 text-slate-400 group-hover:bg-sky-100 group-hover:text-sky-600 items-center justify-center transition">
-
-                                <svg class="w-4 h-4"
-                                     fill="none"
-                                     stroke="currentColor"
-                                     viewBox="0 0 24 24">
-
-                                    <path stroke-width="2"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M9 18l6-6-6-6"/>
-
-                                </svg>
-
-                            </div>
+                            <span class="hidden sm:inline-flex text-xs font-semibold text-sky-600 group-hover:text-sky-700">
+                                {{ $notification->type === 'pengaduan' ? 'Buka Pengaduan' : 'Buka Informasi' }}
+                            </span>
 
                         </div>
 
                     </div>
 
                 </a>
+
+            <div id="notificationNoResults"
+                 class="hidden px-6 py-14 text-center">
+
+                <div class="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+
+                    <svg class="w-6 h-6"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+
+                        <path stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+
+                    </svg>
+
+                </div>
+
+                <p class="font-semibold text-slate-600">
+                    Notifikasi tidak ditemukan
+                </p>
+
+                <p class="text-sm text-slate-400 mt-1">
+                    Coba ubah filter atau kata pencarian.
+                </p>
+
+            </div>
 
             @empty
 
@@ -437,5 +522,80 @@
     </section>
 
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('[data-notification-filter]');
+        const searchInput = document.getElementById('notificationSearch');
+        const items = document.querySelectorAll('[data-notification-item]');
+        const noResults = document.getElementById('notificationNoResults');
+
+        let activeFilter = 'all';
+
+        function updateButtonState() {
+            filterButtons.forEach(function (button) {
+                const active = button.dataset.notificationFilter === activeFilter;
+
+                button.classList.toggle('bg-sky-600', active);
+                button.classList.toggle('text-white', active);
+                button.classList.toggle('border-sky-600', active);
+
+                button.classList.toggle('bg-white', !active);
+                button.classList.toggle('text-slate-600', !active);
+                button.classList.toggle('border-slate-200', !active);
+            });
+        }
+
+        function applyFilters() {
+            const keyword = (searchInput?.value || '').trim().toLowerCase();
+            let visibleCount = 0;
+
+            items.forEach(function (item) {
+                const type = item.dataset.type || '';
+                const isUnread = item.dataset.read === '0';
+                const searchable = item.dataset.search || '';
+
+                let matchesFilter = true;
+
+                if (activeFilter === 'unread') {
+                    matchesFilter = isUnread;
+                } else if (activeFilter === 'surat') {
+                    matchesFilter = type !== 'pengaduan';
+                } else if (activeFilter === 'pengaduan') {
+                    matchesFilter = type === 'pengaduan';
+                }
+
+                const matchesSearch = keyword === '' || searchable.includes(keyword);
+                const show = matchesFilter && matchesSearch;
+
+                item.classList.toggle('hidden', !show);
+
+                if (show) {
+                    visibleCount++;
+                }
+            });
+
+            if (noResults) {
+                noResults.classList.toggle('hidden', visibleCount > 0 || items.length === 0);
+            }
+        }
+
+        filterButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                activeFilter = this.dataset.notificationFilter;
+                updateButtonState();
+                applyFilters();
+            });
+        });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilters);
+        }
+
+        updateButtonState();
+        applyFilters();
+    });
+</script>
 
 @endsection

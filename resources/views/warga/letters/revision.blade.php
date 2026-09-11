@@ -142,7 +142,8 @@
     @endif
 
 
-    <form action="{{ route('warga.letters.revision.update', $letterRequest) }}"
+    <form id="letterRevisionForm"
+          action="{{ route('warga.letters.revision.update', $letterRequest) }}"
           method="POST"
           enctype="multipart/form-data">
 
@@ -309,6 +310,10 @@
                                            class="hidden text-xs text-sky-600 font-semibold mt-1 truncate">
                                         </p>
 
+                                        <p id="ktpFileError"
+                                           class="hidden text-xs text-red-600 font-semibold mt-1">
+                                        </p>
+
                                     </div>
 
                                 </div>
@@ -317,9 +322,13 @@
                                        name="ktp"
                                        accept=".jpg,.jpeg,.png,.pdf"
                                        class="hidden"
-                                       onchange="showFileName(this, 'ktpFileName')">
+                                       onchange="handleDocumentFile(this, 'ktpFileName', 'ktpPreview', 'ktpFileError')">
 
                             </label>
+
+                            <div id="ktpPreview"
+                                 class="hidden mt-3">
+                            </div>
 
                         </div>
 
@@ -365,6 +374,10 @@
                                            class="hidden text-xs text-sky-600 font-semibold mt-1 truncate">
                                         </p>
 
+                                        <p id="kkFileError"
+                                           class="hidden text-xs text-red-600 font-semibold mt-1">
+                                        </p>
+
                                     </div>
 
                                 </div>
@@ -373,9 +386,13 @@
                                        name="kk"
                                        accept=".jpg,.jpeg,.png,.pdf"
                                        class="hidden"
-                                       onchange="showFileName(this, 'kkFileName')">
+                                       onchange="handleDocumentFile(this, 'kkFileName', 'kkPreview', 'kkFileError')">
 
                             </label>
+
+                            <div id="kkPreview"
+                                 class="hidden mt-3">
+                            </div>
 
                         </div>
 
@@ -421,6 +438,10 @@
                                            class="hidden text-xs text-indigo-600 font-semibold mt-1 truncate">
                                         </p>
 
+                                        <p id="supportingFileError"
+                                           class="hidden text-xs text-red-600 font-semibold mt-1">
+                                        </p>
+
                                     </div>
 
                                 </div>
@@ -429,9 +450,13 @@
                                        name="supporting_document"
                                        accept=".jpg,.jpeg,.png,.pdf"
                                        class="hidden"
-                                       onchange="showFileName(this, 'supportingFileName')">
+                                       onchange="handleDocumentFile(this, 'supportingFileName', 'supportingPreview', 'supportingFileError')">
 
                             </label>
+
+                            <div id="supportingPreview"
+                                 class="hidden mt-3">
+                            </div>
 
                         </div>
 
@@ -545,17 +570,121 @@
 
 
 <script>
-    function showFileName(input, elementId) {
-        const element = document.getElementById(elementId);
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+    const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'pdf'];
 
-        if (input.files && input.files.length > 0) {
-            element.textContent = 'File dipilih: ' + input.files[0].name;
-            element.classList.remove('hidden');
-        } else {
-            element.textContent = '';
-            element.classList.add('hidden');
-        }
+    function resetFileDisplay(fileNameEl, previewEl, errorEl) {
+        fileNameEl.textContent = '';
+        fileNameEl.classList.add('hidden');
+
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+
+        previewEl.innerHTML = '';
+        previewEl.classList.add('hidden');
     }
+
+    function getFileExtension(fileName) {
+        return fileName.split('.').pop().toLowerCase();
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function handleDocumentFile(input, fileNameId, previewId, errorId) {
+        const fileNameEl = document.getElementById(fileNameId);
+        const previewEl = document.getElementById(previewId);
+        const errorEl = document.getElementById(errorId);
+
+        resetFileDisplay(fileNameEl, previewEl, errorEl);
+
+        if (!input.files || input.files.length === 0) {
+            return true;
+        }
+
+        const file = input.files[0];
+        const extension = getFileExtension(file.name);
+
+        if (!ALLOWED_EXTENSIONS.includes(extension)) {
+            errorEl.textContent = 'Format file tidak didukung. Gunakan JPG, JPEG, PNG, atau PDF.';
+            errorEl.classList.remove('hidden');
+            input.value = '';
+            return false;
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            errorEl.textContent = 'Ukuran file terlalu besar. Maksimal 2 MB.';
+            errorEl.classList.remove('hidden');
+            input.value = '';
+            return false;
+        }
+
+        fileNameEl.textContent = 'File dipilih: ' + file.name + ' (' + formatFileSize(file.size) + ')';
+        fileNameEl.classList.remove('hidden');
+
+        if (['jpg', 'jpeg', 'png'].includes(extension)) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                previewEl.innerHTML = `
+                    <div class="border border-slate-200 bg-slate-50 rounded-2xl p-3">
+                        <div class="flex items-center justify-between gap-3 mb-3">
+                            <p class="text-xs font-semibold text-slate-600">Preview gambar</p>
+                            <span class="text-[11px] text-slate-400">${formatFileSize(file.size)}</span>
+                        </div>
+                        <img src="${event.target.result}"
+                             alt="Preview ${file.name}"
+                             class="w-full max-h-64 object-contain rounded-xl bg-white border border-slate-200">
+                    </div>
+                `;
+                previewEl.classList.remove('hidden');
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            previewEl.innerHTML = `
+                <div class="flex items-center gap-3 border border-slate-200 bg-slate-50 rounded-2xl p-4">
+                    <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M7 3h7l5 5v13H7zM14 3v6h6"/>
+                        </svg>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-slate-700 truncate">${file.name}</p>
+                        <p class="text-xs text-slate-400 mt-1">Dokumen PDF • ${formatFileSize(file.size)}</p>
+                    </div>
+                </div>
+            `;
+            previewEl.classList.remove('hidden');
+        }
+
+        return true;
+    }
+
+    document.getElementById('letterRevisionForm').addEventListener('submit', function (event) {
+        const fileInputs = this.querySelectorAll('input[type="file"]');
+        let valid = true;
+
+        fileInputs.forEach(function (input) {
+            if (!input.files || input.files.length === 0) return;
+
+            const file = input.files[0];
+            const extension = getFileExtension(file.name);
+
+            if (!ALLOWED_EXTENSIONS.includes(extension) || file.size > MAX_FILE_SIZE) {
+                valid = false;
+            }
+        });
+
+        if (!valid) {
+            event.preventDefault();
+            alert('Periksa kembali file yang diunggah. Format harus JPG, JPEG, PNG, atau PDF dengan ukuran maksimal 2 MB.');
+        }
+    });
 </script>
 
 @endsection
