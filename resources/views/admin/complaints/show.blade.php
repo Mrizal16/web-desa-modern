@@ -355,6 +355,215 @@
 
             @endif
 
+
+            {{-- RIWAYAT AKTIVITAS --}}
+            <div class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                            <svg class="w-5 h-5"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="font-bold text-lg text-slate-800">
+                                Riwayat Aktivitas
+                            </h2>
+
+                            <p class="text-sm text-slate-400 mt-1">
+                                Catatan tindakan admin pada pengaduan ini.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="p-5 sm:p-6">
+
+                    @php
+                        $logs = $activityLogs ?? collect();
+                    @endphp
+
+                    @forelse($logs as $log)
+
+                        @php
+                            $action = $log->action ?? '';
+
+                            $label = match ($action) {
+                                'complaint_processed' => 'Pengaduan Diproses',
+                                'complaint_completed' => 'Pengaduan Diselesaikan',
+                                default => $log->description ?? 'Aktivitas Admin',
+                            };
+
+                            $dotClass = match ($action) {
+                                'complaint_processed' => 'bg-blue-500',
+                                'complaint_completed' => 'bg-emerald-500',
+                                default => 'bg-slate-400',
+                            };
+
+                            $badgeClass = match ($action) {
+                                'complaint_processed' => 'bg-blue-50 text-blue-700 border-blue-200',
+                                'complaint_completed' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                                default => 'bg-slate-50 text-slate-600 border-slate-200',
+                            };
+
+                            $oldStatus = data_get($log->old_values, 'status');
+                            $newStatus = data_get($log->new_values, 'status');
+                            $adminResponse = data_get($log->new_values, 'admin_response');
+                        @endphp
+
+                        <div class="relative pl-8 pb-7 last:pb-0">
+
+                            @if(!$loop->last)
+                                <div class="absolute left-[7px] top-5 bottom-0 w-px bg-slate-200"></div>
+                            @endif
+
+                            <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full {{ $dotClass }} ring-4 ring-white"></div>
+
+                            <div class="border border-slate-200 rounded-2xl p-4 sm:p-5">
+
+                                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+
+                                    <div>
+
+                                        <span class="inline-flex items-center border rounded-full px-3 py-1 text-xs font-semibold {{ $badgeClass }}">
+                                            {{ $label }}
+                                        </span>
+
+                                        @if($log->description)
+                                            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                                                {{ $log->description }}
+                                            </p>
+                                        @endif
+
+                                    </div>
+
+                                    <div class="text-left sm:text-right flex-shrink-0">
+
+                                        <p class="text-xs font-semibold text-slate-500">
+                                            {{ $log->created_at?->format('d M Y') ?? '-' }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400 mt-1">
+                                            {{ $log->created_at?->format('H:i') ?? '-' }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                @if($oldStatus || $newStatus)
+                                    <div class="mt-4">
+                                        <div class="inline-flex flex-wrap items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600">
+
+                                            <span class="font-semibold">
+                                                Status:
+                                            </span>
+
+                                            <span>
+                                                {{ $oldStatus ?? '-' }}
+                                            </span>
+
+                                            <span class="text-slate-400">
+                                                →
+                                            </span>
+
+                                            <span class="font-semibold text-slate-800">
+                                                {{ $newStatus ?? '-' }}
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($adminResponse)
+                                    <div class="mt-4 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+
+                                        <p class="text-xs uppercase tracking-wider font-semibold text-emerald-600">
+                                            Tanggapan Admin
+                                        </p>
+
+                                        <p class="text-sm text-emerald-800 mt-2 leading-relaxed">
+                                            {{ $adminResponse }}
+                                        </p>
+
+                                    </div>
+                                @endif
+
+                                <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+
+                                    <p class="text-xs text-slate-400">
+                                        Oleh:
+                                        <span class="font-semibold text-slate-600">
+                                            {{ $log->user->name ?? 'Admin' }}
+                                        </span>
+                                    </p>
+
+                                    @if($log->ip_address)
+                                        <p class="text-xs text-slate-400">
+                                            IP: {{ $log->ip_address }}
+                                        </p>
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @empty
+
+                        <div class="py-10 text-center">
+
+                            <div class="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+
+                                <svg class="w-6 h-6"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     viewBox="0 0 24 24">
+
+                                    <path stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
+                                </svg>
+
+                            </div>
+
+                            <p class="font-semibold text-slate-600">
+                                Belum ada riwayat aktivitas
+                            </p>
+
+                            <p class="text-sm text-slate-400 mt-1">
+                                Aktivitas admin pada pengaduan ini akan tampil di sini.
+                            </p>
+
+                        </div>
+
+                    @endforelse
+
+                </div>
+
+            </div>
+
         </div>
 
         {{-- RIGHT SIDEBAR --}}
@@ -488,11 +697,6 @@
                             <button type="submit"
                                     onclick="return confirm('Mulai proses pengaduan ini?')"
                                     class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold transition">
-
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                          d="M5 12h14M13 6l6 6-6 6"/>
-                                </svg>
 
                                 Proses Pengaduan
                             </button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\LetterRequest;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -32,10 +33,26 @@ class LetterRequestController extends Controller
 
     public function verify(LetterRequest $letterRequest)
     {
+        $oldValues = [
+            'status' => $letterRequest->status,
+            'admin_note' => $letterRequest->admin_note,
+        ];
+
         $letterRequest->update([
             'status' => 'DIPROSES',
             'admin_note' => null,
         ]);
+
+        $this->logActivity(
+            action: 'letter_verified',
+            letterRequest: $letterRequest,
+            description: 'Admin memverifikasi permohonan surat.',
+            oldValues: $oldValues,
+            newValues: [
+                'status' => $letterRequest->status,
+                'admin_note' => $letterRequest->admin_note,
+            ],
+        );
 
         Notification::create([
             'user_id' => $letterRequest->user_id,
@@ -56,10 +73,26 @@ class LetterRequestController extends Controller
             'admin_note' => 'required|string|max:1000',
         ]);
 
+        $oldValues = [
+            'status' => $letterRequest->status,
+            'admin_note' => $letterRequest->admin_note,
+        ];
+
         $letterRequest->update([
             'status' => 'PERLU PERBAIKAN',
             'admin_note' => $validated['admin_note'],
         ]);
+
+        $this->logActivity(
+            action: 'letter_revision_requested',
+            letterRequest: $letterRequest,
+            description: 'Admin meminta warga memperbaiki permohonan surat.',
+            oldValues: $oldValues,
+            newValues: [
+                'status' => $letterRequest->status,
+                'admin_note' => $letterRequest->admin_note,
+            ],
+        );
 
         Notification::create([
             'user_id' => $letterRequest->user_id,
@@ -80,10 +113,26 @@ class LetterRequestController extends Controller
             'admin_note' => 'required|string|max:1000',
         ]);
 
+        $oldValues = [
+            'status' => $letterRequest->status,
+            'admin_note' => $letterRequest->admin_note,
+        ];
+
         $letterRequest->update([
             'status' => 'DITOLAK',
             'admin_note' => $validated['admin_note'],
         ]);
+
+        $this->logActivity(
+            action: 'letter_rejected',
+            letterRequest: $letterRequest,
+            description: 'Admin menolak permohonan surat.',
+            oldValues: $oldValues,
+            newValues: [
+                'status' => $letterRequest->status,
+                'admin_note' => $letterRequest->admin_note,
+            ],
+        );
 
         Notification::create([
             'user_id' => $letterRequest->user_id,
@@ -118,6 +167,15 @@ class LetterRequestController extends Controller
             ]);
         }
 
+        $oldValues = [
+            'status' => $letterRequest->status,
+            'final_delivery_method' => $letterRequest->final_delivery_method,
+            'pickup_status' => $letterRequest->pickup_status,
+            'result_file_path' => $letterRequest->result_file_path,
+            'completed_at' => $letterRequest->completed_at,
+            'admin_note' => $letterRequest->admin_note,
+        ];
+
         $filePath = null;
 
         if ($validated['final_delivery_method'] === 'pdf') {
@@ -144,6 +202,21 @@ class LetterRequestController extends Controller
             'admin_note' => null,
         ]);
 
+        $this->logActivity(
+            action: 'letter_completed',
+            letterRequest: $letterRequest,
+            description: 'Admin menyelesaikan permohonan surat.',
+            oldValues: $oldValues,
+            newValues: [
+                'status' => $letterRequest->status,
+                'final_delivery_method' => $letterRequest->final_delivery_method,
+                'pickup_status' => $letterRequest->pickup_status,
+                'result_file_path' => $letterRequest->result_file_path,
+                'completed_at' => $letterRequest->completed_at,
+                'admin_note' => $letterRequest->admin_note,
+            ],
+        );
+
         Notification::create([
             'user_id' => $letterRequest->user_id,
             'title' => 'Surat Selesai',
@@ -168,9 +241,23 @@ class LetterRequestController extends Controller
             abort(403);
         }
 
+        $oldValues = [
+            'pickup_status' => $letterRequest->pickup_status,
+        ];
+
         $letterRequest->update([
             'pickup_status' => 'SUDAH DIAMBIL',
         ]);
+
+        $this->logActivity(
+            action: 'letter_picked_up',
+            letterRequest: $letterRequest,
+            description: 'Admin menandai surat sudah diambil oleh warga.',
+            oldValues: $oldValues,
+            newValues: [
+                'pickup_status' => $letterRequest->pickup_status,
+            ],
+        );
 
         Notification::create([
             'user_id' => $letterRequest->user_id,
@@ -184,6 +271,7 @@ class LetterRequestController extends Controller
             ->route('admin.permohonan.show', $letterRequest)
             ->with('success', 'Surat berhasil ditandai sudah diambil oleh warga.');
     }
+
     public function dashboard()
     {
         $stats = [
@@ -211,5 +299,25 @@ class LetterRequestController extends Controller
             'latestRequests',
             'latestComplaints'
         ));
+    }
+
+    private function logActivity(
+        string $action,
+        LetterRequest $letterRequest,
+        string $description,
+        array $oldValues = [],
+        array $newValues = []
+    ): void {
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'action' => $action,
+            'subject_type' => LetterRequest::class,
+            'subject_id' => $letterRequest->id,
+            'description' => $description,
+            'old_values' => $oldValues ?: null,
+            'new_values' => $newValues ?: null,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
     }
 }
