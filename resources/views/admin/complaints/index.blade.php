@@ -427,11 +427,8 @@
                                   d="M15 12H9m3-3l3 3-3 3"/>
 
                         </svg>
-
                         Lihat Detail Pengaduan
-
                     </a>
-
                 </div>
 
             @empty
@@ -451,7 +448,6 @@
                                   d="M21 15a4 4 0 01-4 4H8l-5 3V7a4 4 0 014-4h10a4 4 0 014 4z"/>
 
                         </svg>
-
                     </div>
 
                     <p class="font-semibold text-slate-600">
