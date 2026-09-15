@@ -153,6 +153,225 @@
         </div>
 
 
+        {{-- FILTER & PENCARIAN --}}
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-slate-50/70">
+
+            <form method="GET"
+                  action="{{ route('admin.permohonan.index') }}"
+                  class="space-y-4">
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-4">
+
+                    {{-- SEARCH --}}
+                    <div class="xl:col-span-2">
+
+                        <label for="q"
+                               class="block text-xs uppercase tracking-wider font-semibold text-slate-500 mb-2">
+                            Cari Permohonan
+                        </label>
+
+                        <div class="relative">
+
+                            <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+
+                            </svg>
+
+                            <input type="text"
+                                   name="q"
+                                   id="q"
+                                   value="{{ request('q') }}"
+                                   placeholder="Nama warga / nomor permohonan"
+                                   class="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-3 text-sm text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                        </div>
+
+                    </div>
+
+                    {{-- STATUS --}}
+                    <div>
+
+                        <label for="status"
+                               class="block text-xs uppercase tracking-wider font-semibold text-slate-500 mb-2">
+                            Status
+                        </label>
+
+                        <select name="status"
+                                id="status"
+                                class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                            <option value="">Semua Status</option>
+
+                            <option value="MENUNGGU VERIFIKASI"
+                                {{ request('status') === 'MENUNGGU VERIFIKASI' ? 'selected' : '' }}>
+                                Menunggu Verifikasi
+                            </option>
+
+                            <option value="DIPROSES"
+                                {{ request('status') === 'DIPROSES' ? 'selected' : '' }}>
+                                Diproses
+                            </option>
+
+                            <option value="PERLU PERBAIKAN"
+                                {{ request('status') === 'PERLU PERBAIKAN' ? 'selected' : '' }}>
+                                Perlu Perbaikan
+                            </option>
+
+                            <option value="DITOLAK"
+                                {{ request('status') === 'DITOLAK' ? 'selected' : '' }}>
+                                Ditolak
+                            </option>
+
+                            <option value="SELESAI"
+                                {{ request('status') === 'SELESAI' ? 'selected' : '' }}>
+                                Selesai
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    {{-- JENIS SURAT --}}
+                    <div>
+
+                        <label for="letter_type_id"
+                               class="block text-xs uppercase tracking-wider font-semibold text-slate-500 mb-2">
+                            Jenis Surat
+                        </label>
+
+                        <select name="letter_type_id"
+                                id="letter_type_id"
+                                class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                            <option value="">Semua Jenis</option>
+
+                            @foreach($letterTypes ?? [] as $letterType)
+                                <option value="{{ $letterType->id }}"
+                                    {{ (string) request('letter_type_id') === (string) $letterType->id ? 'selected' : '' }}>
+                                    {{ $letterType->name }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                    </div>
+
+                    {{-- ACTIONS --}}
+                    <div class="flex items-end gap-2">
+
+                        <button type="submit"
+                                class="flex-1 inline-flex items-center justify-center bg-sky-600 hover:bg-sky-700 text-white px-4 py-3 rounded-xl text-sm font-semibold transition">
+                            Terapkan
+                        </button>
+
+                        @if(request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date']))
+                            <a href="{{ route('admin.permohonan.index') }}"
+                               class="inline-flex items-center justify-center bg-white hover:bg-slate-50 border border-slate-300 text-slate-600 px-4 py-3 rounded-xl text-sm font-semibold transition">
+                                Reset
+                            </a>
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+                {{-- FILTER TANGGAL --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+
+                    <div class="xl:col-start-1">
+
+                        <label for="start_date"
+                               class="block text-xs uppercase tracking-wider font-semibold text-slate-500 mb-2">
+                            Dari Tanggal
+                        </label>
+
+                        <input type="date"
+                               name="start_date"
+                               id="start_date"
+                               value="{{ request('start_date') }}"
+                               class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                    </div>
+
+                    <div>
+
+                        <label for="end_date"
+                               class="block text-xs uppercase tracking-wider font-semibold text-slate-500 mb-2">
+                            Sampai Tanggal
+                        </label>
+
+                        <input type="date"
+                               name="end_date"
+                               id="end_date"
+                               value="{{ request('end_date') }}"
+                               class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
+
+                    </div>
+
+                </div>
+
+
+                @if(request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date']))
+
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Filter aktif:
+                        </span>
+
+                        @if(request('q'))
+                            <span class="inline-flex items-center bg-sky-50 text-sky-700 border border-sky-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                Cari: {{ request('q') }}
+                            </span>
+                        @endif
+
+                        @if(request('status'))
+                            <span class="inline-flex items-center bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                {{ request('status') }}
+                            </span>
+                        @endif
+
+                        @if(request('letter_type_id'))
+                            @php
+                                $selectedLetterType = collect($letterTypes ?? [])->firstWhere('id', request('letter_type_id'));
+                            @endphp
+
+                            @if($selectedLetterType)
+                                <span class="inline-flex items-center bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                    {{ $selectedLetterType->name }}
+                                </span>
+                            @endif
+                        @endif
+
+                        @if(request('start_date'))
+                            <span class="inline-flex items-center bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                Dari {{ \Carbon\Carbon::parse(request('start_date'))->format('d M Y') }}
+                            </span>
+                        @endif
+
+                        @if(request('end_date'))
+                            <span class="inline-flex items-center bg-slate-100 text-slate-600 border border-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full">
+                                Sampai {{ \Carbon\Carbon::parse(request('end_date'))->format('d M Y') }}
+                            </span>
+                        @endif
+
+                    </div>
+
+                @endif
+
+            </form>
+
+        </div>
+
+
         {{-- DESKTOP --}}
         <div class="hidden md:block overflow-x-auto">
 
@@ -347,11 +566,13 @@
                                 </div>
 
                                 <p class="font-semibold text-slate-600">
-                                    Belum ada permohonan
+                                    {{ request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date']) ? 'Permohonan tidak ditemukan' : 'Belum ada permohonan' }}
                                 </p>
 
                                 <p class="text-sm text-slate-400 mt-1">
-                                    Permohonan surat dari warga akan tampil di sini.
+                                    {{ request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date'])
+                                        ? 'Coba ubah atau reset filter pencarian.'
+                                        : 'Permohonan surat dari warga akan tampil di sini.' }}
                                 </p>
 
                             </td>
@@ -522,11 +743,13 @@
                     </div>
 
                     <p class="font-semibold text-slate-600">
-                        Belum ada permohonan
+                        {{ request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date']) ? 'Permohonan tidak ditemukan' : 'Belum ada permohonan' }}
                     </p>
 
                     <p class="text-sm text-slate-400 mt-1">
-                        Permohonan surat dari warga akan tampil di sini.
+                        {{ request()->hasAny(['q', 'status', 'letter_type_id', 'start_date', 'end_date'])
+                            ? 'Coba ubah atau reset filter pencarian.'
+                            : 'Permohonan surat dari warga akan tampil di sini.' }}
                     </p>
 
                 </div>
