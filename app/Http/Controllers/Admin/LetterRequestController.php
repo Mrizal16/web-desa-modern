@@ -11,13 +11,47 @@ use Illuminate\Support\Facades\Storage;
 
 class LetterRequestController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $requests = LetterRequest::with(['user', 'letterType'])
+        $query = LetterRequest::with(['user', 'letterType']);
+
+        if ($request->filled('q')) {
+            $keyword = trim($request->q);
+
+            $query->where(function ($q) use ($keyword) {
+                $q->where('request_number', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('user', function ($userQuery) use ($keyword) {
+                        $userQuery->where('name', 'like', '%' . $keyword . '%');
+                    });
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('letter_type_id')) {
+            $query->where('letter_type_id', $request->letter_type_id);
+        }
+
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $requests = $query
             ->latest()
             ->get();
 
-        return view('admin.permohonan.index', compact('requests'));
+        $letterTypes = \App\Models\LetterType::orderBy('name')->get();
+
+        return view('admin.permohonan.index', compact(
+            'requests',
+            'letterTypes'
+        ));
     }
 
     public function show(LetterRequest $letterRequest)
@@ -28,7 +62,16 @@ class LetterRequestController extends Controller
             'documents',
         ]);
 
-        return view('admin.permohonan.show', compact('letterRequest'));
+        $activityLogs = ActivityLog::with('user')
+            ->where('subject_type', LetterRequest::class)
+            ->where('subject_id', $letterRequest->id)
+            ->latest()
+            ->get();
+
+        return view('admin.permohonan.show', compact(
+            'letterRequest',
+            'activityLogs'
+        ));
     }
 
     public function verify(LetterRequest $letterRequest)
