@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Pengumuman Desa Sidorejo</title>
-
     <meta name="description"
           content="Pengumuman dan informasi penting dari Pemerintah Desa Sidorejo.">
 
