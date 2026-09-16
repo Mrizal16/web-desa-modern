@@ -89,11 +89,8 @@
 
     {{-- CONTENT --}}
     <section class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-
         <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
-
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-
                 <div>
 
                     <p class="text-xs uppercase tracking-[0.18em] font-bold text-blue-1000">
