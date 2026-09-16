@@ -1,9 +1,6 @@
 @extends('layouts.warga')
-
 @section('title', 'Surat Saya')
-
 @section('content')
-
 <div class="space-y-8">
 
     {{-- HERO --}}
