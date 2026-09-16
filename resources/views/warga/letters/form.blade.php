@@ -92,7 +92,6 @@
 
     @endif
 
-
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         {{-- FORM UTAMA --}}
@@ -105,7 +104,6 @@
                   class="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
 
                 @csrf
-
 
                 {{-- DATA PEMOHON --}}
                 <div class="px-5 sm:px-6 py-5 border-b border-slate-200 bg-gradient-to-r from-white to-sky-50/40">
@@ -673,7 +671,6 @@
 
             </div>
 
-
             {{-- INFO PROSES --}}
             <div class="bg-sky-50 border border-sky-200 rounded-3xl p-5">
 
@@ -710,7 +707,6 @@
                 </div>
 
             </div>
-
 
             {{-- CHECKLIST --}}
             <div class="bg-white border border-slate-200 rounded-3xl p-5 shadow-sm">
