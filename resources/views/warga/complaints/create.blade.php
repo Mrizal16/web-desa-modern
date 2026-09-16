@@ -5,18 +5,13 @@
 @section('content')
 
 <div class="max-w-5xl mx-auto space-y-8">
-
     {{-- HERO --}}
     <section class="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 rounded-[2rem] p-6 sm:p-8 text-white shadow-xl shadow-blue-100">
-
         <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full"></div>
         <div class="absolute -bottom-24 left-1/3 w-72 h-72 bg-white/10 rounded-full"></div>
-
         <div class="relative z-10">
-
             <a href="{{ route('warga.complaints.index') }}"
                class="inline-flex items-center gap-2 text-sm font-semibold text-blue-100 hover:text-white transition">
-
                 <svg class="w-4 h-4"
                      fill="none"
                      stroke="currentColor"
