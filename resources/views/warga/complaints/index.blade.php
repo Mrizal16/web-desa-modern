@@ -114,11 +114,8 @@
 
         {{-- DESKTOP TABLE --}}
         <div class="hidden md:block overflow-x-auto">
-
             <table class="w-full min-w-[850px]">
-
                 <thead class="bg-slate-50 border-b border-slate-200">
-
                     <tr>
 
                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
