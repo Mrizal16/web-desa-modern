@@ -1,9 +1,6 @@
 @extends('layouts.warga')
-
 @section('title', 'Detail Pengaduan')
-
 @section('content')
-
 @php
     $status = strtoupper($complaint->status ?? '');
 @endphp
