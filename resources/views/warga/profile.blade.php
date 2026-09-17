@@ -132,7 +132,6 @@
 
     @endif
 
-
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         {{-- SIDEBAR PROFILE --}}
@@ -168,7 +167,6 @@
 
                     </div>
 
-
                     <div class="grid grid-cols-1 gap-3 mt-5">
 
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
@@ -196,7 +194,6 @@
 
                         </div>
 
-
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
 
                             <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
@@ -214,7 +211,6 @@
                 </div>
 
             </div>
-
 
             {{-- INFO --}}
             <div class="bg-sky-50 border border-sky-200 rounded-3xl p-5">
@@ -254,7 +250,6 @@
             </div>
 
         </aside>
-
 
         {{-- FORM --}}
         <div class="xl:col-span-2">
@@ -296,7 +291,6 @@
                     </div>
 
                 </div>
-
 
                 <form action="{{ route('warga.profile.update') }}"
                       method="POST">
@@ -346,7 +340,6 @@
 
                             </div>
 
-
                             {{-- NOMOR KK --}}
                             <div>
 
@@ -385,7 +378,6 @@
 
                             </div>
 
-
                             {{-- NAMA --}}
                             <div>
 
@@ -403,7 +395,6 @@
 
                             </div>
 
-
                             {{-- TANGGAL LAHIR --}}
                             <div>
 
@@ -417,7 +408,6 @@
                                        class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
 
                             </div>
-
 
                             {{-- WHATSAPP --}}
                             <div>
@@ -433,7 +423,6 @@
                                        class="w-full border border-slate-300 rounded-xl px-4 py-3 text-slate-700 outline-none focus:border-sky-500 focus:ring-4 focus:ring-sky-100 transition">
 
                             </div>
-
 
                             {{-- EMAIL --}}
                             <div>
@@ -475,7 +464,6 @@
 
                         </div>
 
-
                         {{-- ALAMAT --}}
                         <div>
 
@@ -491,7 +479,6 @@
                         </div>
 
                     </div>
-
 
                     {{-- FOOTER --}}
                     <div class="px-5 sm:px-6 py-5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
