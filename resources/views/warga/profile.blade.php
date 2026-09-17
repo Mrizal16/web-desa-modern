@@ -1,11 +1,7 @@
 @extends('layouts.warga')
-
 @section('title', 'Profil Saya')
-
 @section('content')
-
 <div class="space-y-8">
-
     {{-- HERO --}}
     <section class="relative overflow-hidden bg-gradient-to-br from-sky-500 via-blue-600 to-indigo-700 rounded-[2rem] p-6 sm:p-8 text-white shadow-xl shadow-blue-100">
 
