@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LetterRequestController;
+use App\Http\Controllers\Api\ComplaintController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -39,6 +40,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/letters/{letterRequest}/revision', [
         LetterRequestController::class,
         'updateRevision'
+    ]);
+
+    Route::get('/complaints', [
+        ComplaintController::class,
+        'index'
+    ]);
+
+    Route::get('/complaints/{complaint}', [
+        ComplaintController::class,
+        'show'
+    ]);
+
+    Route::post('/complaints', [
+        ComplaintController::class,
+        'store'
     ]);
 
     Route::post('/logout', [
