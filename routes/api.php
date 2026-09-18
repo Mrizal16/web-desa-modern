@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LetterRequestController;
 use App\Http\Controllers\Api\ComplaintController;
+use App\Http\Controllers\Api\NotificationController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -55,6 +56,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/complaints', [
         ComplaintController::class,
         'store'
+    ]);
+
+    Route::get('/notifications', [
+        NotificationController::class,
+        'index'
+    ]);
+
+    Route::post('/notifications/{notification}/read', [
+        NotificationController::class,
+        'read'
+    ]);
+
+    Route::post('/notifications/read-all', [
+        NotificationController::class,
+        'readAll'
     ]);
 
     Route::post('/logout', [
