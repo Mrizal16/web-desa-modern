@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\LetterRequestController;
 use App\Http\Controllers\Api\ComplaintController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ProfileController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -71,6 +72,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/read-all', [
         NotificationController::class,
         'readAll'
+    ]);
+
+    Route::get('/profile', [
+        ProfileController::class,
+        'show'
+    ]);
+
+    Route::put('/profile', [
+        ProfileController::class,
+        'update'
     ]);
 
     Route::post('/logout', [
